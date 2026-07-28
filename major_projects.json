@@ -1,0 +1,60 @@
+{
+  "projects": [
+    {
+      "name": "Kigali Innovation City (KIC)",
+      "type": "Smart City / Tech Hub",
+      "location": "Kigali Special Economic Zone",
+      "lat": -1.9441,
+      "lng": 30.0619,
+      "status": "Under Construction",
+      "area": "61 hectares",
+      "cost": "$2 billion",
+      "expected_completion": "2027-2028",
+      "impact": {
+        "jobs": "50,000",
+        "ict_exports": "$150 million annually",
+        "fdi": "$300 million"
+      },
+      "source": "Ministry of ICT and Innovation"
+    },
+    {
+      "name": "Bugesera International Airport",
+      "type": "Infrastructure / Airport",
+      "location": "Bugesera District",
+      "lat": -2.1647,
+      "lng": 30.0875,
+      "status": "Under Construction",
+      "phase_1_capacity": "7-8 million passengers/year",
+      "phase_2_capacity": "14 million passengers/year (by 2032)",
+      "cost": "$2 billion",
+      "key_partner": "Qatar Airways (60% stake)",
+      "expected_completion": "2027-2028",
+      "source": "The New Times, Ecofin Agency"
+    },
+    {
+      "name": "Rubavu Port",
+      "type": "Infrastructure / Port",
+      "location": "Rubavu, Lake Kivu",
+      "lat": -1.6829,
+      "lng": 29.2573,
+      "status": "Operational (Inaugurated December 2024)",
+      "cargo_capacity": "700,000 tons/year",
+      "passenger_capacity": "2.7 million/year",
+      "cost": "$9 million",
+      "source": "Ministry of Infrastructure"
+    },
+    {
+      "name": "Rusizi Port",
+      "type": "Infrastructure / Port",
+      "location": "Rusizi, Lake Kivu",
+      "lat": -2.4896,
+      "lng": 28.8961,
+      "status": "Under Construction (56% complete)",
+      "cargo_capacity": "1.3 million tons/year",
+      "passenger_capacity": "2.3 million/year",
+      "cost": "Part of $28 million investment",
+      "expected_completion": "2025",
+      "source": "The New Times"
+    }
+  ]
+}

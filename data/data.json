@@ -1,0 +1,274 @@
+{
+    "Nyarugenge": {
+        "land": 88.0,
+        "labor": 92.0,
+        "capital": 94.0,
+        "entrepreneurship": 90.0,
+        "composite_score": 91.0,
+        "description": "High demand driven by Kigali's CBD redevelopment. Highly developed zoning plans and strict building standards, but high land acquisition costs.",
+        "details": "Major shortage in affordable housing supply. Workforce is highly skilled with concentration of major civil engineering contractors. Highest credit access for real estate development in the country."
+    },
+    "Gasabo": {
+        "land": 92.0,
+        "labor": 95.0,
+        "capital": 97.0,
+        "entrepreneurship": 94.0,
+        "composite_score": 94.5,
+        "description": "Primary construction hub in Kigali. Contains large master-planned residential estates (Gahanga, Kibagabaga) and the Kigali Special Economic Zone.",
+        "details": "Massive housing deficit in middle-and-high income categories. Hosts the largest concentration of TVET-certified technicians and engineering consultancies. Ready access to imported materials and commercial loans."
+    },
+    "Kicukiro": {
+        "land": 90.0,
+        "labor": 91.0,
+        "capital": 93.0,
+        "entrepreneurship": 88.0,
+        "composite_score": 90.5,
+        "description": "High industrial and residential growth. Active development of warehouse facilities, manufacturing plants, and mid-range housing developments.",
+        "details": "Urbanization patterns show high absorption rates of new residential blocks. Abundant technical labor from local colleges. Solid supplier network for building materials."
+    },
+    "Nyanza": {
+        "land": 70.0,
+        "labor": 68.0,
+        "capital": 55.0,
+        "entrepreneurship": 58.0,
+        "composite_score": 62.8,
+        "description": "Moderate urbanization around Nyanza town. Zoning focuses on cultural tourism preservation and local business expansion.",
+        "details": "Housing deficit is emerging in the town center. Local labor pool has basic construction skills, but specialized engineering is often brought in from Kigali."
+    },
+    "Gisagara": {
+        "land": 62.0,
+        "labor": 58.0,
+        "capital": 46.0,
+        "entrepreneurship": 48.0,
+        "composite_score": 53.5,
+        "description": "Mainly agricultural district with low density urbanization. Local construction is mostly residential and informal.",
+        "details": "High land availability but low commercial zoning for large developments. Labor consists mostly of unskilled agricultural workers. Harder access to formal real estate loans."
+    },
+    "Nyaruguru": {
+        "land": 65.0,
+        "labor": 60.0,
+        "capital": 48.0,
+        "entrepreneurship": 50.0,
+        "composite_score": 55.8,
+        "description": "High growth potential in Kibeho town due to religious tourism. Infrastructure expansion projects are currently ongoing.",
+        "details": "Moderate housing deficit due to rising numbers of visitors. Construction labor is mostly semi-skilled. Local building material supply relies heavily on neighboring Huye."
+    },
+    "Huye": {
+        "land": 72.0,
+        "labor": 82.0,
+        "capital": 68.0,
+        "entrepreneurship": 70.0,
+        "composite_score": 73.0,
+        "description": "Secondary city development hub. High demand for modern student housing, academic facilities, and commercial centers.",
+        "details": "Zoning supports dense urban residential blocks. High labor quality with local technical graduates from the University of Rwanda. Solid banking networks for credit access."
+    },
+    "Nyamagabe": {
+        "land": 66.0,
+        "labor": 64.0,
+        "capital": 52.0,
+        "entrepreneurship": 56.0,
+        "composite_score": 59.5,
+        "description": "Moderate construction demand near Nyungwe Forest buffer zone. Zoning rules are highly protective of environmental resources.",
+        "details": "Residential developments are localized. Basic construction labor is readily available. Small construction cooperatives handle most local public projects."
+    },
+    "Ruhango": {
+        "land": 68.0,
+        "labor": 65.0,
+        "capital": 54.0,
+        "entrepreneurship": 59.0,
+        "composite_score": 61.5,
+        "description": "Intermediate trading hub connecting Kigali to the South. Growing demand for commercial storehouses and processing plants.",
+        "details": "Favorable land zoning along the main highway. Reasonable availability of local masonry and basic building material suppliers."
+    },
+    "Muhanga": {
+        "land": 78.0,
+        "labor": 76.0,
+        "capital": 70.0,
+        "entrepreneurship": 72.0,
+        "composite_score": 74.0,
+        "description": "Rapidly urbanizing secondary city. High demand for commercial warehousing, offices, and multi-family residential zoning.",
+        "details": "Major housing deficit in the secondary city core. Highly active brick and clay tile production cooperatives. Strong credit accessibility via local bank branches."
+    },
+    "Kamonyi": {
+        "land": 82.0,
+        "labor": 78.0,
+        "capital": 72.0,
+        "entrepreneurship: " : 68.0,
+        "capital": 72.0,
+        "entrepreneurship": 68.0,
+        "composite_score": 75.0,
+        "description": "Peri-urban sprawl zone immediately adjacent to Kigali. High demand for affordable residential housing and logistics hubs.",
+        "details": "Fast-tracked zoning transitions from agriculture to residential. High labor mobility to Kigali. Excellent local availability of sand, stone, and brick materials."
+    },
+    "Karongi": {
+        "land": 74.0,
+        "labor": 70.0,
+        "capital": 62.0,
+        "entrepreneurship": 66.0,
+        "composite_score": 68.0,
+        "description": "Lakeside tourism hub. High demand for hotels, holiday homes, and environmental protection infrastructure projects.",
+        "details": "Zoning limits development to keep the scenic shoreline clean. Highly active hospitality construction labor. Capital flows are tourism-oriented."
+    },
+    "Rutsiro": {
+        "land": 60.0,
+        "labor": 55.0,
+        "capital": 44.0,
+        "entrepreneurship": 48.0,
+        "composite_score": 51.8,
+        "description": "Mountainous terrain presenting construction logistics challenges. Mainly localized rural residential developments.",
+        "details": "Zoning focuses on forestry and tea plantations. Heavy reliance on imported construction materials. Low concentration of local contractors."
+    },
+    "Rubavu": {
+        "land": 80.0,
+        "labor": 84.0,
+        "capital": 78.0,
+        "entrepreneurship": 82.0,
+        "composite_score": 81.0,
+        "description": "Highly dense border city. Massive demand for warehouses, import-export depots, cross-border markets, and lakeside hospitality.",
+        "details": "Severe housing shortage due to high population density. Skilled workforce specializing in commercial builds. Dynamic local suppliers and trade logistics SMEs."
+    },
+    "Nyabihu": {
+        "land": 68.0,
+        "labor": 65.0,
+        "capital": 55.0,
+        "entrepreneurship": 58.0,
+        "composite_score": 61.5,
+        "description": "High altitude climate. demand is driven by cold-storage agricultural facilities and local processing plants.",
+        "details": "Favorable zoning for agro-industrial infrastructure. Masonry and excavation labor is abundant. Supply of construction timber is excellent."
+    },
+    "Ngororero": {
+        "land": 58.0,
+        "labor": 52.0,
+        "capital": 42.0,
+        "entrepreneurship": 46.0,
+        "composite_score": 49.5,
+        "description": "High slope vulnerability limits large scale developments. Mostly rural and public sector construction (schools, health centers).",
+        "details": "Zoning restricts hill-crest construction. Labor pool is mostly unskilled. Financing for private commercial projects is limited."
+    },
+    "Rusizi": {
+        "land": 76.0,
+        "labor": 75.0,
+        "capital": 70.0,
+        "entrepreneurship": 74.0,
+        "composite_score": 73.8,
+        "description": "Strategic border city at the tip of Lake Kivu. Home to CIMERWA (Rwanda's largest cement factory), giving it a unique capital advantage.",
+        "details": "High demand for border trade infrastructure. Direct local access to raw cement lowers capital cost. Skilled industrial construction labor pool."
+    },
+    "Rulindo": {
+        "land": 72.0,
+        "labor": 70.0,
+        "capital": 60.0,
+        "entrepreneurship": 62.0,
+        "composite_score": 66.0,
+        "description": "Industrial and mining corridor. Demand for mineral processing sheds, washing plants, and staff housing.",
+        "details": "Zoning supports industrial activity along transport routes. Moderate availability of local trade apprentices and mining contractors."
+    },
+    "Gakenke": {
+        "land": 66.0,
+        "labor": 62.0,
+        "capital": 50.0,
+        "entrepreneurship": 52.0,
+        "composite_score": 57.5,
+        "description": "Primarily agricultural with steep topography. Demand centered on rural roads, crop drying facilities, and residential homes.",
+        "details": "Zoning restricts construction in high-risk landslide zones. Labor is predominantly farming-oriented. Rely on Musanze for complex materials."
+    },
+    "Musanze": {
+        "land": 82.0,
+        "labor": 85.0,
+        "capital": 78.0,
+        "entrepreneurship": 80.0,
+        "composite_score": 81.3,
+        "description": "Premier secondary city and tourism base. Robust demand for hotels, tourist infrastructure, high-end residential, and stone quarries.",
+        "details": "Zoning promotes urban density and eco-friendly structures. Large pool of skilled construction labor. Highly developed stone/volcanic rock supply chains."
+    },
+    "Burera": {
+        "land": 64.0,
+        "labor": 58.0,
+        "capital": 48.0,
+        "entrepreneurship": 52.0,
+        "composite_score": 55.5,
+        "description": "Border district with lake landscapes. demand is mainly for small lakeside lodges and rural infrastructure.",
+        "details": "Zoning controls lakeside impact. Local labor is mostly semi-skilled. Basic construction materials are transported from Musanze."
+    },
+    "Gicumbi": {
+        "land": 70.0,
+        "labor": 68.0,
+        "capital": 56.0,
+        "entrepreneurship": 60.0,
+        "composite_score": 63.5,
+        "description": "High altitude terrain with dairy and agro-processing factories. Demand for warehousing and local processing expansions.",
+        "details": "Zoning supports agro-industrial parks. Reasonable labor supply for structural timber builds. Local contractors are organized in SME clusters."
+    },
+    "Rwamagana": {
+        "land": 85.0,
+        "labor": 78.0,
+        "capital": 76.0,
+        "entrepreneurship": 74.0,
+        "composite_score": 78.3,
+        "description": "Industrial expansion hub. Host to the Rwamagana Industrial Park which attracts manufacturing and heavy logistics developments.",
+        "details": "Flat, easily buildable land with clear zoning. Strong local labor supply from neighboring technical colleges. Excellent highway transport links for material imports."
+    },
+    "Nyagatare": {
+        "land": 80.0,
+        "labor": 72.0,
+        "capital": 65.0,
+        "entrepreneurship": 68.0,
+        "composite_score": 71.3,
+        "description": "Largest land area. High demand for large-scale agricultural infrastructure, farm sheds, animal houses, and residential suburbs.",
+        "details": "Zoning supports massive commercial estates. Moderate labor supply with growing numbers of local builders. Local supply of river sand is excellent."
+    },
+    "Gatsibo": {
+        "land": 72.0,
+        "labor": 66.0,
+        "capital": 54.0,
+        "entrepreneurship": 56.0,
+        "composite_score": 62.0,
+        "description": "Farming-focused district. Infrastructure needs center on grain silos, irrigation channels, and local housing.",
+        "details": "Flat land with straightforward zoning approval times. Labor pool is mostly agricultural. Moderate presence of building materials retail shops."
+    },
+    "Kayonza": {
+        "land": 78.0,
+        "labor": 72.0,
+        "capital": 64.0,
+        "entrepreneurship": 66.0,
+        "composite_score": 70.0,
+        "description": "Highway transit junction and gateway to Akagera. Demand for hospitality builds, transport stops, and residential expansion.",
+        "details": "Clear zoning along the central corridor. Good local pool of road and masonry builders. High supply of volcanic construction stones."
+    },
+    "Kirehe": {
+        "land": 70.0,
+        "labor": 65.0,
+        "capital": 56.0,
+        "entrepreneurship": 58.0,
+        "composite_score": 62.3,
+        "description": "Border logistics zone. Emerging demand for dry port warehouse storage, customs logistics yards, and border hotels.",
+        "details": "Industrial zoning is expanding near the Rusumo border. Labor pool is growing due to border projects. High volume of cross-border material flow."
+    },
+    "Ngoma": {
+        "land": 72.0,
+        "labor": 68.0,
+        "capital": 58.0,
+        "entrepreneurship": 60.0,
+        "composite_score": 64.5,
+        "description": "Growing urban center around Kibungo. demand for mid-range housing, agricultural markets, and school infrastructure.",
+        "details": "Stable land zoning guidelines. Labor supply is supported by local youth programs. Local building supplies are adequate."
+    },
+    "Bugesera": {
+        "land": 90.0,
+        "labor": 82.0,
+        "capital": 88.0,
+        "entrepreneurship": 78.0,
+        "composite_score": 83.8,
+        "description": "Investment hotspot due to the new Bugesera International Airport and nearby industrial zones. High demand for hotels, logistics, and housing.",
+        "details": "Flat terrain with rapid urban residential zoning. Influx of skilled workers from Kigali. Excellent credit access and large developer projects."
+    },
+    "Nyamasheke": {
+        "land": 68.0,
+        "labor": 64.0,
+        "capital": 50.0,
+        "entrepreneurship": 54.0,
+        "composite_score": 59.0,
+        "description": "Lake Kivu coastal district. Demand is driven by fisheries infrastructure, lake transport piers, and eco-tourism structures.",
+        "details": "Zoning matches shoreline environmental protections. Labor consists of carpenters and fishermen. Material supply mostly arrives by water."
+    }
+}

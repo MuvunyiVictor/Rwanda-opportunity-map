@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rwanda Opportunity Map — Investor Intelligence Platform</title>
+
+    <!-- ===== LOCAL FONTS ===== -->
+    <style>
+        @font-face {
+            font-family: 'Outfit';
+            src: url('fonts/Outfit-VariableFont_wght.ttf') format('truetype');
+            font-weight: 300 800;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Plus Jakarta Sans';
+            src: url('fonts/PlusJakartaSans-VariableFont_wght.ttf') format('truetype');
+            font-weight: 300 800;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Plus Jakarta Sans';
+            src: url('fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf') format('truetype');
+            font-weight: 300 800;
+            font-style: italic;
+        }
+    </style>
+
+    <!-- ===== LOCAL FONT AWESOME ===== -->
+    <link rel="stylesheet" href="libs/fontawesome/all.min.css" />
+
+    <!-- ===== LOCAL LEAFLET CSS ===== -->
+    <link rel="stylesheet" href="libs/leaflet/leaflet.css" />
+
+    <!-- ===== LOCAL CHART.JS ===== -->
+    <script src="libs/chart/chart.min.js"></script>
+
+    <!-- ===== LOCAL TURF.JS ===== -->
+    <script src="libs/turf/turf.min.js"></script>
+
+    <!-- ===== CUSTOM STYLES ===== -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <style>
+        /* ===== All your existing styles here ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0a1020;
+            color: #e2e8f0;
+            overflow: hidden;
+            height: 100vh;
+        }
+        .app-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+        .map-viewport {
+            flex: 1;
+            height: 100vh;
+            background: #0f172a;
+            position: relative;
+        }
+        .sidebar-panel {
+            width: 420px;
+            min-width: 420px;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 24px 20px;
+            background: rgba(10, 16, 32, 0.96);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255,255,255,0.06);
+            color: #e2e8f0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-panel::-webkit-scrollbar { width: 4px; }
+        .sidebar-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        .app-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: linear-gradient(to right, #e2e8f0, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+        .login-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            color: #94a3b8;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .login-btn:hover {
+            background: rgba(255,255,255,0.12);
+            color: #e2e8f0;
+        }
+        .login-btn.logged-in {
+            border-color: #8b5cf6;
+            color: #c084fc;
+        }
+        .admin-btn {
+            display: none;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid #8b5cf6;
+            border-radius: 10px;
+            color: #c084fc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .admin-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+        }
+        .admin-btn.visible {
+            display: block;
+        }
+        .district-selector {
+            margin-bottom: 16px;
+        }
+        .district-selector label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .district-selector select {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .district-selector select:focus {
+            border-color: #8b5cf6;
+        }
+        .district-selector select option {
+            background: #1a1f35;
+            color: #e2e8f0;
+        }
+        .score-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .score-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+        .score-card .label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+        }
+        .score-card .value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+        .score-card .value.land { color: #22c55e; }
+        .score-card .value.labor { color: #3b82f6; }
+        .score-card .value.capital { color: #eab308; }
+        .score-card .value.entrepreneurship { color: #8b5cf6; }
+        .score-card .value.composite { color: #c084fc; font-size: 2rem; }
+        .composite-card {
+            grid-column: span 2;
+            background: rgba(139, 92, 246, 0.08);
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+        .view-details-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            background: #8b5cf6;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .view-details-btn:hover {
+            background: #7c3aed;
+        }
+        .osm-section {
+            flex: 1;
+            overflow-y: auto;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 14px;
+        }
+        .osm-section h3 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        .osm-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .osm-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+        }
+        .osm-item .osm-label {
+            color: #94a3b8;
+        }
+        .osm-item .osm-count {
+            font-weight: 700;
+            color: #4ade80;
+        }
+        #page-details {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            background: #0a1020;
+        }
+        .app-container.mode-details #page-details { display: flex; }
+        .app-container.mode-details #sidebar-overview { display: none; }
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: rgba(10, 16, 32, 0.95);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.06);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.12); }
+        .details-sidebar {
+            width: 420px;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            overflow-y: auto;
+            flex-shrink: 0;
+            padding: 24px 20px;
+            background: rgba(10, 16, 32, 0.96);
+        }
+        .region-name { font-size: 1.3rem; font-weight: 700; }
+        .region-score-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(139, 92, 246, 0.15);
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        .score-number { font-size: 1.6rem; font-weight: 800; color: #c084fc; }
+        .score-label { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .factor-bar-item { margin-bottom: 10px; }
+        .factor-bar-info { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 3px; }
+        .progress-bar-bg { height: 6px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
+        .progress-bar-fill.land { background: #22c55e; }
+        .progress-bar-fill.capital { background: #eab308; }
+        .progress-bar-fill.labor { background: #3b82f6; }
+        .progress-bar-fill.entrepreneurship { background: #8b5cf6; }
+        .progress-bar-fill.gap { background: #f472b6; }
+        .section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 10px; font-weight: 700; }
+        .agriculture-profile-box {
+            background: rgba(34, 197, 94, 0.06);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .agriculture-profile-box h4 { color: #4ade80; font-size: 0.85rem; margin-bottom: 10px; }
+        .agri-row { display: flex; justify-content: space-between; font-size: 0.78rem; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .agri-row:last-child { border-bottom: none; }
+        .agri-row .label { color: #94a3b8; }
+        .agri-row .value { color: #e2e8f0; font-weight: 600; }
+        .major-projects-profile-box {
+            background: rgba(168, 85, 247, 0.06);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .major-projects-profile-box h4 { color: #c084fc; font-size: 0.85rem; margin-bottom: 10px; }
+        .project-item { padding: 8px 10px; margin-bottom: 6px; background: rgba(168, 85, 247, 0.08); border-radius: 8px; font-size: 0.78rem; }
+        .project-item .name { color: #e2e8f0; font-weight: 600; }
+        .project-item .detail { color: #94a3b8; font-size: 0.7rem; }
+        #page-admin {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            background: #0a1020;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        .app-container.mode-admin #page-admin { display: flex; }
+        .app-container.mode-admin #sidebar-overview { display: none; }
+        .app-container.mode-admin .map-viewport { display: none; }
+        .admin-form {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .admin-form h3 { font-size: 1rem; margin-bottom: 12px; }
+        .admin-form .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .admin-form .form-grid .full-width { grid-column: span 2; }
+        .admin-form label {
+            display: block;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        .admin-form input, .admin-form select, .admin-form textarea {
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+        }
+        .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+        .admin-form textarea { resize: vertical; }
+        .admin-submit-btn {
+            margin-top: 12px;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+        }
+        .admin-submit-btn.purple { background: #8b5cf6; }
+        .admin-submit-btn.purple:hover { background: #7c3aed; }
+        .admin-submit-btn.green { background: #22c55e; }
+        .admin-submit-btn.green:hover { background: #16a34a; }
+        .admin-status-msg { margin-left: 12px; font-size: 0.8rem; }
+        #login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #login-modal.show { display: flex; }
+        .login-box {
+            background: #1a1f35;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 400px;
+            max-width: 90%;
+        }
+        .login-box h2 { font-family: 'Outfit', sans-serif; margin-bottom: 8px; }
+        .login-box .sub { color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px; }
+        .login-box input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .login-box input:focus { outline: none; border-color: #8b5cf6; }
+        .login-box .login-submit {
+            width: 100%;
+            padding: 12px;
+            background: #8b5cf6;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .login-box .login-submit:hover { background: #7c3aed; }
+        .login-box .login-error { color: #f87171; font-size: 0.8rem; margin-top: 10px; display: none; }
+        .login-box .login-close {
+            margin-top: 12px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.8rem;
+            width: 100%;
+            text-align: center;
+        }
+        .login-box .login-close:hover { color: #e2e8f0; }
+        .theme-toggle {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            gap: 8px;
+            background: rgba(10, 16, 32, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .theme-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .theme-btn:hover, .theme-btn.active { color: #e2e8f0; background: rgba(255,255,255,0.06); }
+        @media (max-width: 1024px) {
+            .sidebar-panel { width: 340px; min-width: 340px; }
+            .details-sidebar { width: 340px; }
+        }
+        @media (max-width: 768px) {
+            .sidebar-panel { width: 100%; min-width: 100%; height: 50vh; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+            .app-container { flex-direction: column; }
+            .map-viewport { height: 50vh; }
+            .details-sidebar { width: 100%; }
+            .admin-form .form-grid { grid-template-columns: 1fr; }
+            .admin-form .form-grid .full-width { grid-column: span 1; }
+            .login-box { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container" id="app-wrapper">
+
+    <!-- ====== MAP ====== -->
+    <main class="map-viewport" id="map"></main>
+
+    <!-- ====== THEME TOGGLE ====== -->
+    <div class="theme-toggle">
+        <button class="theme-btn active" id="tile-dark" title="Dark Map">🌙</button>
+        <button class="theme-btn" id="tile-light" title="Light Map">☀️</button>
+    </div>
+
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="sidebar-panel" id="sidebar-overview">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <h1 class="app-title">🇷🇼 Opportunity Map</h1>
+            <button class="login-btn" id="btn-login"><i class="fa-solid fa-user"></i> Login</button>
+        </div>
+        <p class="subtitle">Select a district to explore opportunities</p>
+
+        <button class="admin-btn" id="btn-admin-panel"><i class="fa-solid fa-tools"></i> 🛠️ Admin Panel</button>
+
+        <div class="district-selector">
+            <label for="district-dropdown"><i class="fa-solid fa-location-dot"></i> Select District</label>
+            <select id="district-dropdown">
+                <option value="">— Loading districts —</option>
+            </select>
+        </div>
+
+        <div class="score-grid" id="score-grid">
+            <div class="score-card composite-card">
+                <div class="label">Composite Score</div>
+                <div class="value composite" id="display-composite">--</div>
+            </div>
+            <div class="score-card">
+                <div class="label">Land / Readiness</div>
+                <div class="value land" id="display-land">--</div>
+            </div>
+            <div class="score-card">
+                <div class="label">Labor</div>
+                <div class="value labor" id="display-labor">--</div>
+            </div>
+            <div class="score-card">
+                <div class="label">Capital / Supply</div>
+                <div class="value capital" id="display-capital">--</div>
+            </div>
+            <div class="score-card">
+                <div class="label">Entrepreneurship</div>
+                <div class="value entrepreneurship" id="display-entrepreneurship">--</div>
+            </div>
+        </div>
+
+        <button class="view-details-btn" id="btn-view-details">
+            <i class="fa-solid fa-chart-simple"></i> View Full Details
+        </button>
+
+        <div class="osm-section">
+            <h3><i class="fa-solid fa-building"></i> OSM Intelligence for <span id="osm-district-name">selected district</span></h3>
+            <div class="osm-grid" id="osm-grid">
+                <div class="osm-item"><span class="osm-label">🏗️ Construction</span><span class="osm-count" id="osm-construction">--</span></div>
+                <div class="osm-item"><span class="osm-label">🏪 Hardware Shops</span><span class="osm-count" id="osm-hardware">--</span></div>
+                <div class="osm-item"><span class="osm-label">🏢 Commercial</span><span class="osm-count" id="osm-commercial">--</span></div>
+                <div class="osm-item"><span class="osm-label">🏭 Industrial</span><span class="osm-count" id="osm-industrial">--</span></div>
+                <div class="osm-item"><span class="osm-label">🏫 Education</span><span class="osm-count" id="osm-education">--</span></div>
+                <div class="osm-item"><span class="osm-label">🏥 Health</span><span class="osm-count" id="osm-health">--</span></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ====== DETAILS VIEW ====== -->
+    <div id="page-details">
+        <nav class="top-nav">
+            <button class="back-btn" id="btn-back-to-overview">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </button>
+            <span style="font-size:0.8rem; color:#94a3b8;">Rwanda / <strong id="details-breadcrumb-region" style="color:#e2e8f0;">District</strong></span>
+        </nav>
+
+        <aside class="sidebar-panel details-sidebar" id="sidebar-details">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+                <div>
+                    <h2 class="region-name" id="details-region-name">District</h2>
+                    <span style="font-size:0.7rem; color:#94a3b8;">Detailed analysis</span>
+                </div>
+                <div class="region-score-circle">
+                    <span class="score-number" id="details-region-score">--</span>
+                    <span class="score-label">Score</span>
+                </div>
+            </div>
+
+            <div style="height:160px; margin-bottom:16px;">
+                <canvas id="details-factorRadarChart"></canvas>
+            </div>
+
+            <h4 class="section-title">Opportunity Dimensions</h4>
+            <div class="factor-bar-item">
+                <div class="factor-bar-info">
+                    <span>🏗️ Development Readiness</span>
+                    <strong id="details-bar-val-readiness">--</strong>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill land" id="details-bar-fill-readiness" style="width:0%;"></div></div>
+            </div>
+            <div class="factor-bar-item">
+                <div class="factor-bar-info">
+                    <span>📦 Supply Chain</span>
+                    <strong id="details-bar-val-supply">--</strong>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill capital" id="details-bar-fill-supply" style="width:0%;"></div></div>
+            </div>
+            <div class="factor-bar-item">
+                <div class="factor-bar-info">
+                    <span>👷 Labor Availability</span>
+                    <strong id="details-bar-val-labor">--</strong>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill labor" id="details-bar-fill-labor" style="width:0%;"></div></div>
+            </div>
+            <div class="factor-bar-item">
+                <div class="factor-bar-info">
+                    <span>💰 Investment Attractiveness</span>
+                    <strong id="details-bar-val-investment">--</strong>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill entrepreneurship" id="details-bar-fill-investment" style="width:0%;"></div></div>
+            </div>
+            <div class="factor-bar-item">
+                <div class="factor-bar-info">
+                    <span>🔍 Opportunity Gap</span>
+                    <strong id="details-bar-val-gap">--</strong>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill gap" id="details-bar-fill-gap" style="width:0%;"></div></div>
+            </div>
+
+            <div class="agriculture-profile-box">
+                <h4><i class="fa-solid fa-wheat-awn"></i> Agriculture Profile</h4>
+                <div class="agri-row">
+                    <span class="label">Crop Intensity</span>
+                    <span class="value" id="details-agri-intensity">--</span>
+                </div>
+                <div class="agri-row">
+                    <span class="label">Main Crops</span>
+                    <span class="value" id="details-agri-crops">--</span>
+                </div>
+                <div class="agri-row">
+                    <span class="label">Seasonal Yield (MT)</span>
+                    <span class="value" id="details-agri-yield">--</span>
+                </div>
+                <div class="agri-row">
+                    <span class="label">Irrigated Land</span>
+                    <span class="value" id="details-agri-irrigation">--</span>
+                </div>
+            </div>
+
+            <div class="major-projects-profile-box">
+                <h4><i class="fa-solid fa-rocket"></i> Nearby Major Projects</h4>
+                <div id="details-projects-list">
+                    <span style="color:#94a3b8; font-size:0.75rem;">Select a district to see nearby projects.</span>
+                </div>
+            </div>
+        </aside>
+
+        <div style="flex:1; background:#0a1020;"></div>
+    </div>
+
+    <!-- ====== ADMIN PANEL ====== -->
+    <div id="page-admin">
+        <nav class="top-nav" style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06); margin-bottom:20px;">
+            <button class="back-btn" id="btn-admin-back">
+                <i class="fa-solid fa-arrow-left"></i> Back to Map
+            </button>
+            <span style="font-size:0.8rem; color:#94a3b8;">Admin Panel</span>
+        </nav>
+
+        <h2 style="font-family:'Outfit',sans-serif; font-weight:700; margin-bottom:4px;">🛠️ Admin Panel</h2>
+        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:20px;">Add new data to the Opportunity Map</p>
+
+        <div class="admin-form">
+            <h3 style="color:#c084fc;">🚀 Add New Major Project</h3>
+            <div class="form-grid">
+                <div><label>Project Name *</label><input type="text" id="admin-project-name" placeholder="e.g., Kigali Heights" /></div>
+                <div><label>Type *</label><input type="text" id="admin-project-type" placeholder="e.g., Residential, Commercial" /></div>
+                <div><label>Location *</label><input type="text" id="admin-project-location" placeholder="e.g., Kigali" /></div>
+                <div><label>Latitude *</label><input type="text" id="admin-project-lat" placeholder="e.g., -1.9441" /></div>
+                <div><label>Longitude *</label><input type="text" id="admin-project-lng" placeholder="e.g., 30.0619" /></div>
+                <div><label>Cost</label><input type="text" id="admin-project-cost" placeholder="e.g., $2 billion" /></div>
+                <div class="full-width"><label>Status *</label>
+                    <select id="admin-project-status">
+                        <option value="Under Construction">Under Construction</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Planned">Planned</option>
+                        <option value="Operational">Operational</option>
+                    </select>
+                </div>
+                <div class="full-width"><label>Description / Impact</label>
+                    <textarea id="admin-project-desc" rows="2" placeholder="Brief description of the project and its impact..."></textarea>
+                </div>
+            </div>
+            <button class="admin-submit-btn purple" id="admin-submit-project">Add Project</button>
+            <span class="admin-status-msg" id="admin-project-status-msg"></span>
+        </div>
+
+        <div class="admin-form">
+            <h3 style="color:#4ade80;">🏗️ Add OSM Element</h3>
+            <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Manually add an OSM element to the cache (for testing or updates).</p>
+            <div class="form-grid">
+                <div><label>Type</label>
+                    <select id="admin-osm-type">
+                        <option value="construction">Construction</option>
+                        <option value="hardware">Hardware Shop</option>
+                        <option value="school">Education</option>
+                        <option value="hospital">Health</option>
+                        <option value="commercial">Commercial</option>
+                    </select>
+                </div>
+                <div><label>District</label>
+                    <select id="admin-osm-district">
+                        <!-- populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+            <button class="admin-submit-btn green" id="admin-submit-osm">Add OSM Element</button>
+            <span class="admin-status-msg" id="admin-osm-status-msg"></span>
+        </div>
+    </div>
+
+    <!-- ====== LOGIN MODAL ====== -->
+    <div id="login-modal">
+        <div class="login-box">
+            <h2>🔐 Login</h2>
+            <p class="sub">Enter your credentials to access the admin panel.</p>
+            <input type="text" id="login-username" placeholder="Username" />
+            <input type="password" id="login-password" placeholder="Password" />
+            <button class="login-submit" id="login-btn">Login</button>
+            <p class="login-error" id="login-error">Invalid credentials. Please try again.</p>
+            <p style="color:#94a3b8; font-size:0.7rem; margin-top:8px; text-align:center;">Default: admin / admin123</p>
+            <button class="login-close" id="login-close">✕ Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== LOCAL LEAFLET JS ===== -->
+<script src="libs/leaflet/leaflet.js"></script>
+
+<!-- ====== LOCAL SCRIPTS ====== -->
+<script src="construction.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

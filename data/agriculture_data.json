@@ -1,0 +1,250 @@
+{
+  "survey_metadata": {
+    "title": "NISR Seasonal Agricultural Survey 2024",
+    "source": "National Institute of Statistics of Rwanda (NISR)",
+    "year": 2024,
+    "description": "District-level crop production intensity, top seasonal yields, major crops, and irrigation infrastructure."
+  },
+  "districts": {
+    "Nyarugenge": {
+      "crop_production_intensity": 35,
+      "crop_intensity_level": "Low",
+      "major_crops": ["Cassava", "Vegetables", "Sweet Potatoes"],
+      "seasonal_yield_mt": 18500,
+      "irrigated_land_ha": 450,
+      "top_crop": "Vegetables"
+    },
+    "Gasabo": {
+      "crop_production_intensity": 52,
+      "crop_intensity_level": "Moderate",
+      "major_crops": ["Vegetables", "Maize", "Cassava"],
+      "seasonal_yield_mt": 42000,
+      "irrigated_land_ha": 1350,
+      "top_crop": "Vegetables"
+    },
+    "Kicukiro": {
+      "crop_production_intensity": 38,
+      "crop_intensity_level": "Low",
+      "major_crops": ["Vegetables", "Beans", "Maize"],
+      "seasonal_yield_mt": 21000,
+      "irrigated_land_ha": 620,
+      "top_crop": "Vegetables"
+    },
+    "Nyanza": {
+      "crop_production_intensity": 74,
+      "crop_intensity_level": "High",
+      "major_crops": ["Cassava", "Maize", "Rice"],
+      "seasonal_yield_mt": 115000,
+      "irrigated_land_ha": 3400,
+      "top_crop": "Cassava"
+    },
+    "Gisagara": {
+      "crop_production_intensity": 82,
+      "crop_intensity_level": "High",
+      "major_crops": ["Rice", "Cassava", "Beans"],
+      "seasonal_yield_mt": 138000,
+      "irrigated_land_ha": 4800,
+      "top_crop": "Rice"
+    },
+    "Nyaruguru": {
+      "crop_production_intensity": 79,
+      "crop_intensity_level": "High",
+      "major_crops": ["Tea", "Wheat", "Irish Potato"],
+      "seasonal_yield_mt": 96000,
+      "irrigated_land_ha": 2100,
+      "top_crop": "Tea"
+    },
+    "Huye": {
+      "crop_production_intensity": 71,
+      "crop_intensity_level": "High",
+      "major_crops": ["Coffee", "Rice", "Cassava"],
+      "seasonal_yield_mt": 105000,
+      "irrigated_land_ha": 3100,
+      "top_crop": "Rice"
+    },
+    "Nyamagabe": {
+      "crop_production_intensity": 76,
+      "crop_intensity_level": "High",
+      "major_crops": ["Tea", "Wheat", "Irish Potato"],
+      "seasonal_yield_mt": 92000,
+      "irrigated_land_ha": 1950,
+      "top_crop": "Tea"
+    },
+    "Ruhango": {
+      "crop_production_intensity": 78,
+      "crop_intensity_level": "High",
+      "major_crops": ["Cassava", "Bananas", "Maize"],
+      "seasonal_yield_mt": 124000,
+      "irrigated_land_ha": 2900,
+      "top_crop": "Cassava"
+    },
+    "Muhanga": {
+      "crop_production_intensity": 68,
+      "crop_intensity_level": "Moderate",
+      "major_crops": ["Coffee", "Beans", "Maize"],
+      "seasonal_yield_mt": 88000,
+      "irrigated_land_ha": 2400,
+      "top_crop": "Beans"
+    },
+    "Kamonyi": {
+      "crop_production_intensity": 80,
+      "crop_intensity_level": "High",
+      "major_crops": ["Coffee", "Rice", "Cassava"],
+      "seasonal_yield_mt": 131000,
+      "irrigated_land_ha": 3800,
+      "top_crop": "Coffee"
+    },
+    "Karongi": {
+      "crop_production_intensity": 73,
+      "crop_intensity_level": "High",
+      "major_crops": ["Coffee", "Tea", "Maize"],
+      "seasonal_yield_mt": 94000,
+      "irrigated_land_ha": 2200,
+      "top_crop": "Coffee"
+    },
+    "Rutsiro": {
+      "crop_production_intensity": 77,
+      "crop_intensity_level": "High",
+      "major_crops": ["Tea", "Coffee", "Beans"],
+      "seasonal_yield_mt": 89000,
+      "irrigated_land_ha": 1800,
+      "top_crop": "Tea"
+    },
+    "Rubavu": {
+      "crop_production_intensity": 85,
+      "crop_intensity_level": "High",
+      "major_crops": ["Vegetables", "Irish Potato", "Maize"],
+      "seasonal_yield_mt": 142000,
+      "irrigated_land_ha": 4100,
+      "top_crop": "Vegetables"
+    },
+    "Nyabihu": {
+      "crop_production_intensity": 91,
+      "crop_intensity_level": "Very High",
+      "major_crops": ["Irish Potato", "Tea", "Maize"],
+      "seasonal_yield_mt": 168000,
+      "irrigated_land_ha": 3600,
+      "top_crop": "Irish Potato"
+    },
+    "Ngororero": {
+      "crop_production_intensity": 75,
+      "crop_intensity_level": "High",
+      "major_crops": ["Tea", "Beans", "Maize"],
+      "seasonal_yield_mt": 87000,
+      "irrigated_land_ha": 1900,
+      "top_crop": "Tea"
+    },
+    "Rusizi": {
+      "crop_production_intensity": 83,
+      "crop_intensity_level": "High",
+      "major_crops": ["Rice", "Tea", "Coffee"],
+      "seasonal_yield_mt": 149000,
+      "irrigated_land_ha": 5200,
+      "top_crop": "Rice"
+    },
+    "Nyamasheke": {
+      "crop_production_intensity": 81,
+      "crop_intensity_level": "High",
+      "major_crops": ["Tea", "Coffee", "Bananas"],
+      "seasonal_yield_mt": 118000,
+      "irrigated_land_ha": 2700,
+      "top_crop": "Tea"
+    },
+    "Rulindo": {
+      "crop_production_intensity": 84,
+      "crop_intensity_level": "High",
+      "major_crops": ["Coffee", "Tea", "Irish Potato"],
+      "seasonal_yield_mt": 126000,
+      "irrigated_land_ha": 3300,
+      "top_crop": "Coffee"
+    },
+    "Gakenke": {
+      "crop_production_intensity": 86,
+      "crop_intensity_level": "High",
+      "major_crops": ["Coffee", "Maize", "Beans"],
+      "seasonal_yield_mt": 134000,
+      "irrigated_land_ha": 3500,
+      "top_crop": "Coffee"
+    },
+    "Musanze": {
+      "crop_production_intensity": 95,
+      "crop_intensity_level": "Very High",
+      "major_crops": ["Irish Potato", "Maize", "Pyrethrum", "Vegetables"],
+      "seasonal_yield_mt": 198000,
+      "irrigated_land_ha": 4600,
+      "top_crop": "Irish Potato"
+    },
+    "Burera": {
+      "crop_production_intensity": 89,
+      "crop_intensity_level": "High",
+      "major_crops": ["Irish Potato", "Maize", "Beans"],
+      "seasonal_yield_mt": 156000,
+      "irrigated_land_ha": 3800,
+      "top_crop": "Irish Potato"
+    },
+    "Gicumbi": {
+      "crop_production_intensity": 82,
+      "crop_intensity_level": "High",
+      "major_crops": ["Tea", "Milk / Fodder", "Irish Potato"],
+      "seasonal_yield_mt": 139000,
+      "irrigated_land_ha": 3100,
+      "top_crop": "Tea"
+    },
+    "Rwamagana": {
+      "crop_production_intensity": 87,
+      "crop_intensity_level": "High",
+      "major_crops": ["Bananas", "Rice", "Maize"],
+      "seasonal_yield_mt": 162000,
+      "irrigated_land_ha": 6400,
+      "top_crop": "Bananas"
+    },
+    "Nyagatare": {
+      "crop_production_intensity": 93,
+      "crop_intensity_level": "Very High",
+      "major_crops": ["Maize", "Beans", "Rice", "Dairy Fodder"],
+      "seasonal_yield_mt": 215000,
+      "irrigated_land_ha": 9800,
+      "top_crop": "Maize"
+    },
+    "Gatsibo": {
+      "crop_production_intensity": 88,
+      "crop_intensity_level": "High",
+      "major_crops": ["Maize", "Beans", "Rice"],
+      "seasonal_yield_mt": 174000,
+      "irrigated_land_ha": 7200,
+      "top_crop": "Maize"
+    },
+    "Kayonza": {
+      "crop_production_intensity": 80,
+      "crop_intensity_level": "High",
+      "major_crops": ["Bananas", "Maize", "Cassava"],
+      "seasonal_yield_mt": 145000,
+      "irrigated_land_ha": 5800,
+      "top_crop": "Bananas"
+    },
+    "Kirehe": {
+      "crop_production_intensity": 90,
+      "crop_intensity_level": "Very High",
+      "major_crops": ["Maize", "Bananas", "Rice", "Soybeans"],
+      "seasonal_yield_mt": 188000,
+      "irrigated_land_ha": 8100,
+      "top_crop": "Maize"
+    },
+    "Ngoma": {
+      "crop_production_intensity": 83,
+      "crop_intensity_level": "High",
+      "major_crops": ["Bananas", "Pineapple", "Maize"],
+      "seasonal_yield_mt": 151000,
+      "irrigated_land_ha": 4900,
+      "top_crop": "Bananas"
+    },
+    "Bugesera": {
+      "crop_production_intensity": 86,
+      "crop_intensity_level": "High",
+      "major_crops": ["Cassava", "Rice", "Vegetables", "Maize"],
+      "seasonal_yield_mt": 169000,
+      "irrigated_land_ha": 7600,
+      "top_crop": "Cassava"
+    }
+  }
+}

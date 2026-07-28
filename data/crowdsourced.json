@@ -1,0 +1,50 @@
+[
+  {
+    "id": "report_001",
+    "city": "Kigali",
+    "type": "project_report",
+    "title": "Kigali Heights Phase 2",
+    "lat": -1.9482,
+    "lng": 30.0899,
+    "status": "Ongoing",
+    "description": "Adding a commercial office wing. Foundation complete, structural steel framing underway.",
+    "reporter": "Victor Muvunyi",
+    "timestamp": "2026-07-16T10:00:00Z"
+  },
+  {
+    "id": "report_002",
+    "city": "Musanze",
+    "type": "bottleneck",
+    "title": "Volcanic Stone Delivery Delay",
+    "lat": -1.5032,
+    "lng": 29.6341,
+    "status": "Ongoing",
+    "description": "Heavy rains have slowed down quarrying in Musanze, causing a 3-day backlog in stone delivery.",
+    "reporter": "Jean Paul",
+    "timestamp": "2026-07-17T08:30:00Z"
+  },
+  {
+    "id": "report_003",
+    "city": "Rusizi",
+    "type": "price_update",
+    "title": "Cimerwa Cement Price Drop",
+    "lat": -2.4850,
+    "lng": 28.8950,
+    "status": "Completed",
+    "description": "CIMERWA 32.5N Cement bag is down to 10,800 RWF due to improved production capacity.",
+    "reporter": "Kevine U.",
+    "timestamp": "2026-07-15T14:15:00Z"
+  },
+  {
+    "id": "report_004",
+    "city": "Kigali",
+    "type": "quality_rating",
+    "title": "Nyarugenge Hardware Supplies Ltd",
+    "lat": -1.9425,
+    "lng": 30.0585,
+    "status": "Active",
+    "description": "Excellent service and genuine steel rods. Rated 5/5.",
+    "reporter": "Contractor Eric",
+    "timestamp": "2026-07-16T16:45:00Z"
+  }
+]
