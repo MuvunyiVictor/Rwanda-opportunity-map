@@ -1,15 +1,16 @@
 @echo off
-title Rwanda Opportunity Map Server
+title Rwanda Opportunity Map Launcher
 cd /d "%~dp0"
+
 echo ======================================================================
-echo           RWANDA OPPORTUNITY & AGRICULTURE MAP SERVER
+echo           RWANDA OPPORTUNITY AND INVESTMENT MAP ($5M USD PROTOTYPE)
 echo ======================================================================
-echo Starting local server on http://localhost:8000...
-echo.
-python serve.py
-if %errorlevel% neq 0 (
-    echo.
-    echo Server stopped with error. Trying fallback with pythonw...
-    start "" pythonw serve.py
-)
-pause
+echo Refreshing server instance and launching application...
+
+taskkill /F /IM python.exe /IM pythonw.exe >nul 2>&1
+
+start "" pythonw serve.py
+
+start http://localhost:8000
+
+exit

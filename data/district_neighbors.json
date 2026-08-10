@@ -1,0 +1,185 @@
+{
+  "Gasabo": [
+    "Nyarugenge",
+    "Kicukiro",
+    "Gicumbi",
+    "Rulindo",
+    "Rwamagana"
+  ],
+  "Nyarugenge": [
+    "Gasabo",
+    "Kicukiro",
+    "Kamonyi",
+    "Rulindo"
+  ],
+  "Kicukiro": [
+    "Gasabo",
+    "Nyarugenge",
+    "Bugesera",
+    "Rwamagana"
+  ],
+  "Musanze": [
+    "Burera",
+    "Gakenke",
+    "Nyabihu"
+  ],
+  "Burera": [
+    "Musanze",
+    "Gicumbi",
+    "Gakenke"
+  ],
+  "Gicumbi": [
+    "Gasabo",
+    "Burera",
+    "Rulindo",
+    "Gatsibo",
+    "Rwamagana"
+  ],
+  "Rulindo": [
+    "Gasabo",
+    "Nyarugenge",
+    "Gicumbi",
+    "Gakenke",
+    "Kamonyi",
+    "Muhanga"
+  ],
+  "Gakenke": [
+    "Musanze",
+    "Burera",
+    "Rulindo",
+    "Muhanga",
+    "Ngororero",
+    "Nyabihu"
+  ],
+  "Nyanza": [
+    "Huye",
+    "Gisagara",
+    "Ruhango",
+    "Bugesera"
+  ],
+  "Gisagara": [
+    "Huye",
+    "Nyanza"
+  ],
+  "Nyaruguru": [
+    "Huye",
+    "Nyamagabe"
+  ],
+  "Huye": [
+    "Nyanza",
+    "Gisagara",
+    "Nyaruguru",
+    "Nyamagabe"
+  ],
+  "Nyamagabe": [
+    "Huye",
+    "Nyaruguru",
+    "Ruhango",
+    "Karongi",
+    "Nyamasheke"
+  ],
+  "Ruhango": [
+    "Nyanza",
+    "Nyamagabe",
+    "Muhanga",
+    "Kamonyi",
+    "Karongi"
+  ],
+  "Muhanga": [
+    "Rulindo",
+    "Gakenke",
+    "Ruhango",
+    "Kamonyi",
+    "Ngororero",
+    "Karongi"
+  ],
+  "Kamonyi": [
+    "Nyarugenge",
+    "Kicukiro",
+    "Rulindo",
+    "Ruhango",
+    "Muhanga",
+    "Bugesera"
+  ],
+  "Rwamagana": [
+    "Gasabo",
+    "Kicukiro",
+    "Gicumbi",
+    "Gatsibo",
+    "Kayonza",
+    "Bugesera"
+  ],
+  "Nyagatare": [
+    "Gatsibo"
+  ],
+  "Gatsibo": [
+    "Nyagatare",
+    "Gicumbi",
+    "Rwamagana",
+    "Kayonza"
+  ],
+  "Kayonza": [
+    "Rwamagana",
+    "Gatsibo",
+    "Ngoma",
+    "Kirehe"
+  ],
+  "Kirehe": [
+    "Kayonza",
+    "Ngoma"
+  ],
+  "Ngoma": [
+    "Kayonza",
+    "Kirehe",
+    "Rwamagana",
+    "Bugesera"
+  ],
+  "Bugesera": [
+    "Kicukiro",
+    "Kamonyi",
+    "Nyanza",
+    "Rwamagana",
+    "Ngoma"
+  ],
+  "Karongi": [
+    "Rutsiro",
+    "Rubavu",
+    "Ngororero",
+    "Nyamagabe",
+    "Ruhango",
+    "Muhanga",
+    "Nyamasheke"
+  ],
+  "Rutsiro": [
+    "Karongi",
+    "Rubavu",
+    "Nyabihu",
+    "Ngororero"
+  ],
+  "Rubavu": [
+    "Rutsiro",
+    "Nyabihu"
+  ],
+  "Nyabihu": [
+    "Musanze",
+    "Gakenke",
+    "Rutsiro",
+    "Rubavu",
+    "Ngororero"
+  ],
+  "Ngororero": [
+    "Gakenke",
+    "Muhanga",
+    "Karongi",
+    "Rutsiro",
+    "Nyabihu"
+  ],
+  "Rusizi": [
+    "Nyamasheke"
+  ],
+  "Nyamasheke": [
+    "Rusizi",
+    "Nyamagabe",
+    "Karongi"
+  ]
+}

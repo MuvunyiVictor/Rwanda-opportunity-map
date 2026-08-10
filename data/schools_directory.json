@@ -1,0 +1,486 @@
+{
+  "schools": [
+    {
+      "name": "Rwanda Construction Academy",
+      "district": "Gasabo",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Masonry",
+        "Plumbing",
+        "Carpentry"
+      ],
+      "enrollment": 850
+    },
+    {
+      "name": "African Leadership University (ALU)",
+      "district": "Gasabo",
+      "level": "University",
+      "programs": [
+        "Business & Commerce",
+        "ICT & Tech"
+      ],
+      "enrollment": 1200
+    },
+    {
+      "name": "Kigali Independent University (ULK)",
+      "district": "Gasabo",
+      "level": "University",
+      "programs": [
+        "Business & Commerce",
+        "ICT & Tech",
+        "Teacher Training"
+      ],
+      "enrollment": 2500
+    },
+    {
+      "name": "IPRC Kigali",
+      "district": "Gasabo",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "ICT & Tech",
+        "Business & Commerce"
+      ],
+      "enrollment": 1800
+    },
+    {
+      "name": "Gacuriro Vocational Center",
+      "district": "Gasabo",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Carpentry"
+      ],
+      "enrollment": 450
+    },
+    {
+      "name": "IPRC Kicukiro",
+      "district": "Kicukiro",
+      "level": "TVET",
+      "programs": [
+        "ICT & Tech",
+        "Construction",
+        "Business & Commerce"
+      ],
+      "enrollment": 2100
+    },
+    {
+      "name": "Mount Kenya University Rwanda",
+      "district": "Kicukiro",
+      "level": "University",
+      "programs": [
+        "Health Sciences",
+        "Business & Commerce"
+      ],
+      "enrollment": 1600
+    },
+    {
+      "name": "Kicukiro Technical High School",
+      "district": "Kicukiro",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "ICT & Tech"
+      ],
+      "enrollment": 700
+    },
+    {
+      "name": "University of Rwanda - College of Science & Tech (UR CST)",
+      "district": "Nyarugenge",
+      "level": "University",
+      "programs": [
+        "ICT & Tech",
+        "Construction",
+        "Health Sciences"
+      ],
+      "enrollment": 3200
+    },
+    {
+      "name": "Muhima TVET Institute",
+      "district": "Nyarugenge",
+      "level": "TVET",
+      "programs": [
+        "Business & Commerce",
+        "Hospitality & Tourism"
+      ],
+      "enrollment": 600
+    },
+    {
+      "name": "Nyarugenge Vocational Training Center",
+      "district": "Nyarugenge",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Masonry"
+      ],
+      "enrollment": 500
+    },
+    {
+      "name": "INES-Ruhengeri",
+      "district": "Musanze",
+      "level": "University",
+      "programs": [
+        "Agriculture",
+        "Construction",
+        "Health Sciences"
+      ],
+      "enrollment": 2800
+    },
+    {
+      "name": "IPRC Musanze",
+      "district": "Musanze",
+      "level": "TVET",
+      "programs": [
+        "Hospitality & Tourism",
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 1400
+    },
+    {
+      "name": "Musanze Technical College",
+      "district": "Musanze",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Agriculture"
+      ],
+      "enrollment": 650
+    },
+    {
+      "name": "University of Rwanda - Huye Campus",
+      "district": "Huye",
+      "level": "University",
+      "programs": [
+        "Health Sciences",
+        "Teacher Training",
+        "Agriculture",
+        "ICT & Tech"
+      ],
+      "enrollment": 4500
+    },
+    {
+      "name": "IPRC Huye",
+      "district": "Huye",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "ICT & Tech",
+        "Business & Commerce"
+      ],
+      "enrollment": 1600
+    },
+    {
+      "name": "Save TVET School",
+      "district": "Huye",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Teacher Training"
+      ],
+      "enrollment": 550
+    },
+    {
+      "name": "University of Tourism, Technology and Business (UTB)",
+      "district": "Rubavu",
+      "level": "University",
+      "programs": [
+        "Hospitality & Tourism",
+        "Business & Commerce"
+      ],
+      "enrollment": 1500
+    },
+    {
+      "name": "Rubavu Technical School",
+      "district": "Rubavu",
+      "level": "TVET",
+      "programs": [
+        "Hospitality & Tourism",
+        "Construction"
+      ],
+      "enrollment": 800
+    },
+    {
+      "name": "East African University Rwanda",
+      "district": "Rwamagana",
+      "level": "University",
+      "programs": [
+        "Agriculture",
+        "Business & Commerce"
+      ],
+      "enrollment": 1100
+    },
+    {
+      "name": "Rwamagana TVET Institute",
+      "district": "Rwamagana",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Agriculture"
+      ],
+      "enrollment": 750
+    },
+    {
+      "name": "Kabgayi Health Sciences Institute",
+      "district": "Muhanga",
+      "level": "College",
+      "programs": [
+        "Health Sciences"
+      ],
+      "enrollment": 900
+    },
+    {
+      "name": "Muhanga Polytechnic",
+      "district": "Muhanga",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Business & Commerce"
+      ],
+      "enrollment": 1050
+    },
+    {
+      "name": "Rwanda Institute for Conservation Agriculture (RICA)",
+      "district": "Bugesera",
+      "level": "University",
+      "programs": [
+        "Agriculture",
+        "Agribusiness",
+        "Business & Commerce"
+      ],
+      "enrollment": 600
+    },
+    {
+      "name": "Nyamata TVET Academy",
+      "district": "Bugesera",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "ICT & Tech"
+      ],
+      "enrollment": 850
+    },
+    {
+      "name": "University of Rwanda - Nyagatare Campus",
+      "district": "Nyagatare",
+      "level": "University",
+      "programs": [
+        "Agriculture",
+        "Business & Commerce"
+      ],
+      "enrollment": 2100
+    },
+    {
+      "name": "Nyagatare Technical Institute",
+      "district": "Nyagatare",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 700
+    },
+    {
+      "name": "IPRC Karongi",
+      "district": "Karongi",
+      "level": "TVET",
+      "programs": [
+        "Hospitality & Tourism",
+        "ICT & Tech",
+        "Construction"
+      ],
+      "enrollment": 1300
+    },
+    {
+      "name": "Rusizi TVET College",
+      "district": "Rusizi",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Business & Commerce"
+      ],
+      "enrollment": 800
+    },
+    {
+      "name": "Gicumbi Agro-TVET Academy",
+      "district": "Gicumbi",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 650
+    },
+    {
+      "name": "Nyanza TVET Center",
+      "district": "Nyanza",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Teacher Training"
+      ],
+      "enrollment": 600
+    },
+    {
+      "name": "Burera Technical School",
+      "district": "Burera",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 500
+    },
+    {
+      "name": "Gakenke Vocational Institute",
+      "district": "Gakenke",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 520
+    },
+    {
+      "name": "Gisagara Agro-TVET",
+      "district": "Gisagara",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "General Secondary"
+      ],
+      "enrollment": 480
+    },
+    {
+      "name": "Nyaruguru TVET Center",
+      "district": "Nyaruguru",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Teacher Training"
+      ],
+      "enrollment": 420
+    },
+    {
+      "name": "Nyamagabe Vocational School",
+      "district": "Nyamagabe",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Agriculture"
+      ],
+      "enrollment": 580
+    },
+    {
+      "name": "Ruhango TVET Institute",
+      "district": "Ruhango",
+      "level": "TVET",
+      "programs": [
+        "Business & Commerce",
+        "Construction"
+      ],
+      "enrollment": 610
+    },
+    {
+      "name": "Kamonyi Vocational Academy",
+      "district": "Kamonyi",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Business & Commerce"
+      ],
+      "enrollment": 720
+    },
+    {
+      "name": "Gatsibo Technical School",
+      "district": "Gatsibo",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 540
+    },
+    {
+      "name": "Kayonza Vocational Training Center",
+      "district": "Kayonza",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Hospitality & Tourism"
+      ],
+      "enrollment": 680
+    },
+    {
+      "name": "Kirehe Agro-Technical Center",
+      "district": "Kirehe",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Business & Commerce"
+      ],
+      "enrollment": 510
+    },
+    {
+      "name": "Ngoma TVET School",
+      "district": "Ngoma",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Teacher Training"
+      ],
+      "enrollment": 560
+    },
+    {
+      "name": "Rutsiro Technical Center",
+      "district": "Rutsiro",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 430
+    },
+    {
+      "name": "Nyabihu Vocational Institute",
+      "district": "Nyabihu",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "Construction"
+      ],
+      "enrollment": 490
+    },
+    {
+      "name": "Ngororero TVET Academy",
+      "district": "Ngororero",
+      "level": "TVET",
+      "programs": [
+        "Agriculture",
+        "General Secondary"
+      ],
+      "enrollment": 460
+    },
+    {
+      "name": "Nyamasheke Hospitality & Agro Center",
+      "district": "Nyamasheke",
+      "level": "TVET",
+      "programs": [
+        "Hospitality & Tourism",
+        "Agriculture"
+      ],
+      "enrollment": 530
+    },
+    {
+      "name": "Rulindo Vocational School",
+      "district": "Rulindo",
+      "level": "TVET",
+      "programs": [
+        "Construction",
+        "Agriculture"
+      ],
+      "enrollment": 610
+    }
+  ]
+}
