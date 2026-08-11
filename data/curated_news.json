@@ -1,0 +1,64 @@
+{
+  "curated_news": [
+    {
+      "id": "news_001",
+      "title": "RDB Unveils $45M Commercial Agro-Processing Zone in Musanze",
+      "source": "The New Times (Rwanda)",
+      "url": "https://www.newtimes.co.rw/news/musanze-agro-zone",
+      "published_at": "2026-07-28T09:00:00Z",
+      "district": "Musanze",
+      "category": "Agro-Processing & Trade",
+      "target_dimension": "entrepreneurship",
+      "impact_score": 5,
+      "summary": "Rwanda Development Board signed a landmark deal for modern cold-chain storage and potato-processing plants in Northern Musanze."
+    },
+    {
+      "id": "news_002",
+      "title": "MINAGRI Launches Marshland Irrigation Expansion across Nyagatare",
+      "source": "MINAGRI Official Portal",
+      "url": "https://www.minagri.gov.rw/news/nyagatare-irrigation",
+      "published_at": "2026-07-25T14:30:00Z",
+      "district": "Nyagatare",
+      "category": "Agriculture & Water",
+      "target_dimension": "land",
+      "impact_score": 6,
+      "summary": "Ministry of Agriculture initiated 3,500-hectare hillside and marshland irrigation project to boost seasonal maize and livestock production."
+    },
+    {
+      "id": "news_003",
+      "title": "MINICOM Expansion of Kivu Belt Tourism and Logistics Corridor",
+      "source": "RBA (Rwanda Broadcasting Agency)",
+      "url": "https://www.rba.co.rw/news/kivu-corridor",
+      "published_at": "2026-07-20T11:15:00Z",
+      "district": "Rubavu",
+      "category": "Infrastructure & Logistics",
+      "target_dimension": "capital",
+      "impact_score": 4,
+      "summary": "New cross-border trade facility and port modernization project approved for Lake Kivu trade routes connecting to DRC."
+    },
+    {
+      "id": "news_004",
+      "title": "TVET Technical Training Center Opens in Huye District",
+      "source": "Igihe.com",
+      "url": "https://igihe.com/news/huye-tvet-skills",
+      "published_at": "2026-07-15T08:45:00Z",
+      "district": "Huye",
+      "category": "Skills & Labor",
+      "target_dimension": "labor",
+      "impact_score": 5,
+      "summary": "A state-of-the-art vocational institute focusing on construction engineering and renewable energy installation has been inaugurated."
+    },
+    {
+      "id": "news_005",
+      "title": "Kigali Innovation City Phase 2 Groundbreaking in Gasabo",
+      "source": "The New Times (Rwanda)",
+      "url": "https://www.newtimes.co.rw/news/kic-phase2",
+      "published_at": "2026-07-10T16:00:00Z",
+      "district": "Gasabo",
+      "category": "Tech & Real Estate",
+      "target_dimension": "entrepreneurship",
+      "impact_score": 6,
+      "summary": "Construction begins on digital innovation hubs and smart commercial buildings in Gasabo's Special Economic Zone."
+    }
+  ]
+}

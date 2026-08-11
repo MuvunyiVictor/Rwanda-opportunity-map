@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rwanda Opportunity Map — Investor Intelligence Platform</title>
+    <title>Rwanda Opportunity Map</title>
 
-    <!-- ===== LOCAL FONTS ===== -->
     <style>
         @font-face {
             font-family: 'Outfit';
@@ -20,34 +19,30 @@
             font-style: normal;
         }
         @font-face {
-            font-family: 'Plus Jakarta Sans';
-            src: url('fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf') format('truetype');
-            font-weight: 300 800;
-            font-style: italic;
+            font-family: 'IBM Plex Mono';
+            src: url('fonts/IBMPlexMono-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'IBM Plex Mono';
+            src: url('fonts/IBMPlexMono-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
         }
     </style>
 
-    <!-- ===== LOCAL FONT AWESOME ===== -->
     <link rel="stylesheet" href="libs/fontawesome/all.min.css" />
-
-    <!-- ===== LOCAL LEAFLET CSS ===== -->
     <link rel="stylesheet" href="libs/leaflet/leaflet.css" />
-
-    <!-- ===== LOCAL CHART.JS ===== -->
     <script src="libs/chart/chart.min.js"></script>
-
-    <!-- ===== LOCAL TURF.JS ===== -->
     <script src="libs/turf/turf.min.js"></script>
-
-    <!-- ===== CUSTOM STYLES ===== -->
     <link rel="stylesheet" href="styles.css" />
 
     <style>
-        /* ===== All your existing styles here ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0a1020;
+            background: #0a0e17;
             color: #e2e8f0;
             overflow: hidden;
             height: 100vh;
@@ -69,8 +64,8 @@
             min-width: 420px;
             height: 100vh;
             overflow-y: auto;
-            padding: 24px 20px;
-            background: rgba(10, 16, 32, 0.96);
+            padding: 20px;
+            background: rgba(10, 14, 23, 0.95);
             backdrop-filter: blur(20px);
             border-right: 1px solid rgba(255,255,255,0.06);
             color: #e2e8f0;
@@ -80,20 +75,11 @@
         }
         .sidebar-panel::-webkit-scrollbar { width: 4px; }
         .sidebar-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
-        .app-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            background: linear-gradient(to right, #e2e8f0, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .subtitle {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            margin-bottom: 16px;
-        }
+
+        .app-title { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; color: #e2e8f0; }
+        .app-title span { color: #4C6EF5; }
+        .subtitle { font-size: 0.75rem; color: #94a3b8; margin-bottom: 12px; }
+
         .login-btn {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.08);
@@ -105,50 +91,65 @@
             transition: all 0.2s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .login-btn:hover {
-            background: rgba(255,255,255,0.12);
-            color: #e2e8f0;
-        }
-        .login-btn.logged-in {
-            border-color: #8b5cf6;
-            color: #c084fc;
-        }
+        .login-btn:hover { background: rgba(255,255,255,0.12); color: #e2e8f0; }
+        .login-btn.logged-in { border-color: #4C6EF5; color: #4C6EF5; }
+
         .admin-btn {
             display: none;
             width: 100%;
             padding: 10px;
             margin-bottom: 12px;
-            background: rgba(139, 92, 246, 0.15);
-            border: 1px solid #8b5cf6;
+            background: rgba(76, 110, 245, 0.15);
+            border: 1px solid #4C6EF5;
             border-radius: 10px;
-            color: #c084fc;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #4C6EF5;
             font-weight: 600;
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .admin-btn:hover {
-            background: rgba(139, 92, 246, 0.25);
-        }
-        .admin-btn.visible {
-            display: block;
-        }
-        .district-selector {
+        .admin-btn:hover { background: rgba(76, 110, 245, 0.25); }
+        .admin-btn.visible { display: block; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 6px;
             margin-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 12px;
         }
+        .nav-tab {
+            flex: 1;
+            padding: 8px 0;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .nav-tab:hover { background: rgba(255,255,255,0.05); color: #e2e8f0; }
+        .nav-tab.active { background: rgba(76, 110, 245, 0.15); border-color: #4C6EF5; color: #4C6EF5; }
+
+        .district-selector { margin-bottom: 14px; }
         .district-selector label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #94a3b8;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
+            font-weight: 600;
         }
         .district-selector select {
             width: 100%;
-            padding: 12px 14px;
+            padding: 10px 14px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 10px;
@@ -161,52 +162,48 @@
             outline: none;
             transition: border-color 0.2s;
         }
-        .district-selector select:focus {
-            border-color: #8b5cf6;
-        }
-        .district-selector select option {
-            background: #1a1f35;
-            color: #e2e8f0;
-        }
+        .district-selector select:focus { border-color: #4C6EF5; }
+        .district-selector select option { background: #1a1f35; color: #e2e8f0; }
+
         .score-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 16px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 14px;
         }
         .score-card {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px;
-            padding: 14px;
+            border-radius: 10px;
+            padding: 10px 8px;
             text-align: center;
         }
         .score-card .label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             color: #94a3b8;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .score-card .value {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-top: 4px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 2px;
         }
-        .score-card .value.land { color: #22c55e; }
+        .score-card .value.land { color: #10b981; }
         .score-card .value.labor { color: #3b82f6; }
-        .score-card .value.capital { color: #eab308; }
+        .score-card .value.capital { color: #f59e0b; }
         .score-card .value.entrepreneurship { color: #8b5cf6; }
-        .score-card .value.composite { color: #c084fc; font-size: 2rem; }
-        .composite-card {
-            grid-column: span 2;
-            background: rgba(139, 92, 246, 0.08);
-            border-color: rgba(139, 92, 246, 0.2);
-        }
+        .score-card .value.composite { color: #4C6EF5; font-size: 1.6rem; }
+        .composite-card { grid-column: span 3; background: rgba(76, 110, 245, 0.08); border-color: rgba(76, 110, 245, 0.15); }
+
         .view-details-btn {
             width: 100%;
             padding: 12px;
-            margin-bottom: 16px;
-            background: #8b5cf6;
+            margin-bottom: 14px;
+            background: #4C6EF5;
             border: none;
             border-radius: 10px;
             color: #fff;
@@ -220,58 +217,97 @@
             justify-content: center;
             gap: 8px;
         }
-        .view-details-btn:hover {
-            background: #7c3aed;
-        }
+        .view-details-btn:hover { background: #3b5de7; }
+
         .osm-section {
             flex: 1;
             overflow-y: auto;
             border-top: 1px solid rgba(255,255,255,0.06);
-            padding-top: 14px;
+            padding-top: 12px;
+            margin-top: 12px;
         }
         .osm-section h3 {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #94a3b8;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .osm-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 6px;
         }
         .osm-item {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.04);
             border-radius: 8px;
-            padding: 10px 12px;
+            padding: 8px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .osm-item .osm-label {
+        .osm-item .osm-label { color: #94a3b8; }
+        .osm-item .osm-count { font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: #e2e8f0; }
+
+        #analytics-view {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        #analytics-view.visible { display: flex; }
+        .analytics-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+        .analytics-card h4 {
+            font-size: 0.65rem;
+            text-transform: uppercase;
             color: #94a3b8;
+            margin-bottom: 6px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .osm-item .osm-count {
-            font-weight: 700;
-            color: #4ade80;
+        .analytics-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.78rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
+        .analytics-item:last-child { border-bottom: none; }
+        .analytics-item .rank { font-weight: 700; color: #94a3b8; width: 24px; font-family: 'IBM Plex Mono', monospace; }
+        .analytics-item .name { flex: 1; color: #e2e8f0; }
+        .analytics-item .score { font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: #4C6EF5; }
+        .badge-high { background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 1px 8px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+        .badge-medium { background: rgba(245, 158, 11, 0.15); color: #f59e0b; padding: 1px 8px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+        .badge-low { background: rgba(239, 68, 68, 0.12); color: #ef4444; padding: 1px 8px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+
         #page-details {
             display: none;
             flex: 1;
             flex-direction: column;
-            background: #0a1020;
+            background: #0a0e17;
         }
         .app-container.mode-details #page-details { display: flex; }
         .app-container.mode-details #sidebar-overview { display: none; }
+
         .top-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 12px 24px;
-            background: rgba(10, 16, 32, 0.95);
+            background: rgba(10, 14, 23, 0.95);
             border-bottom: 1px solid rgba(255,255,255,0.06);
             flex-shrink: 0;
         }
@@ -291,70 +327,89 @@
             transition: background 0.2s;
         }
         .back-btn:hover { background: rgba(255,255,255,0.12); }
+
         .details-sidebar {
             width: 420px;
             border-right: 1px solid rgba(255,255,255,0.06);
             overflow-y: auto;
             flex-shrink: 0;
-            padding: 24px 20px;
-            background: rgba(10, 16, 32, 0.96);
+            padding: 20px;
+            background: rgba(10, 14, 23, 0.95);
         }
-        .region-name { font-size: 1.3rem; font-weight: 700; }
+
+        /* ===== DETAILS HEADER ===== */
+        .details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .region-name { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: #e2e8f0; }
+        .region-subtitle { font-size: 0.7rem; color: #94a3b8; }
         .region-score-circle {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(139, 92, 246, 0.15);
+            background: rgba(76, 110, 245, 0.1);
             padding: 8px 16px;
             border-radius: 12px;
-            border: 1px solid rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(76, 110, 245, 0.15);
         }
-        .score-number { font-size: 1.6rem; font-weight: 800; color: #c084fc; }
-        .score-label { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .score-number { font-family: 'IBM Plex Mono', monospace; font-size: 1.6rem; font-weight: 800; color: #4C6EF5; }
+        .score-label { font-size: 0.55rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif; }
+
         .factor-bar-item { margin-bottom: 10px; }
-        .factor-bar-info { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 3px; }
-        .progress-bar-bg { height: 6px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
-        .progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
-        .progress-bar-fill.land { background: #22c55e; }
-        .progress-bar-fill.capital { background: #eab308; }
+        .factor-bar-info { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 3px; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .factor-bar-info strong { font-family: 'IBM Plex Mono', monospace; color: #e2e8f0; }
+        .progress-bar-bg { height: 8px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; border-radius: 100px; transition: width 0.6s ease; }
+        .progress-bar-fill.land { background: #10b981; }
+        .progress-bar-fill.capital { background: #f59e0b; }
         .progress-bar-fill.labor { background: #3b82f6; }
         .progress-bar-fill.entrepreneurship { background: #8b5cf6; }
-        .progress-bar-fill.gap { background: #f472b6; }
-        .section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 10px; font-weight: 700; }
+        .progress-bar-fill.gap { background: #ef4444; }
+
+        .section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 10px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; }
+
         .agriculture-profile-box {
-            background: rgba(34, 197, 94, 0.06);
-            border: 1px solid rgba(34, 197, 94, 0.15);
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.12);
             padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 16px;
+            border-radius: 10px;
+            margin-bottom: 14px;
         }
-        .agriculture-profile-box h4 { color: #4ade80; font-size: 0.85rem; margin-bottom: 10px; }
-        .agri-row { display: flex; justify-content: space-between; font-size: 0.78rem; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .agriculture-profile-box h4 { color: #10b981; font-size: 0.85rem; margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .agri-row { display: flex; justify-content: space-between; font-size: 0.78rem; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-family: 'Plus Jakarta Sans', sans-serif; }
         .agri-row:last-child { border-bottom: none; }
         .agri-row .label { color: #94a3b8; }
-        .agri-row .value { color: #e2e8f0; font-weight: 600; }
+        .agri-row .value { color: #e2e8f0; font-weight: 600; font-family: 'IBM Plex Mono', monospace; }
+
         .major-projects-profile-box {
-            background: rgba(168, 85, 247, 0.06);
-            border: 1px solid rgba(168, 85, 247, 0.15);
+            background: rgba(76, 110, 245, 0.06);
+            border: 1px solid rgba(76, 110, 245, 0.12);
             padding: 14px;
-            border-radius: 12px;
-            margin-bottom: 16px;
+            border-radius: 10px;
+            margin-bottom: 14px;
         }
-        .major-projects-profile-box h4 { color: #c084fc; font-size: 0.85rem; margin-bottom: 10px; }
-        .project-item { padding: 8px 10px; margin-bottom: 6px; background: rgba(168, 85, 247, 0.08); border-radius: 8px; font-size: 0.78rem; }
+        .major-projects-profile-box h4 { color: #4C6EF5; font-size: 0.85rem; margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .project-item { padding: 6px 10px; margin-bottom: 4px; background: rgba(76, 110, 245, 0.06); border-radius: 6px; font-size: 0.78rem; font-family: 'Plus Jakarta Sans', sans-serif; }
         .project-item .name { color: #e2e8f0; font-weight: 600; }
         .project-item .detail { color: #94a3b8; font-size: 0.7rem; }
+
+        #gap-insights-container { margin-top: 14px; }
+
         #page-admin {
             display: none;
             flex: 1;
             flex-direction: column;
-            background: #0a1020;
+            background: #0a0e17;
             padding: 24px;
             overflow-y: auto;
         }
         .app-container.mode-admin #page-admin { display: flex; }
         .app-container.mode-admin #sidebar-overview { display: none; }
         .app-container.mode-admin .map-viewport { display: none; }
+
         .admin-form {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.06);
@@ -362,7 +417,7 @@
             padding: 20px;
             margin-bottom: 20px;
         }
-        .admin-form h3 { font-size: 1rem; margin-bottom: 12px; }
+        .admin-form h3 { font-size: 1rem; margin-bottom: 12px; color: #e2e8f0; font-family: 'Plus Jakarta Sans', sans-serif; }
         .admin-form .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -374,6 +429,8 @@
             font-size: 0.7rem;
             color: #94a3b8;
             margin-bottom: 4px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .admin-form input, .admin-form select, .admin-form textarea {
             width: 100%;
@@ -387,7 +444,7 @@
         }
         .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus {
             outline: none;
-            border-color: #8b5cf6;
+            border-color: #4C6EF5;
         }
         .admin-form textarea { resize: vertical; }
         .admin-submit-btn {
@@ -401,11 +458,12 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 0.85rem;
         }
-        .admin-submit-btn.purple { background: #8b5cf6; }
-        .admin-submit-btn.purple:hover { background: #7c3aed; }
-        .admin-submit-btn.green { background: #22c55e; }
-        .admin-submit-btn.green:hover { background: #16a34a; }
-        .admin-status-msg { margin-left: 12px; font-size: 0.8rem; }
+        .admin-submit-btn.purple { background: #4C6EF5; }
+        .admin-submit-btn.purple:hover { background: #3b5de7; }
+        .admin-submit-btn.green { background: #10b981; }
+        .admin-submit-btn.green:hover { background: #059669; }
+        .admin-status-msg { margin-left: 12px; font-size: 0.8rem; color: #94a3b8; }
+
         #login-modal {
             display: none;
             position: fixed;
@@ -413,7 +471,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.6);
             z-index: 9999;
             align-items: center;
             justify-content: center;
@@ -427,7 +485,7 @@
             width: 400px;
             max-width: 90%;
         }
-        .login-box h2 { font-family: 'Outfit', sans-serif; margin-bottom: 8px; }
+        .login-box h2 { font-family: 'Outfit', sans-serif; color: #e2e8f0; margin-bottom: 4px; }
         .login-box .sub { color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px; }
         .login-box input {
             width: 100%;
@@ -439,11 +497,11 @@
             font-size: 0.9rem;
             margin-bottom: 12px;
         }
-        .login-box input:focus { outline: none; border-color: #8b5cf6; }
+        .login-box input:focus { outline: none; border-color: #4C6EF5; }
         .login-box .login-submit {
             width: 100%;
             padding: 12px;
-            background: #8b5cf6;
+            background: #4C6EF5;
             border: none;
             border-radius: 8px;
             color: #fff;
@@ -451,8 +509,8 @@
             font-size: 0.9rem;
             cursor: pointer;
         }
-        .login-box .login-submit:hover { background: #7c3aed; }
-        .login-box .login-error { color: #f87171; font-size: 0.8rem; margin-top: 10px; display: none; }
+        .login-box .login-submit:hover { background: #3b5de7; }
+        .login-box .login-error { color: #ef4444; font-size: 0.8rem; margin-top: 10px; display: none; }
         .login-box .login-close {
             margin-top: 12px;
             background: none;
@@ -464,30 +522,32 @@
             text-align: center;
         }
         .login-box .login-close:hover { color: #e2e8f0; }
+
         .theme-toggle {
             position: absolute;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 20px;
             z-index: 999;
             display: flex;
-            gap: 8px;
-            background: rgba(10, 16, 32, 0.8);
+            gap: 6px;
+            background: rgba(10, 14, 23, 0.85);
             backdrop-filter: blur(12px);
-            padding: 8px 12px;
-            border-radius: 12px;
+            padding: 6px 10px;
+            border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.06);
         }
         .theme-btn {
             background: none;
             border: none;
             color: #94a3b8;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             padding: 4px 8px;
             border-radius: 6px;
             transition: all 0.2s;
         }
         .theme-btn:hover, .theme-btn.active { color: #e2e8f0; background: rgba(255,255,255,0.06); }
+
         @media (max-width: 1024px) {
             .sidebar-panel { width: 340px; min-width: 340px; }
             .details-sidebar { width: 340px; }
@@ -497,6 +557,8 @@
             .app-container { flex-direction: column; }
             .map-viewport { height: 50vh; }
             .details-sidebar { width: 100%; }
+            .score-grid { grid-template-columns: 1fr 1fr; }
+            .composite-card { grid-column: span 2; }
             .admin-form .form-grid { grid-template-columns: 1fr; }
             .admin-form .form-grid .full-width { grid-column: span 1; }
             .login-box { padding: 24px; }
@@ -507,73 +569,163 @@
 
 <div class="app-container" id="app-wrapper">
 
-    <!-- ====== MAP ====== -->
     <main class="map-viewport" id="map"></main>
 
-    <!-- ====== THEME TOGGLE ====== -->
     <div class="theme-toggle">
         <button class="theme-btn active" id="tile-dark" title="Dark Map">🌙</button>
         <button class="theme-btn" id="tile-light" title="Light Map">☀️</button>
     </div>
 
-    <!-- ====== SIDEBAR ====== -->
     <aside class="sidebar-panel" id="sidebar-overview">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <h1 class="app-title">🇷🇼 Opportunity Map</h1>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+            <h1 class="app-title">🇷🇼 <span>Opportunity</span> Map</h1>
             <button class="login-btn" id="btn-login"><i class="fa-solid fa-user"></i> Login</button>
         </div>
-        <p class="subtitle">Select a district to explore opportunities</p>
+        <p class="subtitle">Investment intelligence for Rwanda's 30 districts</p>
 
-        <button class="admin-btn" id="btn-admin-panel"><i class="fa-solid fa-tools"></i> 🛠️ Admin Panel</button>
+        <button class="admin-btn" id="btn-admin-panel"><i class="fa-solid fa-tools"></i> Admin Panel</button>
 
-        <div class="district-selector">
-            <label for="district-dropdown"><i class="fa-solid fa-location-dot"></i> Select District</label>
-            <select id="district-dropdown">
-                <option value="">— Loading districts —</option>
-            </select>
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="map" id="tab-map">🗺️ Map</button>
+            <button class="nav-tab" data-tab="analytics" id="tab-analytics">📊 Analytics</button>
         </div>
 
-        <div class="score-grid" id="score-grid">
-            <div class="score-card composite-card">
-                <div class="label">Composite Score</div>
-                <div class="value composite" id="display-composite">--</div>
+        <div id="map-view">
+            <div class="district-selector">
+                <label for="district-dropdown"><i class="fa-solid fa-location-dot"></i> Select District</label>
+                <select id="district-dropdown">
+                    <option value="">— Loading districts —</option>
+                </select>
             </div>
-            <div class="score-card">
-                <div class="label">Land / Readiness</div>
-                <div class="value land" id="display-land">--</div>
+
+            <div class="score-grid" id="score-grid">
+                <div class="score-card composite-card">
+                    <div class="label">Composite Score</div>
+                    <div class="value composite" id="display-composite">94.5</div>
+                </div>
+                <div class="score-card">
+                    <div class="label">Land</div>
+                    <div class="value land" id="display-land">92.0</div>
+                </div>
+                <div class="score-card">
+                    <div class="label">Labor</div>
+                    <div class="value labor" id="display-labor">95.0</div>
+                </div>
+                <div class="score-card">
+                    <div class="label">Capital</div>
+                    <div class="value capital" id="display-capital">97.0</div>
+                </div>
+                <div class="score-card">
+                    <div class="label">Entrepreneurship</div>
+                    <div class="value entrepreneurship" id="display-entrepreneurship">94.0</div>
+                </div>
             </div>
-            <div class="score-card">
-                <div class="label">Labor</div>
-                <div class="value labor" id="display-labor">--</div>
+
+
+            <button class="view-details-btn" id="btn-view-details">
+                <i class="fa-solid fa-chart-simple"></i> View Full Details
+            </button>
+
+            <div class="osm-section">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h3 style="margin-bottom:0;"><i class="fa-solid fa-building"></i> Infrastructure Intelligence</h3>
+                    <button id="btn-reset-infra" style="display:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; font-size:0.65rem; padding:2px 8px; cursor:pointer;">Reset Filter</button>
+                </div>
+                <p style="font-size:0.68rem; color:#94a3b8; margin-bottom:8px;">Click any option below to view national heatmap distribution & site selection intelligence.</p>
+                <div class="osm-grid" id="osm-grid">
+                    <div class="osm-item" data-infra="construction"><span class="osm-label">🏗️ Construction</span><span class="osm-count" id="osm-construction">--</span></div>
+                    <div class="osm-item" data-infra="hardware"><span class="osm-label">🏪 Hardware</span><span class="osm-count" id="osm-hardware">--</span></div>
+                    <div class="osm-item" data-infra="commercial"><span class="osm-label">🏢 Commercial</span><span class="osm-count" id="osm-commercial">--</span></div>
+                    <div class="osm-item" data-infra="industrial"><span class="osm-label">🏭 Industrial</span><span class="osm-count" id="osm-industrial">--</span></div>
+                    <div class="osm-item" data-infra="education"><span class="osm-label">🏫 Education</span><span class="osm-count" id="osm-education">--</span></div>
+                    <div class="osm-item" data-infra="health"><span class="osm-label">🏥 Health</span><span class="osm-count" id="osm-health">--</span></div>
+                    <div class="osm-item" data-infra="hospitality"><span class="osm-label">🏨 Hospitality</span><span class="osm-count" id="osm-hospitality">--</span></div>
+                    <div class="osm-item" data-infra="banking"><span class="osm-label">🏦 Banking</span><span class="osm-count" id="osm-banking">--</span></div>
+                </div>
             </div>
-            <div class="score-card">
-                <div class="label">Capital / Supply</div>
-                <div class="value capital" id="display-capital">--</div>
+
+            <!-- SKILLS PIPELINE INTELLIGENCE CARD -->
+            <div class="skills-pipeline-card" style="background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.15); border-radius: 10px; padding: 12px; margin-top: 12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <h3 style="font-size:0.7rem; text-transform:uppercase; color:#a78bfa; font-weight:700; margin:0;"><i class="fa-solid fa-graduation-cap"></i> Skills Pipeline Intelligence</h3>
+                    <span id="skills-total-schools-badge" style="font-size:0.6rem; background:rgba(139, 92, 246, 0.2); color:#a78bfa; padding:2px 8px; border-radius:10px; font-weight:700;">-- Schools</span>
+                </div>
+                <div id="skills-pipeline-content" style="font-size:0.75rem; color:#94a3b8;">
+                    <span>Loading workforce skills pipeline data...</span>
+                </div>
             </div>
-            <div class="score-card">
-                <div class="label">Entrepreneurship</div>
-                <div class="value entrepreneurship" id="display-entrepreneurship">--</div>
+
+            <!-- LAND READINESS BASEMAP CARD -->
+            <div class="land-readiness-card" style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 10px; padding: 12px; margin-top: 12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <h3 style="font-size:0.7rem; text-transform:uppercase; color:#10b981; font-weight:700; margin:0;"><i class="fa-solid fa-map-location-dot"></i> Land Readiness (Land Center Basemap)</h3>
+                    <span id="land-readiness-score-badge" style="font-size:0.75rem; font-family:'IBM Plex Mono',monospace; font-weight:800; color:#10b981;">-- / 100</span>
+                </div>
+                <div id="land-readiness-bars" style="margin-top:6px;">
+                    <span>Loading land center spatial layers...</span>
+                </div>
             </div>
         </div>
 
-        <button class="view-details-btn" id="btn-view-details">
-            <i class="fa-solid fa-chart-simple"></i> View Full Details
-        </button>
 
-        <div class="osm-section">
-            <h3><i class="fa-solid fa-building"></i> OSM Intelligence for <span id="osm-district-name">selected district</span></h3>
-            <div class="osm-grid" id="osm-grid">
-                <div class="osm-item"><span class="osm-label">🏗️ Construction</span><span class="osm-count" id="osm-construction">--</span></div>
-                <div class="osm-item"><span class="osm-label">🏪 Hardware Shops</span><span class="osm-count" id="osm-hardware">--</span></div>
-                <div class="osm-item"><span class="osm-label">🏢 Commercial</span><span class="osm-count" id="osm-commercial">--</span></div>
-                <div class="osm-item"><span class="osm-label">🏭 Industrial</span><span class="osm-count" id="osm-industrial">--</span></div>
-                <div class="osm-item"><span class="osm-label">🏫 Education</span><span class="osm-count" id="osm-education">--</span></div>
-                <div class="osm-item"><span class="osm-label">🏥 Health</span><span class="osm-count" id="osm-health">--</span></div>
+        <div id="analytics-view">
+            <!-- District & Infra Control Selector -->
+            <div class="analytics-card" style="background: rgba(76,110,245,0.08); border-color: rgba(76,110,245,0.2);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h4>📍 District Analysis Focus</h4>
+                    <span id="analytics-active-filter-badge" style="background:#4C6EF5; color:#fff; font-size:0.6rem; padding:2px 8px; border-radius:10px; font-weight:700;">Composite Score View</span>
+                </div>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <select id="analytics-district-dropdown" style="flex:1; padding:8px 12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#e2e8f0; font-family:'Plus Jakarta Sans',sans-serif; font-size:0.85rem;">
+                        <option value="">— Select District to Analyze —</option>
+                    </select>
+                    <button id="analytics-btn-reset-filter" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#e2e8f0; padding:8px 12px; font-size:0.75rem; cursor:pointer; font-weight:600;">Reset</button>
+                </div>
+            </div>
+
+            <!-- SITE SELECTION & INFRASTRUCTURE DISTRIBUTION INTELLIGENCE -->
+            <div class="analytics-card" id="analytics-site-selection-card" style="border-left: 3px solid #f59e0b;">
+                <h4 style="color:#f59e0b; display:flex; align-items:center; justify-content:space-between;">
+                    <span>🎯 Sector Distribution & Site Selection Engine</span>
+                    <span id="analytics-infra-tag" style="font-size:0.65rem; color:#94a3b8; text-transform:none;">Select an option in Map tab</span>
+                </h4>
+                <div id="analytics-site-selection-content" style="font-size:0.78rem; color:#94a3b8;">
+                    <span>Click any Infrastructure Option (e.g., Hardware, Education, Health) to generate nationwide distribution heatmap and site selection recommendations for new facilities.</span>
+                </div>
+            </div>
+
+            <!-- COMPARATIVE NEIGHBOR PERFORMANCE MATRIX -->
+            <div class="analytics-card" style="border-left: 3px solid #10b981;">
+                <h4 style="color:#10b981;">🗺️ Comparative Geographic Neighbor Performance</h4>
+                <div id="analytics-neighbor-matrix">
+                    <span style="color:#94a3b8; font-size:0.8rem;">Select a district to view comparative neighbor analysis.</span>
+                </div>
+            </div>
+
+            <!-- NATIONAL INVESTMENT RANKINGS -->
+            <div class="analytics-card">
+                <h4>🏆 Top National Investment Opportunities</h4>
+                <div id="analytics-top-opportunities">
+                    <span style="color:#94a3b8; font-size:0.8rem;">Loading opportunities...</span>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h4>📊 30 Districts Ranking Table</h4>
+                <div id="analytics-district-rankings" style="max-height:220px; overflow-y:auto;">
+                    <span style="color:#94a3b8; font-size:0.8rem;">Loading rankings...</span>
+                </div>
+            </div>
+
+            <div class="analytics-card">
+                <h4>💡 Executive District Recommendations</h4>
+                <div id="analytics-insights" style="font-size:0.78rem; color:#94a3b8; line-height:1.6;">
+                    <span>Select a district to see specific insights.</span>
+                </div>
             </div>
         </div>
     </aside>
 
-    <!-- ====== DETAILS VIEW ====== -->
     <div id="page-details">
         <nav class="top-nav">
             <button class="back-btn" id="btn-back-to-overview">
@@ -583,10 +735,12 @@
         </nav>
 
         <aside class="sidebar-panel details-sidebar" id="sidebar-details">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+
+            <!-- ===== DETAILS HEADER - FIXED ===== -->
+            <div class="details-header">
                 <div>
                     <h2 class="region-name" id="details-region-name">District</h2>
-                    <span style="font-size:0.7rem; color:#94a3b8;">Detailed analysis</span>
+                    <span class="region-subtitle">Detailed analysis</span>
                 </div>
                 <div class="region-score-circle">
                     <span class="score-number" id="details-region-score">--</span>
@@ -594,47 +748,50 @@
                 </div>
             </div>
 
-            <div style="height:160px; margin-bottom:16px;">
-                <canvas id="details-factorRadarChart"></canvas>
+            <!-- ===== RADAR CHART ===== -->
+            <div style="height:200px; margin-bottom:14px; background: rgba(255,255,255,0.02); border-radius: 8px; padding: 8px;">
+                <canvas id="details-factorRadarChart" style="width:100%; height:100%;"></canvas>
             </div>
 
+            <!-- ===== OPPORTUNITY DIMENSIONS ===== -->
             <h4 class="section-title">Opportunity Dimensions</h4>
             <div class="factor-bar-item">
                 <div class="factor-bar-info">
-                    <span>🏗️ Development Readiness</span>
+                    <span>🌍 Land</span>
                     <strong id="details-bar-val-readiness">--</strong>
                 </div>
                 <div class="progress-bar-bg"><div class="progress-bar-fill land" id="details-bar-fill-readiness" style="width:0%;"></div></div>
             </div>
             <div class="factor-bar-item">
                 <div class="factor-bar-info">
-                    <span>📦 Supply Chain</span>
-                    <strong id="details-bar-val-supply">--</strong>
-                </div>
-                <div class="progress-bar-bg"><div class="progress-bar-fill capital" id="details-bar-fill-supply" style="width:0%;"></div></div>
-            </div>
-            <div class="factor-bar-item">
-                <div class="factor-bar-info">
-                    <span>👷 Labor Availability</span>
+                    <span>👷 Labor</span>
                     <strong id="details-bar-val-labor">--</strong>
                 </div>
                 <div class="progress-bar-bg"><div class="progress-bar-fill labor" id="details-bar-fill-labor" style="width:0%;"></div></div>
             </div>
             <div class="factor-bar-item">
                 <div class="factor-bar-info">
-                    <span>💰 Investment Attractiveness</span>
+                    <span>💰 Capital</span>
+                    <strong id="details-bar-val-supply">--</strong>
+                </div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill capital" id="details-bar-fill-supply" style="width:0%;"></div></div>
+            </div>
+            <div class="factor-bar-item">
+                <div class="factor-bar-info">
+                    <span>🚀 Entrepreneurship</span>
                     <strong id="details-bar-val-investment">--</strong>
                 </div>
                 <div class="progress-bar-bg"><div class="progress-bar-fill entrepreneurship" id="details-bar-fill-investment" style="width:0%;"></div></div>
             </div>
             <div class="factor-bar-item">
                 <div class="factor-bar-info">
-                    <span>🔍 Opportunity Gap</span>
+                    <span>📈 Opportunity Gap</span>
                     <strong id="details-bar-val-gap">--</strong>
                 </div>
                 <div class="progress-bar-bg"><div class="progress-bar-fill gap" id="details-bar-fill-gap" style="width:0%;"></div></div>
             </div>
 
+            <!-- ===== AGRICULTURE PROFILE ===== -->
             <div class="agriculture-profile-box">
                 <h4><i class="fa-solid fa-wheat-awn"></i> Agriculture Profile</h4>
                 <div class="agri-row">
@@ -646,7 +803,7 @@
                     <span class="value" id="details-agri-crops">--</span>
                 </div>
                 <div class="agri-row">
-                    <span class="label">Seasonal Yield (MT)</span>
+                    <span class="label">Seasonal Yield</span>
                     <span class="value" id="details-agri-yield">--</span>
                 </div>
                 <div class="agri-row">
@@ -655,18 +812,53 @@
                 </div>
             </div>
 
+            <!-- ===== MAJOR PROJECTS ===== -->
             <div class="major-projects-profile-box">
-                <h4><i class="fa-solid fa-rocket"></i> Nearby Major Projects</h4>
+                <h4><i class="fa-solid fa-rocket"></i> Major Projects</h4>
                 <div id="details-projects-list">
-                    <span style="color:#94a3b8; font-size:0.75rem;">Select a district to see nearby projects.</span>
+                    <span style="color:#94a3b8; font-size:0.75rem;">Select a district to see projects.</span>
                 </div>
             </div>
+
+            <!-- ===== SKILLS PIPELINE PROFILE ===== -->
+            <div class="skills-profile-box" style="background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.12); padding: 14px; border-radius: 10px; margin-bottom: 14px;">
+                <h4 style="color:#a78bfa; font-size:0.85rem; margin-bottom:8px; font-family:'Plus Jakarta Sans',sans-serif; display:flex; justify-content:space-between; align-items:center;">
+                    <span><i class="fa-solid fa-graduation-cap"></i> Skills & Workforce Pipeline</span>
+                    <span id="details-schools-count" style="font-size:0.7rem; color:#e2e8f0; font-weight:600;">-- Schools</span>
+                </h4>
+                <div id="details-skills-list"></div>
+            </div>
+
+            <!-- ===== LAND READINESS BASEMAP PROFILE ===== -->
+            <div class="land-readiness-box" style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.12); padding: 14px; border-radius: 10px; margin-bottom: 14px;">
+                <h4 style="color:#10b981; font-size:0.85rem; margin-bottom:8px; font-family:'Plus Jakarta Sans',sans-serif; display:flex; justify-content:space-between; align-items:center;">
+                    <span><i class="fa-solid fa-layer-group"></i> Land Readiness Breakdown (NSDI Basemap)</span>
+                    <span id="details-land-composite-score" style="font-size:0.8rem; font-family:'IBM Plex Mono',monospace; color:#10b981; font-weight:700;">--</span>
+                </h4>
+                <div id="details-land-layers-list"></div>
+            </div>
+
+
+            <!-- ===== NEWS INTELLIGENCE (CURATOR ENGINE PIPELINE) ===== -->
+            <div style="background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.12); padding: 14px; border-radius: 10px; margin-bottom: 14px;">
+                <h4 style="color:#a78bfa; font-size:0.85rem; margin-bottom:8px; font-family:'Plus Jakarta Sans',sans-serif; display:flex; align-items:center; gap:6px;">
+                    <i class="fa-solid fa-newspaper"></i> News & Official Signal Intelligence
+                </h4>
+                <div id="details-news-list" style="font-size:0.75rem; color:#94a3b8;">
+                    <span>Loading news intelligence...</span>
+                </div>
+            </div>
+
+            <!-- ===== GAP INSIGHTS ===== -->
+            <div id="gap-insights-container">
+                <div id="gap-insights"></div>
+            </div>
+
         </aside>
 
-        <div style="flex:1; background:#0a1020;"></div>
+        <div style="flex:1; background:#0a0e17;"></div>
     </div>
 
-    <!-- ====== ADMIN PANEL ====== -->
     <div id="page-admin">
         <nav class="top-nav" style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06); margin-bottom:20px;">
             <button class="back-btn" id="btn-admin-back">
@@ -675,59 +867,175 @@
             <span style="font-size:0.8rem; color:#94a3b8;">Admin Panel</span>
         </nav>
 
-        <h2 style="font-family:'Outfit',sans-serif; font-weight:700; margin-bottom:4px;">🛠️ Admin Panel</h2>
-        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:20px;">Add new data to the Opportunity Map</p>
+        <h2 style="font-family:'Outfit',sans-serif; font-weight:700; margin-bottom:4px; color:#e2e8f0;">🛠️ Admin Panel</h2>
+        <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:20px;">Submit new assets and manage existing data</p>
 
         <div class="admin-form">
-            <h3 style="color:#c084fc;">🚀 Add New Major Project</h3>
+            <h3 style="color:#4C6EF5;">📤 Submit New Asset</h3>
+            <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">All assets (hospitals, schools, farms, markets, factories, banks, hotels, major projects) are submitted here.</p>
             <div class="form-grid">
-                <div><label>Project Name *</label><input type="text" id="admin-project-name" placeholder="e.g., Kigali Heights" /></div>
-                <div><label>Type *</label><input type="text" id="admin-project-type" placeholder="e.g., Residential, Commercial" /></div>
-                <div><label>Location *</label><input type="text" id="admin-project-location" placeholder="e.g., Kigali" /></div>
-                <div><label>Latitude *</label><input type="text" id="admin-project-lat" placeholder="e.g., -1.9441" /></div>
-                <div><label>Longitude *</label><input type="text" id="admin-project-lng" placeholder="e.g., 30.0619" /></div>
-                <div><label>Cost</label><input type="text" id="admin-project-cost" placeholder="e.g., $2 billion" /></div>
-                <div class="full-width"><label>Status *</label>
-                    <select id="admin-project-status">
-                        <option value="Under Construction">Under Construction</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Planned">Planned</option>
-                        <option value="Operational">Operational</option>
+                <div><label>Asset Name *</label><input type="text" id="admin-asset-name" placeholder="e.g., Kigali Central Hospital" /></div>
+                <div><label>Asset Type *</label>
+                    <select id="admin-asset-type">
+                        <option value="hospital">Hospital</option>
+                        <option value="school">School</option>
+                        <option value="farm">Farm</option>
+                        <option value="market">Market</option>
+                        <option value="factory">Factory</option>
+                        <option value="bank">Bank</option>
+                        <option value="hotel">Hotel</option>
+                        <option value="construction">Construction Site</option>
+                        <option value="major-project">⭐ Major Project (over $500M)</option>
                     </select>
                 </div>
-                <div class="full-width"><label>Description / Impact</label>
-                    <textarea id="admin-project-desc" rows="2" placeholder="Brief description of the project and its impact..."></textarea>
+                <div><label>Latitude *</label><input type="text" id="admin-asset-lat" placeholder="e.g., -1.9441" /></div>
+                <div><label>Longitude *</label><input type="text" id="admin-asset-lng" placeholder="e.g., 30.0619" /></div>
+                <div><label>Status *</label>
+                    <select id="admin-asset-status">
+                        <option value="operational">Operational</option>
+                        <option value="under-construction">Under Construction</option>
+                        <option value="planned">Planned</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div><label>Capacity / Size</label><input type="text" id="admin-asset-capacity" placeholder="e.g., 150 beds, 50 ha" /></div>
+                <div class="full-width"><label>Description (optional)</label>
+                    <textarea id="admin-asset-desc" rows="2" placeholder="Brief description of the asset..."></textarea>
                 </div>
             </div>
-            <button class="admin-submit-btn purple" id="admin-submit-project">Add Project</button>
-            <span class="admin-status-msg" id="admin-project-status-msg"></span>
+            <button class="admin-submit-btn" style="background:#4C6EF5;" id="admin-submit-asset">✅ Submit Asset</button>
+            <span class="admin-status-msg" id="admin-asset-status-msg"></span>
         </div>
 
         <div class="admin-form">
-            <h3 style="color:#4ade80;">🏗️ Add OSM Element</h3>
-            <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Manually add an OSM element to the cache (for testing or updates).</p>
+            <h3 style="color:#8b5cf6;">⭐ Major Projects</h3>
+            <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Large-scale projects that get higher scores.</p>
+            <div id="admin-major-projects-list" style="max-height:200px; overflow-y:auto; font-size:0.8rem; margin-bottom:12px;">
+                <span style="color:#94a3b8;">Loading major projects...</span>
+            </div>
+        </div>
+
+        <div class="admin-form">
+            <h3 style="color:#a78bfa;">📡 News & Government Data Curator Ingestion</h3>
+            <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Interface for external Data Curator engine (scraped news from New Times, RBA, Igihe, MINAGRI, RDB). Ingested items adjust scoring dynamically.</p>
             <div class="form-grid">
-                <div><label>Type</label>
-                    <select id="admin-osm-type">
-                        <option value="construction">Construction</option>
-                        <option value="hardware">Hardware Shop</option>
-                        <option value="school">Education</option>
-                        <option value="hospital">Health</option>
-                        <option value="commercial">Commercial</option>
+                <div class="full-width"><label>Article Title *</label><input type="text" id="admin-news-title" placeholder="e.g., $100M Logistics Hub Announced in Bugesera" /></div>
+                <div><label>Source Outlet *</label>
+                    <select id="admin-news-source">
+                        <option value="The New Times (Rwanda)">The New Times (Rwanda)</option>
+                        <option value="RBA (Rwanda Broadcasting Agency)">RBA</option>
+                        <option value="Igihe.com">Igihe.com</option>
+                        <option value="MINAGRI Official Portal">MINAGRI Official</option>
+                        <option value="RDB Official Release">RDB Official</option>
+                        <option value="MINICOM Press Release">MINICOM Press Release</option>
                     </select>
                 </div>
-                <div><label>District</label>
-                    <select id="admin-osm-district">
-                        <!-- populated by JavaScript -->
+                <div><label>Target District *</label>
+                    <select id="admin-news-district">
+                        <option value="Gasabo">Gasabo</option><option value="Kicukiro">Kicukiro</option><option value="Nyarugenge">Nyarugenge</option>
+                        <option value="Musanze">Musanze</option><option value="Burera">Burera</option><option value="Gicumbi">Gicumbi</option>
+                        <option value="Rulindo">Rulindo</option><option value="Gakenke">Gakenke</option><option value="Nyanza">Nyanza</option>
+                        <option value="Gisagara">Gisagara</option><option value="Nyaruguru">Nyaruguru</option><option value="Huye">Huye</option>
+                        <option value="Nyamagabe">Nyamagabe</option><option value="Ruhango">Ruhango</option><option value="Muhanga">Muhanga</option>
+                        <option value="Kamonyi">Kamonyi</option><option value="Rwamagana">Rwamagana</option><option value="Nyagatare">Nyagatare</option>
+                        <option value="Gatsibo">Gatsibo</option><option value="Kayonza">Kayonza</option><option value="Kirehe">Kirehe</option>
+                        <option value="Ngoma">Ngoma</option><option value="Bugesera">Bugesera</option><option value="Karongi">Karongi</option>
+                        <option value="Rutsiro">Rutsiro</option><option value="Rubavu">Rubavu</option><option value="Nyabihu">Nyabihu</option>
+                        <option value="Ngororero">Ngororero</option><option value="Rusizi">Rusizi</option><option value="Nyamasheke">Nyamasheke</option>
                     </select>
+                </div>
+                <div><label>Impact Dimension</label>
+                    <select id="admin-news-dimension">
+                        <option value="land">Land & Infrastructure</option>
+                        <option value="labor">Labor & Skills</option>
+                        <option value="capital">Capital & Finance</option>
+                        <option value="entrepreneurship">Entrepreneurship & Trade</option>
+                    </select>
+                </div>
+                <div><label>Impact Boost Points (+1 to +10)</label><input type="number" id="admin-news-impact" value="5" min="1" max="10" /></div>
+                <div class="full-width"><label>Summary / Signal Excerpt</label>
+                    <textarea id="admin-news-summary" rows="2" placeholder="Brief summary of the official announcement..."></textarea>
                 </div>
             </div>
-            <button class="admin-submit-btn green" id="admin-submit-osm">Add OSM Element</button>
-            <span class="admin-status-msg" id="admin-osm-status-msg"></span>
+            <button class="admin-submit-btn purple" id="admin-submit-news">📡 Ingest News Signal</button>
+            <span class="admin-status-msg" id="admin-news-status-msg"></span>
+        </div>
+
+        <!-- SCHOOLS INGESTION FORM -->
+        <div class="admin-form">
+            <h3 style="color:#a78bfa;">🎓 Schools Directory & Curriculum Ingestion</h3>
+            <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Add program-level school details to boost workforce skills intelligence.</p>
+            <div class="form-grid">
+                <div><label>School Name *</label><input type="text" id="admin-school-name" placeholder="e.g. Musanze TVET Institute" /></div>
+                <div><label>Target District *</label>
+                    <select id="admin-school-district">
+                        <option value="Gasabo">Gasabo</option><option value="Kicukiro">Kicukiro</option><option value="Nyarugenge">Nyarugenge</option>
+                        <option value="Musanze">Musanze</option><option value="Burera">Burera</option><option value="Gicumbi">Gicumbi</option>
+                        <option value="Rulindo">Rulindo</option><option value="Gakenke">Gakenke</option><option value="Nyanza">Nyanza</option>
+                        <option value="Gisagara">Gisagara</option><option value="Nyaruguru">Nyaruguru</option><option value="Huye">Huye</option>
+                        <option value="Nyamagabe">Nyamagabe</option><option value="Ruhango">Ruhango</option><option value="Muhanga">Muhanga</option>
+                        <option value="Kamonyi">Kamonyi</option><option value="Rwamagana">Rwamagana</option><option value="Nyagatare">Nyagatare</option>
+                        <option value="Gatsibo">Gatsibo</option><option value="Kayonza">Kayonza</option><option value="Kirehe">Kirehe</option>
+                        <option value="Ngoma">Ngoma</option><option value="Bugesera">Bugesera</option><option value="Karongi">Karongi</option>
+                        <option value="Rutsiro">Rutsiro</option><option value="Rubavu">Rubavu</option><option value="Nyabihu">Nyabihu</option>
+                        <option value="Ngororero">Ngororero</option><option value="Rusizi">Rusizi</option><option value="Nyamasheke">Nyamasheke</option>
+                    </select>
+                </div>
+                <div><label>Education Level *</label>
+                    <select id="admin-school-level">
+                        <option value="TVET">TVET Institute</option>
+                        <option value="University">University</option>
+                        <option value="College">Technical College</option>
+                        <option value="Secondary">High School / Secondary</option>
+                    </select>
+                </div>
+                <div><label>Student Enrollment *</label><input type="number" id="admin-school-enrollment" value="800" min="10" /></div>
+                <div class="full-width"><label>Programs Taught (comma-separated or keywords: Construction, ICT & Tech, Agriculture, Business, Health, Hospitality, Teacher Training) *</label>
+                    <input type="text" id="admin-school-programs" placeholder="e.g. Construction, Masonry, Plumbing, ICT & Tech" />
+                </div>
+            </div>
+            <button class="admin-submit-btn purple" id="admin-submit-school">🎓 Ingest School into Pipeline</button>
+            <span class="admin-status-msg" id="admin-school-status-msg"></span>
+        </div>
+
+        <!-- LAND CENTER DATA MANAGER FORM -->
+        <div class="admin-form">
+            <h3 style="color:#10b981;">🗺️ Rwanda Land Center (NSDI Basemap Data Manager)</h3>
+            <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Update spatial development readiness indices (0-100) per layer.</p>
+            <div class="form-grid">
+                <div><label>Target District *</label>
+                    <select id="admin-land-district">
+                        <option value="Gasabo">Gasabo</option><option value="Kicukiro">Kicukiro</option><option value="Nyarugenge">Nyarugenge</option>
+                        <option value="Musanze">Musanze</option><option value="Burera">Burera</option><option value="Gicumbi">Gicumbi</option>
+                        <option value="Rulindo">Rulindo</option><option value="Gakenke">Gakenke</option><option value="Nyanza">Nyanza</option>
+                        <option value="Gisagara">Gisagara</option><option value="Nyaruguru">Nyaruguru</option><option value="Huye">Huye</option>
+                        <option value="Nyamagabe">Nyamagabe</option><option value="Ruhango">Ruhango</option><option value="Muhanga">Muhanga</option>
+                        <option value="Kamonyi">Kamonyi</option><option value="Rwamagana">Rwamagana</option><option value="Nyagatare">Nyagatare</option>
+                        <option value="Gatsibo">Gatsibo</option><option value="Kayonza">Kayonza</option><option value="Kirehe">Kirehe</option>
+                        <option value="Ngoma">Ngoma</option><option value="Bugesera">Bugesera</option><option value="Karongi">Karongi</option>
+                        <option value="Rutsiro">Rutsiro</option><option value="Rubavu">Rubavu</option><option value="Nyabihu">Nyabihu</option>
+                        <option value="Ngororero">Ngororero</option><option value="Rusizi">Rusizi</option><option value="Nyamasheke">Nyamasheke</option>
+                    </select>
+                </div>
+                <div><label>Land Use Classification Score (30% weight)</label><input type="number" id="admin-land-use" value="80" min="0" max="100" /></div>
+                <div><label>Infrastructure Density Score (25% weight)</label><input type="number" id="admin-land-infra" value="70" min="0" max="100" /></div>
+                <div><label>Zoning Flexibility Score (20% weight)</label><input type="number" id="admin-land-zoning" value="75" min="0" max="100" /></div>
+                <div><label>Urbanization Pattern Score (15% weight)</label><input type="number" id="admin-land-urban" value="80" min="0" max="100" /></div>
+                <div><label>Environmental Suitability Score (10% weight)</label><input type="number" id="admin-land-env" value="75" min="0" max="100" /></div>
+            </div>
+            <button class="admin-submit-btn green" id="admin-submit-land-center">💾 Save Land Center Basemap Data</button>
+            <span class="admin-status-msg" id="admin-land-status-msg"></span>
+        </div>
+
+
+        <div class="admin-form">
+            <h3 style="color:#4C6EF5;">📋 All Submitted Assets</h3>
+            <div id="admin-all-assets-list" style="max-height:250px; overflow-y:auto; font-size:0.8rem;">
+                <span style="color:#94a3b8;">Loading assets...</span>
+            </div>
         </div>
     </div>
 
-    <!-- ====== LOGIN MODAL ====== -->
     <div id="login-modal">
         <div class="login-box">
             <h2>🔐 Login</h2>
@@ -742,12 +1050,9 @@
     </div>
 </div>
 
-<!-- ====== LOCAL LEAFLET JS ===== -->
 <script src="libs/leaflet/leaflet.js"></script>
-
-<!-- ====== LOCAL SCRIPTS ====== -->
-<script src="construction.js"></script>
-<script src="app.js"></script>
+<script src="construction.js?v=3.0"></script>
+<script src="app.js?v=3.0"></script>
 
 </body>
 </html>

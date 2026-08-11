@@ -1,0 +1,37 @@
+{
+  "assets": [
+    {
+      "name": "Test Hospital",
+      "type": "hospital",
+      "lat": -1.9441,
+      "lng": 30.0619,
+      "status": "operational",
+      "capacity": "100 beds",
+      "id": 1,
+      "uploaded_at": "2026-07-30T05:54:05.810985",
+      "scores": {
+        "intrinsic": 0,
+        "proximity": 0,
+        "demographic": 0,
+        "composite": 0
+      }
+    },
+    {
+      "name": "Kigali Innovation City",
+      "type": "major-project",
+      "lat": -1.9441,
+      "lng": 30.0619,
+      "status": "under-construction",
+      "capacity": "61  hectares",
+      "description": "Rwanda's flagship tech hub with 50,000 jobs expected",
+      "id": 2,
+      "uploaded_at": "2026-07-30T06:54:42.581770",
+      "scores": {
+        "intrinsic": 55,
+        "proximity": 0,
+        "demographic": 0,
+        "composite": 0
+      }
+    }
+  ]
+}

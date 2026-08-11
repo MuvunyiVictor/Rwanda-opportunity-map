@@ -1,0 +1,214 @@
+{
+  "districts": {
+    "Gasabo": {
+      "land_use_score": 85,
+      "infrastructure_density": 72,
+      "zoning_flexibility": 80,
+      "urbanization_pattern": 90,
+      "environmental_suitability": 75
+    },
+    "Kicukiro": {
+      "land_use_score": 88,
+      "infrastructure_density": 78,
+      "zoning_flexibility": 82,
+      "urbanization_pattern": 92,
+      "environmental_suitability": 78
+    },
+    "Nyarugenge": {
+      "land_use_score": 82,
+      "infrastructure_density": 85,
+      "zoning_flexibility": 75,
+      "urbanization_pattern": 95,
+      "environmental_suitability": 70
+    },
+    "Musanze": {
+      "land_use_score": 78,
+      "infrastructure_density": 68,
+      "zoning_flexibility": 72,
+      "urbanization_pattern": 75,
+      "environmental_suitability": 80
+    },
+    "Huye": {
+      "land_use_score": 75,
+      "infrastructure_density": 70,
+      "zoning_flexibility": 74,
+      "urbanization_pattern": 78,
+      "environmental_suitability": 82
+    },
+    "Rubavu": {
+      "land_use_score": 76,
+      "infrastructure_density": 66,
+      "zoning_flexibility": 70,
+      "urbanization_pattern": 76,
+      "environmental_suitability": 65
+    },
+    "Rwamagana": {
+      "land_use_score": 80,
+      "infrastructure_density": 65,
+      "zoning_flexibility": 78,
+      "urbanization_pattern": 70,
+      "environmental_suitability": 85
+    },
+    "Muhanga": {
+      "land_use_score": 74,
+      "infrastructure_density": 64,
+      "zoning_flexibility": 70,
+      "urbanization_pattern": 72,
+      "environmental_suitability": 78
+    },
+    "Bugesera": {
+      "land_use_score": 84,
+      "infrastructure_density": 70,
+      "zoning_flexibility": 85,
+      "urbanization_pattern": 68,
+      "environmental_suitability": 88
+    },
+    "Nyagatare": {
+      "land_use_score": 78,
+      "infrastructure_density": 60,
+      "zoning_flexibility": 75,
+      "urbanization_pattern": 62,
+      "environmental_suitability": 82
+    },
+    "Gatsibo": {
+      "land_use_score": 72,
+      "infrastructure_density": 55,
+      "zoning_flexibility": 68,
+      "urbanization_pattern": 58,
+      "environmental_suitability": 80
+    },
+    "Kayonza": {
+      "land_use_score": 74,
+      "infrastructure_density": 58,
+      "zoning_flexibility": 70,
+      "urbanization_pattern": 60,
+      "environmental_suitability": 82
+    },
+    "Kirehe": {
+      "land_use_score": 70,
+      "infrastructure_density": 50,
+      "zoning_flexibility": 65,
+      "urbanization_pattern": 52,
+      "environmental_suitability": 84
+    },
+    "Ngoma": {
+      "land_use_score": 68,
+      "infrastructure_density": 52,
+      "zoning_flexibility": 64,
+      "urbanization_pattern": 54,
+      "environmental_suitability": 80
+    },
+    "Karongi": {
+      "land_use_score": 65,
+      "infrastructure_density": 54,
+      "zoning_flexibility": 60,
+      "urbanization_pattern": 58,
+      "environmental_suitability": 68
+    },
+    "Rutsiro": {
+      "land_use_score": 58,
+      "infrastructure_density": 45,
+      "zoning_flexibility": 55,
+      "urbanization_pattern": 45,
+      "environmental_suitability": 72
+    },
+    "Nyabihu": {
+      "land_use_score": 62,
+      "infrastructure_density": 48,
+      "zoning_flexibility": 58,
+      "urbanization_pattern": 50,
+      "environmental_suitability": 75
+    },
+    "Ngororero": {
+      "land_use_score": 56,
+      "infrastructure_density": 42,
+      "zoning_flexibility": 52,
+      "urbanization_pattern": 42,
+      "environmental_suitability": 70
+    },
+    "Rusizi": {
+      "land_use_score": 70,
+      "infrastructure_density": 60,
+      "zoning_flexibility": 66,
+      "urbanization_pattern": 65,
+      "environmental_suitability": 74
+    },
+    "Nyamasheke": {
+      "land_use_score": 60,
+      "infrastructure_density": 46,
+      "zoning_flexibility": 56,
+      "urbanization_pattern": 48,
+      "environmental_suitability": 72
+    },
+    "Nyanza": {
+      "land_use_score": 68,
+      "infrastructure_density": 56,
+      "zoning_flexibility": 62,
+      "urbanization_pattern": 60,
+      "environmental_suitability": 78
+    },
+    "Gisagara": {
+      "land_use_score": 60,
+      "infrastructure_density": 44,
+      "zoning_flexibility": 54,
+      "urbanization_pattern": 42,
+      "environmental_suitability": 80
+    },
+    "Nyaruguru": {
+      "land_use_score": 58,
+      "infrastructure_density": 46,
+      "zoning_flexibility": 52,
+      "urbanization_pattern": 44,
+      "environmental_suitability": 76
+    },
+    "Nyamagabe": {
+      "land_use_score": 62,
+      "infrastructure_density": 48,
+      "zoning_flexibility": 56,
+      "urbanization_pattern": 48,
+      "environmental_suitability": 74
+    },
+    "Ruhango": {
+      "land_use_score": 66,
+      "infrastructure_density": 52,
+      "zoning_flexibility": 60,
+      "urbanization_pattern": 55,
+      "environmental_suitability": 78
+    },
+    "Kamonyi": {
+      "land_use_score": 76,
+      "infrastructure_density": 62,
+      "zoning_flexibility": 72,
+      "urbanization_pattern": 68,
+      "environmental_suitability": 82
+    },
+    "Burera": {
+      "land_use_score": 62,
+      "infrastructure_density": 46,
+      "zoning_flexibility": 55,
+      "urbanization_pattern": 46,
+      "environmental_suitability": 75
+    },
+    "Gicumbi": {
+      "land_use_score": 64,
+      "infrastructure_density": 50,
+      "zoning_flexibility": 58,
+      "urbanization_pattern": 52,
+      "environmental_suitability": 76
+    },
+    "Rulindo": {
+      "land_use_score": 66,
+      "infrastructure_density": 52,
+      "zoning_flexibility": 60,
+      "urbanization_pattern": 54,
+      "environmental_suitability": 78
+    },
+    "Gakenke": {
+      "land_use_score": 60,
+      "infrastructure_density": 44,
+      "zoning_flexibility": 54,
+      "urbanization_pattern": 44,
+      "environmental_suitability": 76
+    }
+  }
+}
