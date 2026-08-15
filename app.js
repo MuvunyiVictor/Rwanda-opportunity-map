@@ -35,10 +35,10 @@ const detailsProjectsList = $('details-projects-list');
 // ==========================================================================
 const state = {
     districts: [],
-    districtData: {},           // Base data from data.json
-    calculatedDistrictData: {}, // Dynamic data with Asset & News boosts
-    curatedInfra: {},           // Curated infrastructure counts for 30 districts
-    districtNeighbors: {},      // Geographic adjacency map
+    districtData: {},
+    calculatedDistrictData: {},
+    curatedInfra: {},
+    districtNeighbors: {},
     osmData: { elements: [] },
     agricultureData: { districts: {} },
     majorProjects: { projects: [] },
@@ -46,7 +46,7 @@ const state = {
     schoolsDirectory: { schools: [] },
     landCenterData: { districts: {} },
     currentDistrict: 'Gasabo',
-    activeInfraFilter: null,    // null = composite, or 'hardware', 'construction', etc.
+    activeInfraFilter: null,
     map: null,
     geoJsonLayer: null,
     labelLayer: null,
@@ -54,7 +54,8 @@ const state = {
     districtGeoJson: null,
     isLoggedIn: false,
     assets: [],
-    currentTileLayer: null
+    currentTileLayer: null,
+    strategicDocuments: []
 };
 
 // ==========================================================================
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTileToggle();
     setupAnalyticsTabs();
     setupInfraPillListeners();
+    setupDocFilters();
     loadData();
 });
 
@@ -127,18 +129,15 @@ async function loadData() {
         state.districts = Object.keys(state.districtData);
         populateDistrictDropdowns();
 
-        // RENDER BASELINE SCORES IMMEDIATELY (Instant load on landing!)
         recalculateDynamicDistrictScores();
         if (state.districts.length > 0) {
             selectDistrict(state.districts[0]);
         }
         console.log('Baseline scores rendered on page landing');
 
-        // Parallel non-blocking secondary intelligence pipeline
         loadSecondaryDatasets();
     } catch (err) {
         console.error('Failed to load base dataset:', err);
-        // Fallback: try to load from agriculture data
         try {
             const agRes = await fetch('data/agriculture_data.json');
             const agData = await agRes.json();
@@ -164,14 +163,15 @@ async function loadData() {
 
 async function loadSecondaryDatasets() {
     try {
-        const [infraRes, neighRes, agRes, projRes, osmRes, schRes, lcRes] = await Promise.allSettled([
+        const [infraRes, neighRes, agRes, projRes, osmRes, schRes, lcRes, docRes] = await Promise.allSettled([
             fetch('data/district_infra_curated.json').then(r => r.json()),
             fetch('data/district_neighbors.json').then(r => r.json()),
             fetch('data/agriculture_data.json').then(r => r.json()),
             fetch('major_projects.json').then(r => r.json()).catch(() => ({ projects: [] })),
-            fetch('data/osm_data.json').then(r => r.json()).catch(() => ({ elements: [] })),
+            fetch('data/osm_cache.json').then(r => r.json()).catch(() => ({ elements: [] })),
             fetch('data/schools_directory.json').then(r => r.json()),
-            fetch('data/land_center_data.json').then(r => r.json())
+            fetch('data/land_center_data.json').then(r => r.json()),
+            fetch('strategic_documents.json').then(r => r.json()).catch(() => ({ documents: [] }))
         ]);
 
         if (infraRes.status === 'fulfilled') state.curatedInfra = infraRes.value || {};
@@ -181,6 +181,11 @@ async function loadSecondaryDatasets() {
         if (osmRes.status === 'fulfilled') state.osmData = osmRes.value || { elements: [] };
         if (schRes.status === 'fulfilled') state.schoolsDirectory = schRes.value || { schools: [] };
         if (lcRes.status === 'fulfilled') state.landCenterData = lcRes.value || { districts: {} };
+        if (docRes.status === 'fulfilled') {
+            state.strategicDocuments = docRes.value.documents || [];
+            updateDocumentStatus();
+            renderStrategicDocuments();
+        }
 
         await loadAssets();
         await loadCuratedNews();
@@ -220,7 +225,159 @@ async function loadCuratedNews() {
 }
 
 // ==========================================================================
-// NEW: INTELLIGENT SKILLS PIPELINE & LAND CENTER SCORING FUNCTIONS
+// STRATEGIC DOCUMENTS FUNCTIONS
+// ==========================================================================
+
+let currentDocFilter = 'all';
+let selectedDocId = null;
+
+function updateDocumentStatus() {
+    const docs = state.strategicDocuments || [];
+    const foundEl = $('doc-status-found');
+    const pendingEl = $('doc-status-pending');
+    const targetsEl = $('doc-status-total-targets');
+
+    if (foundEl) foundEl.textContent = docs.length;
+
+    const districtsWithDocs = new Set();
+    docs.forEach(doc => {
+        if (doc.districts) {
+            doc.districts.forEach(d => districtsWithDocs.add(d));
+        }
+    });
+    const pendingCount = 30 - districtsWithDocs.size;
+    if (pendingEl) pendingEl.textContent = pendingCount;
+
+    let totalTargets = 0;
+    docs.forEach(doc => {
+        totalTargets += (doc.targets || []).length;
+    });
+    if (targetsEl) targetsEl.textContent = totalTargets;
+}
+
+function renderStrategicDocuments() {
+    const container = $('strategic-documents-list');
+    if (!container) return;
+
+    let filtered = state.strategicDocuments || [];
+    if (currentDocFilter !== 'all') {
+        filtered = filtered.filter(doc => doc.level === currentDocFilter);
+    }
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<span style="color:#94a3b8; font-size:0.8rem;">No documents found for this filter.</span>';
+        return;
+    }
+
+    container.innerHTML = filtered.map(doc => `
+        <div class="doc-item" data-id="${doc.id}" onclick="showDocumentDetail('${doc.id}')">
+            <div>
+                <div style="font-weight:600; color:#e2e8f0; font-size:0.8rem;">${doc.title}</div>
+                <div style="font-size:0.65rem; color:#94a3b8;">
+                    ${doc.level} • ${doc.type} • ${doc.districts ? doc.districts.join(', ') : 'All'}
+                </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.6rem; background:${doc.confidence === 'High' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}; color:${doc.confidence === 'High' ? '#10b981' : '#f59e0b'}; padding:1px 8px; border-radius:10px;">${doc.confidence}</span>
+                <span style="font-size:0.6rem; color:#64748b;">${(doc.targets || []).length} targets</span>
+                <span style="font-size:0.7rem; color:#4C6EF5;">→</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function showDocumentDetail(docId) {
+    const doc = state.strategicDocuments.find(d => d.id === docId);
+    if (!doc) return;
+
+    selectedDocId = docId;
+
+    const detailView = $('document-detail-view');
+    if (!detailView) return;
+    detailView.style.display = 'block';
+
+    const titleEl = $('doc-detail-title');
+    const levelEl = $('doc-detail-level');
+    const typeEl = $('doc-detail-type');
+    const districtsEl = $('doc-detail-districts');
+    const sourceEl = $('doc-detail-source');
+    const urlEl = $('doc-detail-url');
+    const publishedEl = $('doc-detail-published');
+    const verifiedEl = $('doc-detail-verified');
+    const targetsContainer = $('doc-detail-targets');
+    const notesEl = $('doc-detail-notes-text');
+
+    if (titleEl) titleEl.textContent = doc.title;
+    if (levelEl) levelEl.textContent = doc.level;
+    if (typeEl) typeEl.textContent = doc.type;
+    if (districtsEl) districtsEl.textContent = doc.districts ? doc.districts.join(', ') : 'All';
+    if (sourceEl) sourceEl.textContent = doc.source;
+    if (urlEl) {
+        if (doc.url && doc.url !== '') {
+            urlEl.innerHTML = `<a href="${doc.url}" target="_blank" style="color:#4C6EF5; text-decoration:underline;">🔗 View Source</a>`;
+        } else {
+            urlEl.innerHTML = '';
+        }
+    }
+    if (publishedEl) publishedEl.textContent = doc.published_at || '--';
+    if (verifiedEl) verifiedEl.textContent = doc.last_verified || '--';
+    if (notesEl) notesEl.textContent = doc.notes || '--';
+
+    if (targetsContainer) {
+        const targets = doc.targets || [];
+        if (targets.length === 0) {
+            targetsContainer.innerHTML = '<span style="color:#94a3b8; font-size:0.75rem;">No targets defined for this document.</span>';
+        } else {
+            targetsContainer.innerHTML = `
+                <div style="font-size:0.7rem; font-weight:600; color:#e2e8f0; margin-bottom:6px;">🎯 Targets (${targets.length})</div>
+                ${targets.map(t => `
+                    <div style="background:rgba(255,255,255,0.03); border-radius:6px; padding:6px 8px; margin-bottom:4px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:0.75rem; color:#e2e8f0;">${t.description}</span>
+                            <span style="font-size:0.7rem; font-weight:700; color:#4C6EF5;">${t.target_value} ${t.unit || ''}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:0.65rem; color:#94a3b8;">
+                            <span>Baseline: ${t.baseline || '--'}</span>
+                            <span>Target: ${t.target_year || '--'}</span>
+                            <span>Progress: ${t.progress || '0%'}</span>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+    }
+
+    detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeDocumentDetail() {
+    const detailView = $('document-detail-view');
+    if (detailView) detailView.style.display = 'none';
+    selectedDocId = null;
+}
+
+function setupDocFilters() {
+    document.querySelectorAll('.doc-filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.doc-filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentDocFilter = this.getAttribute('data-filter');
+            renderStrategicDocuments();
+        });
+    });
+
+    const closeBtn = $('doc-detail-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeDocumentDetail);
+    }
+}
+
+// Make functions globally accessible
+window.showDocumentDetail = showDocumentDetail;
+window.closeDocumentDetail = closeDocumentDetail;
+
+// ==========================================================================
+// SKILLS PIPELINE & LAND CENTER SCORING FUNCTIONS
 // ==========================================================================
 function calculateSchoolsContribution(districtName) {
     let landBoost = 0;
@@ -325,7 +482,6 @@ function recalculateDynamicDistrictScores() {
         let capital = base.capital || 50;
         let entrepreneurship = base.entrepreneurship || 50;
 
-        // Submitted Asset Boosts
         const districtAssets = state.assets.filter(a => 
             (a.district || '').toLowerCase() === districtName.toLowerCase() ||
             (a.description || '').toLowerCase().includes(districtName.toLowerCase()) ||
@@ -341,7 +497,6 @@ function recalculateDynamicDistrictScores() {
             else if (type === 'major-project') { land += 3.0; labor += 3.0; capital += 3.0; entrepreneurship += 3.0; }
         });
 
-        // Curated News Boosts
         const districtNews = state.curatedNews.filter(n => (n.district || '').toLowerCase() === districtName.toLowerCase());
         districtNews.forEach(news => {
             const boost = parseFloat(news.impact_score) || 3.0;
@@ -353,14 +508,12 @@ function recalculateDynamicDistrictScores() {
             else { capital += boost * 0.5; entrepreneurship += boost * 0.5; }
         });
 
-        // Schools Contribution (Skills Pipeline Intelligence)
         const schoolBoosts = calculateSchoolsContribution(districtName);
         land += schoolBoosts.land;
         labor += schoolBoosts.labor;
         capital += schoolBoosts.capital;
         entrepreneurship += schoolBoosts.entrepreneurship;
 
-        // Land Center Basemap Score Integration (Blended 40% spatial readiness)
         const landCenter = calculateLandCenterScore(districtName);
         land = (land * 0.6) + (landCenter.compositeScore * 0.4);
 
@@ -451,7 +604,6 @@ function selectDistrict(districtName) {
         if (el) el.textContent = (infra[key] || 0).toLocaleString();
     });
 
-    // Render Skills Pipeline Card in Map View
     const skillsBadge = $('skills-total-schools-badge');
     const skillsContent = $('skills-pipeline-content');
     if (skillsBadge && skillsContent) {
@@ -476,7 +628,6 @@ function selectDistrict(districtName) {
         }
     }
 
-    // Render Land Readiness Card in Map View
     const landBadge = $('land-readiness-score-badge');
     const landBars = $('land-readiness-bars');
     if (landBadge && landBars) {
@@ -674,7 +825,6 @@ function updateDetailsView(districtName) {
     const gap = Math.max(0, maxScore - (data.composite_score || 0));
     updateBar('gap', gap);
 
-    // Agriculture Profile
     const agData = state.agricultureData?.districts?.[districtName] || {};
     if (agData && Object.keys(agData).length > 0) {
         const intensity = agData.crop_production_intensity ?? agData.crop_intensity;
@@ -690,7 +840,6 @@ function updateDetailsView(districtName) {
         if (detailsAgriIrrigation) detailsAgriIrrigation.textContent = '--';
     }
 
-    // Major Projects & Strategic Anchors
     const nearbyProjects = state.majorProjects.projects?.filter(p => 
         (p.location || '').toLowerCase().includes(districtName.toLowerCase()) ||
         (p.district || '').toLowerCase() === districtName.toLowerCase()
@@ -710,7 +859,6 @@ function updateDetailsView(districtName) {
         }
     }
 
-    // Render Skills Profile Box in Details View
     const detailsSchoolsCount = $('details-schools-count');
     const detailsSkillsList = $('details-skills-list');
     if (detailsSkillsList) {
@@ -734,7 +882,6 @@ function updateDetailsView(districtName) {
         }
     }
 
-    // Render Land Readiness Box in Details View
     const detailsLandComposite = $('details-land-composite-score');
     const detailsLandLayersList = $('details-land-layers-list');
     if (detailsLandLayersList) {
@@ -843,7 +990,6 @@ function updateRadarChart(data) {
     const canvas = document.getElementById('details-factorRadarChart');
     if (!canvas) return;
     
-    // Check if Chart is available
     if (typeof Chart === 'undefined') {
         console.warn('Chart.js not loaded');
         return;
@@ -1047,7 +1193,6 @@ function addDistrictLayer(geoJson) {
     layer.addTo(map);
     state.geoJsonLayer = layer;
 
-    // Centered Black Labels with White Glow
     const labelGroup = L.layerGroup();
     geoJson.features.forEach(feature => {
         const name = feature.properties?.shapeName || feature.properties?.name || '';
@@ -1107,7 +1252,6 @@ function renderSiteSelectionEngine() {
     const info = INFRA_LABELS[activeInfra];
     if (tag) tag.textContent = `${info.icon} ${info.label}`;
 
-    // Rank all 30 districts by gap index for this infrastructure
     const districtRanks = state.districts.map(name => {
         const data = state.calculatedDistrictData[name] || {};
         const infra = data.infra || {};
@@ -1295,15 +1439,19 @@ function setTile(mode) {
 function setupAnalyticsTabs() {
     const tabMap = $('tab-map');
     const tabAnalytics = $('tab-analytics');
+    const tabStrategic = $('tab-strategic');
     const mapView = $('map-view');
     const analyticsView = $('analytics-view');
+    const strategicView = $('strategic-view');
     
     if (tabMap) {
         tabMap.addEventListener('click', function() {
             this.classList.add('active');
             if (tabAnalytics) tabAnalytics.classList.remove('active');
+            if (tabStrategic) tabStrategic.classList.remove('active');
             if (mapView) mapView.style.display = 'block';
             if (analyticsView) analyticsView.classList.remove('visible');
+            if (strategicView) strategicView.style.display = 'none';
         });
     }
     
@@ -1311,9 +1459,23 @@ function setupAnalyticsTabs() {
         tabAnalytics.addEventListener('click', function() {
             this.classList.add('active');
             if (tabMap) tabMap.classList.remove('active');
+            if (tabStrategic) tabStrategic.classList.remove('active');
             if (mapView) mapView.style.display = 'none';
             if (analyticsView) analyticsView.classList.add('visible');
+            if (strategicView) strategicView.style.display = 'none';
             renderAnalytics();
+        });
+    }
+    
+    if (tabStrategic) {
+        tabStrategic.addEventListener('click', function() {
+            this.classList.add('active');
+            if (tabMap) tabMap.classList.remove('active');
+            if (tabAnalytics) tabAnalytics.classList.remove('active');
+            if (mapView) mapView.style.display = 'none';
+            if (analyticsView) analyticsView.classList.remove('visible');
+            if (strategicView) strategicView.style.display = 'flex';
+            renderStrategicDocuments();
         });
     }
 }
@@ -1398,7 +1560,6 @@ function setupEventListeners() {
         });
     }
 
-    // Asset Submission Handler
     const submitAsset = $('admin-submit-asset');
     if (submitAsset) {
         submitAsset.addEventListener('click', async () => {
@@ -1438,7 +1599,6 @@ function setupEventListeners() {
         });
     }
 
-    // News Ingestion Handler
     const submitNews = $('admin-submit-news');
     if (submitNews) {
         submitNews.addEventListener('click', async () => {
@@ -1476,7 +1636,6 @@ function setupEventListeners() {
         });
     }
 
-    // School Ingestion Handler
     const submitSchool = $('admin-submit-school');
     if (submitSchool) {
         submitSchool.addEventListener('click', async () => {
@@ -1515,7 +1674,6 @@ function setupEventListeners() {
         });
     }
 
-    // Land Center Data Update Handler
     const submitLand = $('admin-submit-land-center');
     if (submitLand) {
         submitLand.addEventListener('click', async () => {
@@ -1569,9 +1727,7 @@ function setupEventListeners() {
     });
 }
 
-function renderAssetsList() {
-    // Simple render for assets list in sidebar if needed
-}
+function renderAssetsList() {}
 
 function renderAdminAssetLists() {
     const container = $('admin-all-assets-list');
@@ -1593,7 +1749,6 @@ function renderAdminAssetLists() {
     `).join('');
 }
 
-// Make selectDistrict globally accessible for onclick handlers
 window.selectDistrict = selectDistrict;
 window.__state = state;
 

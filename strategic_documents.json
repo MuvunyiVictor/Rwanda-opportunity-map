@@ -1,0 +1,336 @@
+{
+  "documents": [
+    {
+      "id": "doc_001",
+      "title": "Rwanda Vision 2050",
+      "level": "National",
+      "type": "Vision",
+      "districts": ["All"],
+      "source": "MINECOFIN",
+      "url": "https://www.minecofin.gov.rw",
+      "published_at": "2020-12-15",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Achieve high-income country status",
+          "baseline": "Lower-middle income country (2020)",
+          "target_year": "2050",
+          "target_value": "High-income country",
+          "unit": "World Bank classification",
+          "progress": "45%"
+        },
+        {
+          "description": "Total housing stock",
+          "baseline": "2.5 million homes (2019)",
+          "target_year": "2050",
+          "target_value": "5.5 million homes",
+          "unit": "Homes",
+          "progress": "45%"
+        }
+      ],
+      "notes": "Rwanda's long-term development blueprint to transform the country into a high-income, knowledge-based economy by 2050.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_002",
+      "title": "National Strategy for Transformation (NST2) 2024-2029",
+      "level": "National",
+      "type": "Strategy",
+      "districts": ["All"],
+      "source": "MINECOFIN",
+      "url": "https://www.minecofin.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Annual economic growth rate",
+          "baseline": "N/A",
+          "target_year": "2029",
+          "target_value": "9.3%",
+          "unit": "Percentage",
+          "progress": "0%"
+        },
+        {
+          "description": "New jobs created",
+          "baseline": "N/A",
+          "target_year": "2029",
+          "target_value": "1.25 million",
+          "unit": "Jobs",
+          "progress": "0%"
+        },
+        {
+          "description": "Export revenue",
+          "baseline": "$2.2 billion",
+          "target_year": "2029",
+          "target_value": "$7.3 billion",
+          "unit": "USD",
+          "progress": "0%"
+        },
+        {
+          "description": "Private investment",
+          "baseline": "$2.2 billion",
+          "target_year": "2029",
+          "target_value": "$4.6 billion",
+          "unit": "USD",
+          "progress": "0%"
+        },
+        {
+          "description": "Tourism revenue",
+          "baseline": "$620 million",
+          "target_year": "2029",
+          "target_value": "$1.1 billion",
+          "unit": "USD",
+          "progress": "0%"
+        }
+      ],
+      "notes": "The National Strategy for Transformation 2 is Rwanda's medium-term development plan for 2024-2029, serving as the primary vehicle to achieve Vision 2050.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_003",
+      "title": "Bugesera District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Bugesera"],
+      "source": "Bugesera District",
+      "url": "https://www.bugesera.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Bugesera International Airport operational",
+          "baseline": "Under Construction",
+          "target_year": "2028",
+          "target_value": "Operational",
+          "unit": "Status",
+          "progress": "45%"
+        },
+        {
+          "description": "Housing units in Bugesera",
+          "baseline": "Existing stock unknown",
+          "target_year": "2029",
+          "target_value": "TBD",
+          "unit": "Units",
+          "progress": "0%"
+        }
+      ],
+      "notes": "Bugesera's DDS focuses on leveraging the new international airport to drive economic growth, attract investment, and develop housing and logistics infrastructure.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_004",
+      "title": "Muhanga District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Muhanga"],
+      "source": "Muhanga District",
+      "url": "https://www.muhanga.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Muhanga Industrial Zone operational",
+          "baseline": "Under development",
+          "target_year": "2029",
+          "target_value": "Operational",
+          "unit": "Status",
+          "progress": "30%"
+        },
+        {
+          "description": "A1 Iron & Steel plant operational",
+          "baseline": "Under construction",
+          "target_year": "2028",
+          "target_value": "Operational",
+          "unit": "Status",
+          "progress": "40%"
+        }
+      ],
+      "notes": "Muhanga's DDS focuses on becoming a commercial and logistics hub, with a strong emphasis on industrial development and manufacturing.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_005",
+      "title": "Rulindo District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Rulindo"],
+      "source": "Rulindo District",
+      "url": "https://www.rulindo.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Mining and mineral processing",
+          "baseline": "Active mining operations",
+          "target_year": "2029",
+          "target_value": "Expanded processing capacity",
+          "unit": "Status",
+          "progress": "50%"
+        }
+      ],
+      "notes": "Rulindo's DDS focuses on mining and mineral processing, leveraging its strategic location and mineral resources to drive economic growth.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_006",
+      "title": "Ngororero District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Ngororero"],
+      "source": "Ngororero District",
+      "url": "https://www.ngororero.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Minerals and small hydro plants",
+          "baseline": "Existing operations",
+          "target_year": "2029",
+          "target_value": "Expanded capacity",
+          "unit": "Status",
+          "progress": "40%"
+        }
+      ],
+      "notes": "Ngororero's DDS focuses on mineral extraction and small hydro plants, aiming to leverage its natural resources for economic development.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_007",
+      "title": "Ruhango District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Ruhango"],
+      "source": "Ruhango District",
+      "url": "https://www.ruhango.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Cassava processing and trade",
+          "baseline": "Active cassava production",
+          "target_year": "2029",
+          "target_value": "Expanded processing capacity",
+          "unit": "Status",
+          "progress": "35%"
+        }
+      ],
+      "notes": "Ruhango's DDS focuses on cassava processing and agricultural trade, building on its existing agricultural base.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_008",
+      "title": "Nyagatare District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Nyagatare"],
+      "source": "Nyagatare District",
+      "url": "https://www.nyagatare.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Dairy and livestock development",
+          "baseline": "Existing dairy operations",
+          "target_year": "2029",
+          "target_value": "Expanded production and processing",
+          "unit": "Status",
+          "progress": "40%"
+        }
+      ],
+      "notes": "Nyagatare's DDS focuses on dairy and livestock development, leveraging its large land area for agricultural production.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_009",
+      "title": "Gakenke District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Gakenke"],
+      "source": "Gakenke District",
+      "url": "https://www.gakenke.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "High",
+      "targets": [
+        {
+          "description": "Coffee and horticulture processing",
+          "baseline": "Existing coffee operations",
+          "target_year": "2029",
+          "target_value": "Expanded processing capacity",
+          "unit": "Status",
+          "progress": "35%"
+        }
+      ],
+      "notes": "Gakenke's DDS focuses on coffee and horticulture processing, building on its agricultural strengths.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_010",
+      "title": "Huye District Development Strategy (DDS) 2018-2024",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Huye"],
+      "source": "Huye District",
+      "url": "https://www.huye.gov.rw",
+      "published_at": "2018-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "Medium",
+      "targets": [
+        {
+          "description": "University of Rwanda and cultural heritage hub",
+          "baseline": "Existing university operations",
+          "target_year": "2024",
+          "target_value": "Expanded capacity",
+          "unit": "Status",
+          "progress": "80%"
+        }
+      ],
+      "notes": "Huye's DDS focuses on education and cultural heritage, leveraging the University of Rwanda and its historical significance. This document is from the 2018-2024 cycle; the DDS II (2024-2029) is yet to be published.",
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    }
+  ],
+  "metadata": {
+    "last_updated": "2025-08-15",
+    "total_documents": 10,
+    "districts_with_documents": 9,
+    "pending_districts": 21
+  }
+}

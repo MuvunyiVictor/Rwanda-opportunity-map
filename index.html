@@ -261,6 +261,15 @@
             margin-bottom: 14px;
         }
         #analytics-view.visible { display: flex; }
+        
+        #strategic-view {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        #strategic-view.visible { display: flex; }
+
         .analytics-card {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.06);
@@ -292,6 +301,41 @@
         .badge-high { background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 1px 8px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
         .badge-medium { background: rgba(245, 158, 11, 0.15); color: #f59e0b; padding: 1px 8px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
         .badge-low { background: rgba(239, 68, 68, 0.12); color: #ef4444; padding: 1px 8px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+
+        .doc-filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 4px 12px;
+            color: #94a3b8;
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.2s;
+        }
+        .doc-filter-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: #e2e8f0;
+        }
+        .doc-filter-btn.active {
+            background: rgba(76,110,245,0.2);
+            border: 1px solid #4C6EF5;
+            color: #e2e8f0;
+        }
+
+        .doc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .doc-item:hover {
+            background: rgba(255,255,255,0.04);
+        }
 
         #page-details {
             display: none;
@@ -337,7 +381,6 @@
             background: rgba(10, 14, 23, 0.95);
         }
 
-        /* ===== DETAILS HEADER ===== */
         .details-header {
             display: flex;
             justify-content: space-between;
@@ -588,6 +631,7 @@
         <div class="nav-tabs">
             <button class="nav-tab active" data-tab="map" id="tab-map">🗺️ Map</button>
             <button class="nav-tab" data-tab="analytics" id="tab-analytics">📊 Analytics</button>
+            <button class="nav-tab" data-tab="strategic" id="tab-strategic">📋 Strategic Docs</button>
         </div>
 
         <div id="map-view">
@@ -621,7 +665,6 @@
                 </div>
             </div>
 
-
             <button class="view-details-btn" id="btn-view-details">
                 <i class="fa-solid fa-chart-simple"></i> View Full Details
             </button>
@@ -644,7 +687,6 @@
                 </div>
             </div>
 
-            <!-- SKILLS PIPELINE INTELLIGENCE CARD -->
             <div class="skills-pipeline-card" style="background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.15); border-radius: 10px; padding: 12px; margin-top: 12px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <h3 style="font-size:0.7rem; text-transform:uppercase; color:#a78bfa; font-weight:700; margin:0;"><i class="fa-solid fa-graduation-cap"></i> Skills Pipeline Intelligence</h3>
@@ -655,7 +697,6 @@
                 </div>
             </div>
 
-            <!-- LAND READINESS BASEMAP CARD -->
             <div class="land-readiness-card" style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 10px; padding: 12px; margin-top: 12px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <h3 style="font-size:0.7rem; text-transform:uppercase; color:#10b981; font-weight:700; margin:0;"><i class="fa-solid fa-map-location-dot"></i> Land Readiness (Land Center Basemap)</h3>
@@ -667,9 +708,7 @@
             </div>
         </div>
 
-
         <div id="analytics-view">
-            <!-- District & Infra Control Selector -->
             <div class="analytics-card" style="background: rgba(76,110,245,0.08); border-color: rgba(76,110,245,0.2);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                     <h4>📍 District Analysis Focus</h4>
@@ -683,7 +722,6 @@
                 </div>
             </div>
 
-            <!-- SITE SELECTION & INFRASTRUCTURE DISTRIBUTION INTELLIGENCE -->
             <div class="analytics-card" id="analytics-site-selection-card" style="border-left: 3px solid #f59e0b;">
                 <h4 style="color:#f59e0b; display:flex; align-items:center; justify-content:space-between;">
                     <span>🎯 Sector Distribution & Site Selection Engine</span>
@@ -694,7 +732,6 @@
                 </div>
             </div>
 
-            <!-- COMPARATIVE NEIGHBOR PERFORMANCE MATRIX -->
             <div class="analytics-card" style="border-left: 3px solid #10b981;">
                 <h4 style="color:#10b981;">🗺️ Comparative Geographic Neighbor Performance</h4>
                 <div id="analytics-neighbor-matrix">
@@ -702,7 +739,6 @@
                 </div>
             </div>
 
-            <!-- NATIONAL INVESTMENT RANKINGS -->
             <div class="analytics-card">
                 <h4>🏆 Top National Investment Opportunities</h4>
                 <div id="analytics-top-opportunities">
@@ -724,6 +760,65 @@
                 </div>
             </div>
         </div>
+
+        <div id="strategic-view">
+            <div class="analytics-card">
+                <h4>📋 Rwanda Strategic Documents</h4>
+                <p style="font-size:0.75rem; color:#94a3b8; margin-bottom:10px;">
+                    Vision 2050 → NST2 → District Development Strategies (DDS)
+                </p>
+                <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+                    <button class="doc-filter-btn active" data-filter="all">All</button>
+                    <button class="doc-filter-btn" data-filter="National">National</button>
+                    <button class="doc-filter-btn" data-filter="District">District</button>
+                </div>
+                <div id="strategic-documents-list" style="max-height:400px; overflow-y:auto;">
+                    <span style="color:#94a3b8; font-size:0.8rem;">Loading documents...</span>
+                </div>
+            </div>
+
+            <div class="analytics-card" id="document-detail-view" style="display:none;">
+                <h4 id="doc-detail-title" style="color:#4C6EF5;">Document Title</h4>
+                <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:8px;">
+                    <span id="doc-detail-level">Level</span> • 
+                    <span id="doc-detail-type">Type</span> • 
+                    <span id="doc-detail-districts">Districts</span>
+                </div>
+                <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:8px;">
+                    <strong>Source:</strong> <span id="doc-detail-source">Source</span>
+                    <span id="doc-detail-url" style="display:inline-block; margin-left:8px;"></span>
+                </div>
+                <div style="font-size:0.7rem; color:#64748b; margin-bottom:8px;">
+                    Published: <span id="doc-detail-published">--</span> • 
+                    Verified: <span id="doc-detail-verified">--</span>
+                </div>
+                <div id="doc-detail-targets" style="margin-top:8px;">
+                    <span style="color:#94a3b8; font-size:0.75rem;">No targets defined.</span>
+                </div>
+                <div id="doc-detail-notes" style="margin-top:8px; font-size:0.75rem; color:#94a3b8; border-top:1px solid rgba(255,255,255,0.06); padding-top:8px;">
+                    <strong>Notes:</strong> <span id="doc-detail-notes-text">--</span>
+                </div>
+                <button id="doc-detail-close" style="margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:4px 12px; color:#94a3b8; font-size:0.7rem; cursor:pointer;">Close</button>
+            </div>
+
+            <div class="analytics-card">
+                <h4>📊 District Document Status</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:6px;">
+                    <div style="background:rgba(16,185,129,0.1); border-radius:6px; padding:8px; text-align:center;">
+                        <div style="font-size:1.2rem; font-weight:800; color:#10b981;" id="doc-status-found">0</div>
+                        <div style="font-size:0.6rem; color:#94a3b8;">Documents Found</div>
+                    </div>
+                    <div style="background:rgba(245,158,11,0.1); border-radius:6px; padding:8px; text-align:center;">
+                        <div style="font-size:1.2rem; font-weight:800; color:#f59e0b;" id="doc-status-pending">30</div>
+                        <div style="font-size:0.6rem; color:#94a3b8;">Districts Pending</div>
+                    </div>
+                    <div style="background:rgba(76,110,245,0.1); border-radius:6px; padding:8px; text-align:center;">
+                        <div style="font-size:1.2rem; font-weight:800; color:#4C6EF5;" id="doc-status-total-targets">0</div>
+                        <div style="font-size:0.6rem; color:#94a3b8;">Total Targets</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </aside>
 
     <div id="page-details">
@@ -735,8 +830,6 @@
         </nav>
 
         <aside class="sidebar-panel details-sidebar" id="sidebar-details">
-
-            <!-- ===== DETAILS HEADER - FIXED ===== -->
             <div class="details-header">
                 <div>
                     <h2 class="region-name" id="details-region-name">District</h2>
@@ -748,12 +841,10 @@
                 </div>
             </div>
 
-            <!-- ===== RADAR CHART ===== -->
             <div style="height:200px; margin-bottom:14px; background: rgba(255,255,255,0.02); border-radius: 8px; padding: 8px;">
                 <canvas id="details-factorRadarChart" style="width:100%; height:100%;"></canvas>
             </div>
 
-            <!-- ===== OPPORTUNITY DIMENSIONS ===== -->
             <h4 class="section-title">Opportunity Dimensions</h4>
             <div class="factor-bar-item">
                 <div class="factor-bar-info">
@@ -791,7 +882,6 @@
                 <div class="progress-bar-bg"><div class="progress-bar-fill gap" id="details-bar-fill-gap" style="width:0%;"></div></div>
             </div>
 
-            <!-- ===== AGRICULTURE PROFILE ===== -->
             <div class="agriculture-profile-box">
                 <h4><i class="fa-solid fa-wheat-awn"></i> Agriculture Profile</h4>
                 <div class="agri-row">
@@ -812,7 +902,6 @@
                 </div>
             </div>
 
-            <!-- ===== MAJOR PROJECTS ===== -->
             <div class="major-projects-profile-box">
                 <h4><i class="fa-solid fa-rocket"></i> Major Projects</h4>
                 <div id="details-projects-list">
@@ -820,7 +909,6 @@
                 </div>
             </div>
 
-            <!-- ===== SKILLS PIPELINE PROFILE ===== -->
             <div class="skills-profile-box" style="background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.12); padding: 14px; border-radius: 10px; margin-bottom: 14px;">
                 <h4 style="color:#a78bfa; font-size:0.85rem; margin-bottom:8px; font-family:'Plus Jakarta Sans',sans-serif; display:flex; justify-content:space-between; align-items:center;">
                     <span><i class="fa-solid fa-graduation-cap"></i> Skills & Workforce Pipeline</span>
@@ -829,7 +917,6 @@
                 <div id="details-skills-list"></div>
             </div>
 
-            <!-- ===== LAND READINESS BASEMAP PROFILE ===== -->
             <div class="land-readiness-box" style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.12); padding: 14px; border-radius: 10px; margin-bottom: 14px;">
                 <h4 style="color:#10b981; font-size:0.85rem; margin-bottom:8px; font-family:'Plus Jakarta Sans',sans-serif; display:flex; justify-content:space-between; align-items:center;">
                     <span><i class="fa-solid fa-layer-group"></i> Land Readiness Breakdown (NSDI Basemap)</span>
@@ -838,8 +925,6 @@
                 <div id="details-land-layers-list"></div>
             </div>
 
-
-            <!-- ===== NEWS INTELLIGENCE (CURATOR ENGINE PIPELINE) ===== -->
             <div style="background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.12); padding: 14px; border-radius: 10px; margin-bottom: 14px;">
                 <h4 style="color:#a78bfa; font-size:0.85rem; margin-bottom:8px; font-family:'Plus Jakarta Sans',sans-serif; display:flex; align-items:center; gap:6px;">
                     <i class="fa-solid fa-newspaper"></i> News & Official Signal Intelligence
@@ -849,11 +934,9 @@
                 </div>
             </div>
 
-            <!-- ===== GAP INSIGHTS ===== -->
             <div id="gap-insights-container">
                 <div id="gap-insights"></div>
             </div>
-
         </aside>
 
         <div style="flex:1; background:#0a0e17;"></div>
@@ -961,7 +1044,6 @@
             <span class="admin-status-msg" id="admin-news-status-msg"></span>
         </div>
 
-        <!-- SCHOOLS INGESTION FORM -->
         <div class="admin-form">
             <h3 style="color:#a78bfa;">🎓 Schools Directory & Curriculum Ingestion</h3>
             <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Add program-level school details to boost workforce skills intelligence.</p>
@@ -998,7 +1080,6 @@
             <span class="admin-status-msg" id="admin-school-status-msg"></span>
         </div>
 
-        <!-- LAND CENTER DATA MANAGER FORM -->
         <div class="admin-form">
             <h3 style="color:#10b981;">🗺️ Rwanda Land Center (NSDI Basemap Data Manager)</h3>
             <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:12px;">Update spatial development readiness indices (0-100) per layer.</p>
@@ -1026,7 +1107,6 @@
             <button class="admin-submit-btn green" id="admin-submit-land-center">💾 Save Land Center Basemap Data</button>
             <span class="admin-status-msg" id="admin-land-status-msg"></span>
         </div>
-
 
         <div class="admin-form">
             <h3 style="color:#4C6EF5;">📋 All Submitted Assets</h3>
