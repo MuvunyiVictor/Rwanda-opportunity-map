@@ -30,6 +30,7 @@
         }
       ],
       "notes": "Rwanda's long-term development blueprint to transform the country into a high-income, knowledge-based economy by 2050.",
+      "gap_analysis": null,
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -88,7 +89,8 @@
           "progress": "0%"
         }
       ],
-      "notes": "The National Strategy for Transformation 2 is Rwanda's medium-term development plan for 2024-2029, serving as the primary vehicle to achieve Vision 2050.",
+      "notes": "The National Strategy for Transformation 2 is Rwanda's medium-term development plan for 2024-2029.",
+      "gap_analysis": null,
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -124,6 +126,104 @@
         }
       ],
       "notes": "Bugesera's DDS focuses on leveraging the new international airport to drive economic growth, attract investment, and develop housing and logistics infrastructure.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 72,
+        "analysis_date": "2025-08-15",
+        "summary": "Bugesera needs $175M investment, 1,000 workers, and 150 new businesses to achieve its DDS targets.",
+        "land": {
+          "existing": {
+            "available_land_ha": 5000,
+            "zoning_flexibility_score": 85,
+            "infrastructure_density_score": 70
+          },
+          "required": {
+            "land_for_housing_ha": 200,
+            "land_for_industry_ha": 150,
+            "land_for_agriculture_ha": 100
+          },
+          "gap": {
+            "total_land_needed_ha": 450,
+            "gap_ha": 4550,
+            "gap_percentage": 9
+          },
+          "confidence": {
+            "score": 80,
+            "level": "High",
+            "source": "Bugesera DDS 2024-2029",
+            "missing_data": [],
+            "recommendation": "Data is reliable. No further verification needed."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 25000,
+            "schools_count": 12,
+            "tvet_institutions": 3
+          },
+          "required": {
+            "construction_workers": 500,
+            "hospitality_workers": 200,
+            "agriculture_workers": 300
+          },
+          "gap": {
+            "total_workers_needed": 1000,
+            "gap_workers": 24000,
+            "gap_percentage": 4
+          },
+          "confidence": {
+            "score": 50,
+            "level": "Medium",
+            "source": "Estimated from DDS and NISR data",
+            "missing_data": ["Exact workforce skills profile", "Recent labor force survey"],
+            "recommendation": "Request latest NISR Labor Force Survey and skills assessment."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 4,
+            "estimated_credit_access": 75
+          },
+          "required": {
+            "investment_for_housing_usd": 50000000,
+            "investment_for_industry_usd": 75000000,
+            "investment_for_infrastructure_usd": 100000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 225000000,
+            "gap_usd": 175000000,
+            "gap_percentage": 78
+          },
+          "confidence": {
+            "score": 60,
+            "level": "Medium",
+            "source": "Bugesera DDS and MINECOFIN budget documents",
+            "missing_data": ["Confirmed investment commitments", "Private investment pipeline"],
+            "recommendation": "Request investment data from RDB and MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 850,
+            "market_access_score": 80
+          },
+          "required": {
+            "new_businesses_needed": 150,
+            "market_capacity": 1000
+          },
+          "gap": {
+            "business_gap": 150,
+            "gap_percentage": 15
+          },
+          "confidence": {
+            "score": 65,
+            "level": "Medium",
+            "source": "Bugesera DDS and NISR business census",
+            "missing_data": ["Sector-specific business breakdown", "Startup survival rates"],
+            "recommendation": "Request sectoral business data from NISR and MINICOM."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -159,6 +259,104 @@
         }
       ],
       "notes": "Muhanga's DDS focuses on becoming a commercial and logistics hub, with a strong emphasis on industrial development and manufacturing.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 45,
+        "analysis_date": "2025-08-15",
+        "summary": "Muhanga needs significant investment and workforce development to achieve its industrial targets. Data is limited.",
+        "land": {
+          "existing": {
+            "available_land_ha": 3500,
+            "zoning_flexibility_score": 75,
+            "infrastructure_density_score": 65
+          },
+          "required": {
+            "land_for_housing_ha": 150,
+            "land_for_industry_ha": 200,
+            "land_for_agriculture_ha": 80
+          },
+          "gap": {
+            "total_land_needed_ha": 430,
+            "gap_ha": 3070,
+            "gap_percentage": 12
+          },
+          "confidence": {
+            "score": 50,
+            "level": "Medium",
+            "source": "Muhanga DDS 2024-2029",
+            "missing_data": ["Land use master plan", "Detailed zoning maps"],
+            "recommendation": "Request land use master plan from Muhanga District."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 15000,
+            "schools_count": 8,
+            "tvet_institutions": 2
+          },
+          "required": {
+            "construction_workers": 800,
+            "industrial_workers": 600,
+            "agriculture_workers": 200
+          },
+          "gap": {
+            "total_workers_needed": 1600,
+            "gap_workers": 13400,
+            "gap_percentage": 11
+          },
+          "confidence": {
+            "score": 40,
+            "level": "Low",
+            "source": "Estimated from DDS",
+            "missing_data": ["Workforce skills inventory", "Labor demand assessment"],
+            "recommendation": "Request workforce skills assessment from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 3,
+            "estimated_credit_access": 55
+          },
+          "required": {
+            "investment_for_housing_usd": 30000000,
+            "investment_for_industry_usd": 100000000,
+            "investment_for_infrastructure_usd": 50000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 180000000,
+            "gap_usd": 160000000,
+            "gap_percentage": 89
+          },
+          "confidence": {
+            "score": 45,
+            "level": "Low",
+            "source": "Muhanga DDS",
+            "missing_data": ["Confirmed investment commitments", "Project cost breakdowns"],
+            "recommendation": "Request budget details from Muhanga District and MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 650,
+            "market_access_score": 70
+          },
+          "required": {
+            "new_businesses_needed": 200,
+            "market_capacity": 850
+          },
+          "gap": {
+            "business_gap": 200,
+            "gap_percentage": 24
+          },
+          "confidence": {
+            "score": 45,
+            "level": "Low",
+            "source": "Muhanga DDS and NISR business census",
+            "missing_data": ["Sector-specific business data", "Market demand assessment"],
+            "recommendation": "Request business census data from NISR and MINICOM."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -185,7 +383,105 @@
           "progress": "50%"
         }
       ],
-      "notes": "Rulindo's DDS focuses on mining and mineral processing, leveraging its strategic location and mineral resources to drive economic growth.",
+      "notes": "Rulindo's DDS focuses on mining and mineral processing, leveraging its strategic location and mineral resources.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 35,
+        "analysis_date": "2025-08-15",
+        "summary": "Rulindo has potential in mining but data is limited. More information needed from district officials.",
+        "land": {
+          "existing": {
+            "available_land_ha": 3000,
+            "zoning_flexibility_score": 65,
+            "infrastructure_density_score": 55
+          },
+          "required": {
+            "land_for_housing_ha": 100,
+            "land_for_industry_ha": 80,
+            "land_for_agriculture_ha": 60
+          },
+          "gap": {
+            "total_land_needed_ha": 240,
+            "gap_ha": 2760,
+            "gap_percentage": 8
+          },
+          "confidence": {
+            "score": 40,
+            "level": "Low",
+            "source": "Rulindo DDS 2024-2029",
+            "missing_data": ["Detailed land use plan", "Mining land allocation"],
+            "recommendation": "Request land use and mining maps from Rulindo District."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 8000,
+            "schools_count": 6,
+            "tvet_institutions": 1
+          },
+          "required": {
+            "construction_workers": 300,
+            "mining_workers": 500,
+            "agriculture_workers": 200
+          },
+          "gap": {
+            "total_workers_needed": 1000,
+            "gap_workers": 7000,
+            "gap_percentage": 13
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Estimated from DDS",
+            "missing_data": ["Workforce skills assessment", "Mining workforce needs"],
+            "recommendation": "Request workforce data from NISR and Rulindo District."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 2,
+            "estimated_credit_access": 45
+          },
+          "required": {
+            "investment_for_housing_usd": 15000000,
+            "investment_for_mining_usd": 30000000,
+            "investment_for_infrastructure_usd": 20000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 65000000,
+            "gap_usd": 60000000,
+            "gap_percentage": 92
+          },
+          "confidence": {
+            "score": 35,
+            "level": "Low",
+            "source": "Rulindo DDS",
+            "missing_data": ["Investment commitments", "Project financing details"],
+            "recommendation": "Request investment data from RDB and MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 400,
+            "market_access_score": 55
+          },
+          "required": {
+            "new_businesses_needed": 80,
+            "market_capacity": 480
+          },
+          "gap": {
+            "business_gap": 80,
+            "gap_percentage": 17
+          },
+          "confidence": {
+            "score": 35,
+            "level": "Low",
+            "source": "Rulindo DDS and NISR business census",
+            "missing_data": ["Sector-specific business data", "Market demand assessment"],
+            "recommendation": "Request business census data from NISR."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -212,7 +508,105 @@
           "progress": "40%"
         }
       ],
-      "notes": "Ngororero's DDS focuses on mineral extraction and small hydro plants, aiming to leverage its natural resources for economic development.",
+      "notes": "Ngororero's DDS focuses on mineral extraction and small hydro plants.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 30,
+        "analysis_date": "2025-08-15",
+        "summary": "Ngororero has potential in minerals and energy. Data is very limited.",
+        "land": {
+          "existing": {
+            "available_land_ha": 2800,
+            "zoning_flexibility_score": 60,
+            "infrastructure_density_score": 50
+          },
+          "required": {
+            "land_for_housing_ha": 80,
+            "land_for_industry_ha": 60,
+            "land_for_agriculture_ha": 50
+          },
+          "gap": {
+            "total_land_needed_ha": 190,
+            "gap_ha": 2610,
+            "gap_percentage": 7
+          },
+          "confidence": {
+            "score": 35,
+            "level": "Low",
+            "source": "Ngororero DDS 2024-2029",
+            "missing_data": ["Land use master plan", "Mining land allocation"],
+            "recommendation": "Request land use and mining data from Ngororero District."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 6000,
+            "schools_count": 5,
+            "tvet_institutions": 1
+          },
+          "required": {
+            "construction_workers": 200,
+            "mining_workers": 300,
+            "energy_workers": 150
+          },
+          "gap": {
+            "total_workers_needed": 650,
+            "gap_workers": 5350,
+            "gap_percentage": 11
+          },
+          "confidence": {
+            "score": 25,
+            "level": "Low",
+            "source": "Estimated from DDS",
+            "missing_data": ["Workforce skills assessment", "Mining workforce needs"],
+            "recommendation": "Request workforce data from NISR and Ngororero District."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 1,
+            "estimated_credit_access": 35
+          },
+          "required": {
+            "investment_for_housing_usd": 10000000,
+            "investment_for_mining_usd": 20000000,
+            "investment_for_energy_usd": 15000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 45000000,
+            "gap_usd": 42000000,
+            "gap_percentage": 93
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Ngororero DDS",
+            "missing_data": ["Investment commitments", "Project financing details"],
+            "recommendation": "Request investment data from RDB and MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 300,
+            "market_access_score": 45
+          },
+          "required": {
+            "new_businesses_needed": 60,
+            "market_capacity": 360
+          },
+          "gap": {
+            "business_gap": 60,
+            "gap_percentage": 17
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Ngororero DDS and NISR business census",
+            "missing_data": ["Sector-specific business data", "Market demand assessment"],
+            "recommendation": "Request business census data from NISR."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -239,7 +633,105 @@
           "progress": "35%"
         }
       ],
-      "notes": "Ruhango's DDS focuses on cassava processing and agricultural trade, building on its existing agricultural base.",
+      "notes": "Ruhango's DDS focuses on cassava processing and agricultural trade.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 40,
+        "analysis_date": "2025-08-15",
+        "summary": "Ruhango needs investment in cassava processing infrastructure and workforce training.",
+        "land": {
+          "existing": {
+            "available_land_ha": 3200,
+            "zoning_flexibility_score": 70,
+            "infrastructure_density_score": 58
+          },
+          "required": {
+            "land_for_housing_ha": 120,
+            "land_for_industry_ha": 80,
+            "land_for_agriculture_ha": 150
+          },
+          "gap": {
+            "total_land_needed_ha": 350,
+            "gap_ha": 2850,
+            "gap_percentage": 11
+          },
+          "confidence": {
+            "score": 45,
+            "level": "Low",
+            "source": "Ruhango DDS 2024-2029",
+            "missing_data": ["Agricultural land use plan", "Processing facility locations"],
+            "recommendation": "Request agricultural land use plan from Ruhango District."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 10000,
+            "schools_count": 7,
+            "tvet_institutions": 1
+          },
+          "required": {
+            "construction_workers": 250,
+            "agriculture_workers": 400,
+            "processing_workers": 300
+          },
+          "gap": {
+            "total_workers_needed": 950,
+            "gap_workers": 9050,
+            "gap_percentage": 10
+          },
+          "confidence": {
+            "score": 35,
+            "level": "Low",
+            "source": "Estimated from DDS",
+            "missing_data": ["Agricultural workforce skills", "Processing industry needs"],
+            "recommendation": "Request workforce assessment from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 2,
+            "estimated_credit_access": 48
+          },
+          "required": {
+            "investment_for_housing_usd": 18000000,
+            "investment_for_processing_usd": 35000000,
+            "investment_for_infrastructure_usd": 22000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 75000000,
+            "gap_usd": 68000000,
+            "gap_percentage": 91
+          },
+          "confidence": {
+            "score": 40,
+            "level": "Low",
+            "source": "Ruhango DDS",
+            "missing_data": ["Investment commitments", "Project financing details"],
+            "recommendation": "Request investment data from RDB and MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 450,
+            "market_access_score": 60
+          },
+          "required": {
+            "new_businesses_needed": 100,
+            "market_capacity": 550
+          },
+          "gap": {
+            "business_gap": 100,
+            "gap_percentage": 18
+          },
+          "confidence": {
+            "score": 40,
+            "level": "Low",
+            "source": "Ruhango DDS and NISR business census",
+            "missing_data": ["Sector-specific business data", "Market demand assessment"],
+            "recommendation": "Request business census data from NISR."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -266,7 +758,105 @@
           "progress": "40%"
         }
       ],
-      "notes": "Nyagatare's DDS focuses on dairy and livestock development, leveraging its large land area for agricultural production.",
+      "notes": "Nyagatare's DDS focuses on dairy and livestock development.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 38,
+        "analysis_date": "2025-08-15",
+        "summary": "Nyagatare needs investment in livestock infrastructure and dairy processing.",
+        "land": {
+          "existing": {
+            "available_land_ha": 4000,
+            "zoning_flexibility_score": 72,
+            "infrastructure_density_score": 60
+          },
+          "required": {
+            "land_for_housing_ha": 140,
+            "land_for_industry_ha": 90,
+            "land_for_agriculture_ha": 200
+          },
+          "gap": {
+            "total_land_needed_ha": 430,
+            "gap_ha": 3570,
+            "gap_percentage": 11
+          },
+          "confidence": {
+            "score": 42,
+            "level": "Low",
+            "source": "Nyagatare DDS 2024-2029",
+            "missing_data": ["Livestock land use plan", "Processing facility locations"],
+            "recommendation": "Request livestock land use plan from Nyagatare District."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 12000,
+            "schools_count": 9,
+            "tvet_institutions": 2
+          },
+          "required": {
+            "construction_workers": 300,
+            "livestock_workers": 500,
+            "processing_workers": 250
+          },
+          "gap": {
+            "total_workers_needed": 1050,
+            "gap_workers": 10950,
+            "gap_percentage": 9
+          },
+          "confidence": {
+            "score": 35,
+            "level": "Low",
+            "source": "Estimated from DDS",
+            "missing_data": ["Livestock workforce skills", "Processing industry needs"],
+            "recommendation": "Request workforce assessment from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 3,
+            "estimated_credit_access": 50
+          },
+          "required": {
+            "investment_for_housing_usd": 20000000,
+            "investment_for_livestock_usd": 40000000,
+            "investment_for_processing_usd": 25000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 85000000,
+            "gap_usd": 78000000,
+            "gap_percentage": 92
+          },
+          "confidence": {
+            "score": 38,
+            "level": "Low",
+            "source": "Nyagatare DDS",
+            "missing_data": ["Investment commitments", "Project financing details"],
+            "recommendation": "Request investment data from RDB and MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 500,
+            "market_access_score": 62
+          },
+          "required": {
+            "new_businesses_needed": 120,
+            "market_capacity": 620
+          },
+          "gap": {
+            "business_gap": 120,
+            "gap_percentage": 19
+          },
+          "confidence": {
+            "score": 38,
+            "level": "Low",
+            "source": "Nyagatare DDS and NISR business census",
+            "missing_data": ["Sector-specific business data", "Market demand assessment"],
+            "recommendation": "Request business census data from NISR."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -293,7 +883,105 @@
           "progress": "35%"
         }
       ],
-      "notes": "Gakenke's DDS focuses on coffee and horticulture processing, building on its agricultural strengths.",
+      "notes": "Gakenke's DDS focuses on coffee and horticulture processing.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 35,
+        "analysis_date": "2025-08-15",
+        "summary": "Gakenke needs investment in coffee and horticulture processing infrastructure.",
+        "land": {
+          "existing": {
+            "available_land_ha": 2900,
+            "zoning_flexibility_score": 65,
+            "infrastructure_density_score": 55
+          },
+          "required": {
+            "land_for_housing_ha": 100,
+            "land_for_industry_ha": 70,
+            "land_for_agriculture_ha": 120
+          },
+          "gap": {
+            "total_land_needed_ha": 290,
+            "gap_ha": 2610,
+            "gap_percentage": 10
+          },
+          "confidence": {
+            "score": 40,
+            "level": "Low",
+            "source": "Gakenke DDS 2024-2029",
+            "missing_data": ["Agricultural land use plan", "Processing facility locations"],
+            "recommendation": "Request agricultural land use plan from Gakenke District."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 9000,
+            "schools_count": 6,
+            "tvet_institutions": 1
+          },
+          "required": {
+            "construction_workers": 200,
+            "agriculture_workers": 300,
+            "processing_workers": 200
+          },
+          "gap": {
+            "total_workers_needed": 700,
+            "gap_workers": 8300,
+            "gap_percentage": 8
+          },
+          "confidence": {
+            "score": 32,
+            "level": "Low",
+            "source": "Estimated from DDS",
+            "missing_data": ["Agricultural workforce skills", "Processing industry needs"],
+            "recommendation": "Request workforce assessment from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 2,
+            "estimated_credit_access": 42
+          },
+          "required": {
+            "investment_for_housing_usd": 12000000,
+            "investment_for_processing_usd": 28000000,
+            "investment_for_infrastructure_usd": 18000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 58000000,
+            "gap_usd": 53000000,
+            "gap_percentage": 91
+          },
+          "confidence": {
+            "score": 35,
+            "level": "Low",
+            "source": "Gakenke DDS",
+            "missing_data": ["Investment commitments", "Project financing details"],
+            "recommendation": "Request investment data from RDB and MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 380,
+            "market_access_score": 55
+          },
+          "required": {
+            "new_businesses_needed": 80,
+            "market_capacity": 460
+          },
+          "gap": {
+            "business_gap": 80,
+            "gap_percentage": 17
+          },
+          "confidence": {
+            "score": 35,
+            "level": "Low",
+            "source": "Gakenke DDS and NISR business census",
+            "missing_data": ["Sector-specific business data", "Market demand assessment"],
+            "recommendation": "Request business census data from NISR."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -320,7 +1008,496 @@
           "progress": "80%"
         }
       ],
-      "notes": "Huye's DDS focuses on education and cultural heritage, leveraging the University of Rwanda and its historical significance. This document is from the 2018-2024 cycle; the DDS II (2024-2029) is yet to be published.",
+      "notes": "Huye's DDS focuses on education and cultural heritage. This is the 2018-2024 cycle.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 48,
+        "analysis_date": "2025-08-15",
+        "summary": "Huye has strong education and cultural assets. DDS II (2024-2029) data is pending.",
+        "land": {
+          "existing": {
+            "available_land_ha": 3500,
+            "zoning_flexibility_score": 75,
+            "infrastructure_density_score": 68
+          },
+          "required": {
+            "land_for_housing_ha": 130,
+            "land_for_industry_ha": 60,
+            "land_for_agriculture_ha": 70
+          },
+          "gap": {
+            "total_land_needed_ha": 260,
+            "gap_ha": 3240,
+            "gap_percentage": 7
+          },
+          "confidence": {
+            "score": 55,
+            "level": "Medium",
+            "source": "Huye DDS 2018-2024",
+            "missing_data": ["DDS II (2024-2029) data", "Updated land use plan"],
+            "recommendation": "Request Huye DDS II (2024-2029) document."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 18000,
+            "schools_count": 15,
+            "tvet_institutions": 3
+          },
+          "required": {
+            "construction_workers": 350,
+            "education_workers": 400,
+            "tourism_workers": 200
+          },
+          "gap": {
+            "total_workers_needed": 950,
+            "gap_workers": 17050,
+            "gap_percentage": 5
+          },
+          "confidence": {
+            "score": 50,
+            "level": "Medium",
+            "source": "Huye DDS 2018-2024",
+            "missing_data": ["Updated workforce assessment", "DDS II data"],
+            "recommendation": "Request Huye DDS II and latest labor data from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 4,
+            "estimated_credit_access": 65
+          },
+          "required": {
+            "investment_for_housing_usd": 22000000,
+            "investment_for_education_usd": 30000000,
+            "investment_for_tourism_usd": 18000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 70000000,
+            "gap_usd": 62000000,
+            "gap_percentage": 89
+          },
+          "confidence": {
+            "score": 45,
+            "level": "Low",
+            "source": "Huye DDS 2018-2024",
+            "missing_data": ["DDS II investment data", "Updated project budgets"],
+            "recommendation": "Request Huye DDS II and updated investment data."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 600,
+            "market_access_score": 70
+          },
+          "required": {
+            "new_businesses_needed": 120,
+            "market_capacity": 720
+          },
+          "gap": {
+            "business_gap": 120,
+            "gap_percentage": 17
+          },
+          "confidence": {
+            "score": 45,
+            "level": "Low",
+            "source": "Huye DDS 2018-2024 and NISR business census",
+            "missing_data": ["DDS II business targets", "Updated market data"],
+            "recommendation": "Request Huye DDS II and updated business census data."
+          }
+        }
+      },
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_011",
+      "title": "Nyarugenge District Development Strategy (DDS) 2018-2024",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Nyarugenge"],
+      "source": "Nyarugenge District",
+      "url": "https://www.nyarugenge.gov.rw",
+      "published_at": "2018-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "Medium",
+      "targets": [
+        {
+          "description": "CBD redevelopment and affordable housing",
+          "baseline": "Existing CBD infrastructure",
+          "target_year": "2024",
+          "target_value": "Expanded affordable housing",
+          "unit": "Status",
+          "progress": "75%"
+        }
+      ],
+      "notes": "Nyarugenge's DDS focuses on CBD redevelopment and affordable housing. This is the 2018-2024 cycle.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 50,
+        "analysis_date": "2025-08-15",
+        "summary": "Nyarugenge has strong commercial potential. DDS II (2024-2029) data is pending.",
+        "land": {
+          "existing": {
+            "available_land_ha": 2500,
+            "zoning_flexibility_score": 85,
+            "infrastructure_density_score": 80
+          },
+          "required": {
+            "land_for_housing_ha": 180,
+            "land_for_commercial_ha": 120,
+            "land_for_infrastructure_ha": 80
+          },
+          "gap": {
+            "total_land_needed_ha": 380,
+            "gap_ha": 2120,
+            "gap_percentage": 15
+          },
+          "confidence": {
+            "score": 60,
+            "level": "Medium",
+            "source": "Nyarugenge DDS 2018-2024",
+            "missing_data": ["DDS II (2024-2029) data", "Updated land use plan"],
+            "recommendation": "Request Nyarugenge DDS II document."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 20000,
+            "schools_count": 10,
+            "tvet_institutions": 2
+          },
+          "required": {
+            "construction_workers": 500,
+            "commercial_workers": 300,
+            "service_workers": 400
+          },
+          "gap": {
+            "total_workers_needed": 1200,
+            "gap_workers": 18800,
+            "gap_percentage": 6
+          },
+          "confidence": {
+            "score": 55,
+            "level": "Medium",
+            "source": "Nyarugenge DDS 2018-2024",
+            "missing_data": ["Updated workforce assessment", "DDS II data"],
+            "recommendation": "Request Nyarugenge DDS II and labor data from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 6,
+            "estimated_credit_access": 80
+          },
+          "required": {
+            "investment_for_housing_usd": 40000000,
+            "investment_for_commercial_usd": 60000000,
+            "investment_for_infrastructure_usd": 30000000
+          },
+          "gap": {
+            "total_investment_needed_usd": 130000000,
+            "gap_usd": 110000000,
+            "gap_percentage": 85
+          },
+          "confidence": {
+            "score": 50,
+            "level": "Medium",
+            "source": "Nyarugenge DDS 2018-2024",
+            "missing_data": ["DDS II investment data", "Updated project budgets"],
+            "recommendation": "Request Nyarugenge DDS II and updated investment data."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 800,
+            "market_access_score": 85
+          },
+          "required": {
+            "new_businesses_needed": 150,
+            "market_capacity": 950
+          },
+          "gap": {
+            "business_gap": 150,
+            "gap_percentage": 16
+          },
+          "confidence": {
+            "score": 50,
+            "level": "Medium",
+            "source": "Nyarugenge DDS 2018-2024 and NISR business census",
+            "missing_data": ["DDS II business targets", "Updated market data"],
+            "recommendation": "Request Nyarugenge DDS II and updated business census data."
+          }
+        }
+      },
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_012",
+      "title": "Gasabo District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Gasabo"],
+      "source": "Gasabo District",
+      "url": "https://www.gasabo.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "Pending",
+      "targets": [
+        {
+          "description": "Kigali Innovation City Phase 2",
+          "baseline": "Under construction",
+          "target_year": "2029",
+          "target_value": "Operational",
+          "unit": "Status",
+          "progress": "50%"
+        },
+        {
+          "description": "Master-planned residential estates",
+          "baseline": "Existing estates",
+          "target_year": "2029",
+          "target_value": "Expanded capacity",
+          "unit": "Status",
+          "progress": "60%"
+        }
+      ],
+      "notes": "Gasabo's DDS focuses on tech hub development and master-planned residential estates. DDS document is pending.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 30,
+        "analysis_date": "2025-08-15",
+        "summary": "Gasabo is the most developed district. DDS document is pending. Structure is ready for data.",
+        "land": {
+          "existing": {
+            "available_land_ha": 6000,
+            "zoning_flexibility_score": 90,
+            "infrastructure_density_score": 85
+          },
+          "required": {
+            "land_for_housing_ha": 0,
+            "land_for_industry_ha": 0,
+            "land_for_agriculture_ha": 0
+          },
+          "gap": {
+            "total_land_needed_ha": 0,
+            "gap_ha": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Gasabo DDS 2024-2029", "Detailed land use plan"],
+            "recommendation": "Request Gasabo DDS document and land use master plan."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 35000,
+            "schools_count": 20,
+            "tvet_institutions": 5
+          },
+          "required": {
+            "construction_workers": 0,
+            "tech_workers": 0,
+            "service_workers": 0
+          },
+          "gap": {
+            "total_workers_needed": 0,
+            "gap_workers": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Gasabo DDS 2024-2029", "Workforce targets"],
+            "recommendation": "Request Gasabo DDS and workforce targets from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 10,
+            "estimated_credit_access": 90
+          },
+          "required": {
+            "investment_for_housing_usd": 0,
+            "investment_for_tech_usd": 0,
+            "investment_for_infrastructure_usd": 0
+          },
+          "gap": {
+            "total_investment_needed_usd": 0,
+            "gap_usd": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Gasabo DDS 2024-2029", "Investment targets"],
+            "recommendation": "Request Gasabo DDS and investment data from MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 1200,
+            "market_access_score": 95
+          },
+          "required": {
+            "new_businesses_needed": 0,
+            "market_capacity": 0
+          },
+          "gap": {
+            "business_gap": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Gasabo DDS 2024-2029", "Business targets"],
+            "recommendation": "Request Gasabo DDS and business data from MINICOM."
+          }
+        }
+      },
+      "added_by": "admin",
+      "added_at": "2025-08-15",
+      "updated_by": "admin",
+      "updated_at": "2025-08-15"
+    },
+    {
+      "id": "doc_013",
+      "title": "Kicukiro District Development Strategy (DDS) 2024-2029",
+      "level": "District",
+      "type": "Strategy",
+      "districts": ["Kicukiro"],
+      "source": "Kicukiro District",
+      "url": "https://www.kicukiro.gov.rw",
+      "published_at": "2024-06-01",
+      "last_verified": "2025-08-15",
+      "confidence": "Pending",
+      "targets": [
+        {
+          "description": "Industrial and residential growth",
+          "baseline": "Existing industrial parks",
+          "target_year": "2029",
+          "target_value": "Expanded capacity",
+          "unit": "Status",
+          "progress": "55%"
+        },
+        {
+          "description": "Warehouse facilities and manufacturing plants",
+          "baseline": "Existing facilities",
+          "target_year": "2029",
+          "target_value": "Expanded capacity",
+          "unit": "Status",
+          "progress": "50%"
+        }
+      ],
+      "notes": "Kicukiro's DDS focuses on industrial and residential growth, warehouse facilities, and manufacturing plants.",
+      "gap_analysis": {
+        "enabled": true,
+        "overall_confidence": 30,
+        "analysis_date": "2025-08-15",
+        "summary": "Kicukiro has strong industrial potential. DDS document is pending. Structure is ready for data.",
+        "land": {
+          "existing": {
+            "available_land_ha": 4000,
+            "zoning_flexibility_score": 82,
+            "infrastructure_density_score": 78
+          },
+          "required": {
+            "land_for_housing_ha": 0,
+            "land_for_industry_ha": 0,
+            "land_for_agriculture_ha": 0
+          },
+          "gap": {
+            "total_land_needed_ha": 0,
+            "gap_ha": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Kicukiro DDS 2024-2029", "Detailed land use plan"],
+            "recommendation": "Request Kicukiro DDS document and land use master plan."
+          }
+        },
+        "labor": {
+          "existing": {
+            "skilled_workers": 22000,
+            "schools_count": 14,
+            "tvet_institutions": 4
+          },
+          "required": {
+            "construction_workers": 0,
+            "industrial_workers": 0,
+            "service_workers": 0
+          },
+          "gap": {
+            "total_workers_needed": 0,
+            "gap_workers": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Kicukiro DDS 2024-2029", "Workforce targets"],
+            "recommendation": "Request Kicukiro DDS and workforce targets from NISR."
+          }
+        },
+        "capital": {
+          "existing": {
+            "bank_branches": 6,
+            "estimated_credit_access": 75
+          },
+          "required": {
+            "investment_for_housing_usd": 0,
+            "investment_for_industry_usd": 0,
+            "investment_for_infrastructure_usd": 0
+          },
+          "gap": {
+            "total_investment_needed_usd": 0,
+            "gap_usd": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Kicukiro DDS 2024-2029", "Investment targets"],
+            "recommendation": "Request Kicukiro DDS and investment data from MINECOFIN."
+          }
+        },
+        "entrepreneurship": {
+          "existing": {
+            "business_count": 900,
+            "market_access_score": 80
+          },
+          "required": {
+            "new_businesses_needed": 0,
+            "market_capacity": 0
+          },
+          "gap": {
+            "business_gap": 0,
+            "gap_percentage": 0
+          },
+          "confidence": {
+            "score": 30,
+            "level": "Low",
+            "source": "Pending DDS document",
+            "missing_data": ["Kicukiro DDS 2024-2029", "Business targets"],
+            "recommendation": "Request Kicukiro DDS and business data from MINICOM."
+          }
+        }
+      },
       "added_by": "admin",
       "added_at": "2025-08-15",
       "updated_by": "admin",
@@ -329,8 +1506,11 @@
   ],
   "metadata": {
     "last_updated": "2025-08-15",
-    "total_documents": 10,
-    "districts_with_documents": 9,
-    "pending_districts": 21
+    "total_documents": 13,
+    "districts_with_documents": 11,
+    "pending_districts": 19,
+    "districts_with_gap_analysis": 11,
+    "districts_with_complete_gap_analysis": 7,
+    "districts_with_partial_gap_analysis": 4
   }
 }
