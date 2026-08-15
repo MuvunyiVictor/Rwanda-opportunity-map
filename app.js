@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupAnalyticsTabs();
     setupInfraPillListeners();
     setupDocFilters();
+    setupMethodologyToggle();
     loadData();
 });
 
@@ -375,6 +376,28 @@ function setupDocFilters() {
 // Make functions globally accessible
 window.showDocumentDetail = showDocumentDetail;
 window.closeDocumentDetail = closeDocumentDetail;
+
+// ==========================================================================
+// METHODOLOGY TOGGLE
+// ==========================================================================
+
+function setupMethodologyToggle() {
+    const methodologyToggle = document.getElementById('methodology-toggle');
+    const methodologyContent = document.getElementById('methodology-content');
+    const methodologyIcon = document.getElementById('methodology-icon');
+
+    if (methodologyToggle && methodologyContent && methodologyIcon) {
+        methodologyToggle.addEventListener('click', function() {
+            if (methodologyContent.style.display === 'none' || methodologyContent.style.display === '') {
+                methodologyContent.style.display = 'block';
+                methodologyIcon.textContent = '▲';
+            } else {
+                methodologyContent.style.display = 'none';
+                methodologyIcon.textContent = '▼';
+            }
+        });
+    }
+}
 
 // ==========================================================================
 // SKILLS PIPELINE & LAND CENTER SCORING FUNCTIONS
