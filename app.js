@@ -115,8 +115,46 @@ document.addEventListener('DOMContentLoaded', () => {
     setupAnalyticsTabs();
     setupInfraPillListeners();
     setupDocFilters();
+    setupMethodologyToggle();
     loadData();
 });
+
+// ==========================================================================
+// METHODOLOGY TOGGLE (FIXED)
+// ==========================================================================
+function setupMethodologyToggle() {
+    console.log('Setting up methodology toggle...');
+    
+    // Find the toggle elements
+    const toggle = document.getElementById('methodology-toggle');
+    const content = document.getElementById('methodology-content');
+    const icon = document.getElementById('methodology-icon');
+
+    console.log('Toggle element:', toggle);
+    console.log('Content element:', content);
+    console.log('Icon element:', icon);
+
+    if (toggle && content && icon) {
+        toggle.addEventListener('click', function(e) {
+            console.log('Methodology toggle clicked!');
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                icon.textContent = '▲';
+                console.log('Content shown');
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '▼';
+                console.log('Content hidden');
+            }
+        });
+        console.log('✅ Methodology toggle working!');
+    } else {
+        console.warn('⚠️ Methodology elements not found');
+        console.log('Toggle:', toggle);
+        console.log('Content:', content);
+        console.log('Icon:', icon);
+    }
+}
 
 // ==========================================================================
 // DATA LOADING WITH PROGRESSIVE INSTANT RENDERING
@@ -1748,30 +1786,6 @@ function renderAdminAssetLists() {
         </div>
     `).join('');
 }
-
-// ==========================================================================
-// METHODOLOGY TOGGLE (FIXED - Runs after page loads)
-// ==========================================================================
-setTimeout(function() {
-    const methodologyToggle = document.getElementById('methodology-toggle');
-    const methodologyContent = document.getElementById('methodology-content');
-    const methodologyIcon = document.getElementById('methodology-icon');
-
-    if (methodologyToggle && methodologyContent && methodologyIcon) {
-        methodologyToggle.addEventListener('click', function() {
-            if (methodologyContent.style.display === 'none' || methodologyContent.style.display === '') {
-                methodologyContent.style.display = 'block';
-                methodologyIcon.textContent = '▲';
-            } else {
-                methodologyContent.style.display = 'none';
-                methodologyIcon.textContent = '▼';
-            }
-        });
-        console.log('✅ Methodology toggle initialized');
-    } else {
-        console.warn('⚠️ Methodology elements not found - check HTML');
-    }
-}, 500);
 
 window.selectDistrict = selectDistrict;
 window.__state = state;
