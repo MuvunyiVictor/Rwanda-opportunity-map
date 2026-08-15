@@ -125,34 +125,23 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupMethodologyToggle() {
     console.log('Setting up methodology toggle...');
     
-    // Find the toggle elements
     const toggle = document.getElementById('methodology-toggle');
     const content = document.getElementById('methodology-content');
     const icon = document.getElementById('methodology-icon');
 
-    console.log('Toggle element:', toggle);
-    console.log('Content element:', content);
-    console.log('Icon element:', icon);
-
     if (toggle && content && icon) {
         toggle.addEventListener('click', function(e) {
-            console.log('Methodology toggle clicked!');
             if (content.style.display === 'none' || content.style.display === '') {
                 content.style.display = 'block';
                 icon.textContent = '▲';
-                console.log('Content shown');
             } else {
                 content.style.display = 'none';
                 icon.textContent = '▼';
-                console.log('Content hidden');
             }
         });
         console.log('✅ Methodology toggle working!');
     } else {
         console.warn('⚠️ Methodology elements not found');
-        console.log('Toggle:', toggle);
-        console.log('Content:', content);
-        console.log('Icon:', icon);
     }
 }
 
@@ -316,8 +305,9 @@ function renderStrategicDocuments() {
                 </div>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
-                <span style="font-size:0.6rem; background:${doc.confidence === 'High' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}; color:${doc.confidence === 'High' ? '#10b981' : '#f59e0b'}; padding:1px 8px; border-radius:10px;">${doc.confidence}</span>
+                <span style="font-size:0.6rem; background:${doc.confidence === 'High' ? 'rgba(16,185,129,0.2)' : doc.confidence === 'Medium' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)'}; color:${doc.confidence === 'High' ? '#10b981' : doc.confidence === 'Medium' ? '#f59e0b' : '#ef4444'}; padding:1px 8px; border-radius:10px;">${doc.confidence}</span>
                 <span style="font-size:0.6rem; color:#64748b;">${(doc.targets || []).length} targets</span>
+                ${doc.gap_analysis && doc.gap_analysis.enabled ? `<span style="font-size:0.6rem; background:rgba(76,110,245,0.15); color:#4C6EF5; padding:1px 8px; border-radius:10px;">📊 Gap</span>` : ''}
                 <span style="font-size:0.7rem; color:#4C6EF5;">→</span>
             </div>
         </div>
@@ -385,7 +375,125 @@ function showDocumentDetail(docId) {
         }
     }
 
+    // ============================================================
+    // GAP ANALYSIS SECTION
+    // ============================================================
+    const gapContainer = document.getElementById('doc-gap-analysis');
+    if (gapContainer) {
+        const gap = doc.gap_analysis;
+        if (gap && gap.enabled) {
+            gapContainer.style.display = 'block';
+            gapContainer.innerHTML = renderGapAnalysis(doc);
+        } else {
+            gapContainer.style.display = 'none';
+        }
+    }
+
     detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// RENDER GAP ANALYSIS
+// ============================================================
+function renderGapAnalysis(doc) {
+    const gap = doc.gap_analysis;
+    if (!gap || !gap.enabled) return '';
+
+    const overallConfidence = gap.overall_confidence || 0;
+    const confidenceColor = overallConfidence >= 80 ? '#10b981' : (overallConfidence >= 50 ? '#f59e0b' : '#ef4444');
+    const confidenceLabel = overallConfidence >= 80 ? 'High' : (overallConfidence >= 50 ? 'Medium' : 'Low');
+
+    const factors = ['land', 'labor', 'capital', 'entrepreneurship'];
+    const factorLabels = {
+        land: '🌍 Land',
+        labor: '👷 Labor',
+        capital: '💰 Capital',
+        entrepreneurship: '🚀 Entrepreneurship'
+    };
+    const factorIcons = {
+        land: '🌍',
+        labor: '👷',
+        capital: '💰',
+        entrepreneurship: '🚀'
+    };
+
+    let factorsHtml = '';
+    factors.forEach(key => {
+        const data = gap[key];
+        if (!data) return;
+        const conf = data.confidence || {};
+        const confScore = conf.score || 0;
+        const confColor = confScore >= 80 ? '#10b981' : (confScore >= 50 ? '#f59e0b' : '#ef4444');
+        const confLabel = confScore >= 80 ? 'High' : (confScore >= 50 ? 'Medium' : 'Low');
+        const gapPct = data.gap?.gap_percentage || 0;
+        const gapColor = gapPct <= 20 ? '#10b981' : (gapPct <= 50 ? '#f59e0b' : '#ef4444');
+        
+        // Build existing and required display
+        let existingDisplay = '';
+        let requiredDisplay = '';
+        let gapDisplay = '';
+        
+        if (key === 'land') {
+            existingDisplay = `${data.existing?.available_land_ha || 0} ha`;
+            requiredDisplay = `${data.required?.land_for_housing_ha || 0} + ${data.required?.land_for_industry_ha || 0} + ${data.required?.land_for_agriculture_ha || 0} ha`;
+            gapDisplay = `${data.gap?.gap_ha || 0} ha (${gapPct}%)`;
+        } else if (key === 'labor') {
+            existingDisplay = `${data.existing?.skilled_workers || 0} workers`;
+            requiredDisplay = `${data.required?.construction_workers || 0} + ${data.required?.hospitality_workers || 0} + ${data.required?.agriculture_workers || 0} workers`;
+            gapDisplay = `${data.gap?.gap_workers || 0} workers (${gapPct}%)`;
+        } else if (key === 'capital') {
+            existingDisplay = `$${(data.existing?.estimated_credit_access || 0)}M`;
+            requiredDisplay = `$${((data.required?.investment_for_housing_usd || 0) + (data.required?.investment_for_industry_usd || 0) + (data.required?.investment_for_infrastructure_usd || 0)) / 1000000}M`;
+            gapDisplay = `$${(data.gap?.gap_usd || 0) / 1000000}M (${gapPct}%)`;
+        } else if (key === 'entrepreneurship') {
+            existingDisplay = `${data.existing?.business_count || 0} businesses`;
+            requiredDisplay = `${data.required?.new_businesses_needed || 0} new businesses`;
+            gapDisplay = `${data.gap?.business_gap || 0} businesses (${gapPct}%)`;
+        }
+
+        const missingData = conf.missing_data || [];
+        const missingHtml = missingData.length > 0 
+            ? `<div style="font-size:0.65rem; color:#ef4444; margin-top:4px;">⚠️ Missing: ${missingData.join(', ')}</div>`
+            : '';
+
+        factorsHtml += `
+            <div style="background:rgba(255,255,255,0.03); border-radius:6px; padding:10px; margin-bottom:8px; border-left:3px solid ${confColor};">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:700; color:#e2e8f0; font-size:0.8rem;">${factorLabels[key]}</span>
+                    <span style="font-size:0.65rem; background:${confColor}22; color:${confColor}; padding:1px 8px; border-radius:10px;">Confidence: ${confScore}% (${confLabel})</span>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; font-size:0.7rem;">
+                    <div>
+                        <div style="color:#94a3b8;">Existing</div>
+                        <div style="color:#e2e8f0; font-weight:600;">${existingDisplay}</div>
+                    </div>
+                    <div>
+                        <div style="color:#94a3b8;">Required</div>
+                        <div style="color:#e2e8f0; font-weight:600;">${requiredDisplay}</div>
+                    </div>
+                    <div>
+                        <div style="color:#94a3b8;">Gap</div>
+                        <div style="color:${gapColor}; font-weight:700;">${gapDisplay}</div>
+                    </div>
+                </div>
+                ${missingHtml}
+                ${conf.recommendation ? `<div style="font-size:0.65rem; color:#94a3b8; margin-top:4px;">💡 ${conf.recommendation}</div>` : ''}
+            </div>
+        `;
+    });
+
+    return `
+        <div style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.08); padding-top:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div style="font-weight:700; color:#f59e0b; font-size:0.9rem;">📊 Opportunity Gap Analysis</div>
+                <span style="font-size:0.65rem; background:${confidenceColor}22; color:${confidenceColor}; padding:2px 10px; border-radius:10px;">Overall Confidence: ${overallConfidence}% (${confidenceLabel})</span>
+            </div>
+            <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:8px; background:rgba(255,255,255,0.03); padding:8px; border-radius:6px;">
+                ${gap.summary || 'Gap analysis summary not available.'}
+            </div>
+            ${factorsHtml}
+        </div>
+    `;
 }
 
 function closeDocumentDetail() {
