@@ -358,6 +358,95 @@
             padding: 2px 0;
         }
 
+        /* ===== SECTOR BREAKDOWN TABLE STYLES ===== */
+        .sector-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+        }
+        .sector-table th {
+            text-align: left;
+            padding: 6px 8px;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-weight: 600;
+        }
+        .sector-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #e2e8f0;
+        }
+        .sector-table .gap-cell {
+            font-weight: 700;
+        }
+        .sector-table .diagnosis-badge {
+            font-size: 0.6rem;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .diagnosis-badge.financing {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        .diagnosis-badge.funding {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        .sector-table .provenance-note {
+            font-size: 0.6rem;
+            color: #94a3b8;
+            max-width: 200px;
+            display: block;
+        }
+        .confidence-badge {
+            font-size: 0.6rem;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .confidence-badge.high { background: rgba(16,185,129,0.2); color: #10b981; }
+        .confidence-badge.medium { background: rgba(245,158,11,0.2); color: #f59e0b; }
+        .confidence-badge.low { background: rgba(239,68,68,0.2); color: #ef4444; }
+
+        /* ===== CONFIDENCE ENGINE STYLES ===== */
+        .confidence-card {
+            margin-top: 12px;
+            border: 1px solid rgba(139,92,246,0.15);
+        }
+        .confidence-card .methodology-header:hover {
+            background: rgba(139,92,246,0.05);
+        }
+        #confidence-content {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 12px;
+        }
+        #confidence-content table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.7rem;
+        }
+        #confidence-content th {
+            text-align: left;
+            padding: 6px 8px;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-weight: 600;
+        }
+        #confidence-content td {
+            padding: 6px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #e2e8f0;
+        }
+        .overall-score {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #8b5cf6;
+        }
+        .score-high { color: #10b981; }
+        .score-medium { color: #f59e0b; }
+        .score-low { color: #ef4444; }
+
         #page-details {
             display: none;
             flex: 1;
@@ -891,6 +980,73 @@
                 </div>
                 
                 <button id="doc-detail-close" style="margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:4px 12px; color:#94a3b8; font-size:0.7rem; cursor:pointer;">Close</button>
+            </div>
+
+            <!-- ===== SECTOR BREAKDOWN TABLE ===== -->
+            <div class="analytics-card" id="sector-breakdown-card" style="display:none;">
+                <h4>📊 Sector Breakdown & Gap Diagnosis</h4>
+                <div style="overflow-x:auto; margin-top:8px;">
+                    <table class="sector-table" id="sector-breakdown-table">
+                        <thead>
+                            <tr>
+                                <th>Sector</th>
+                                <th style="text-align:right;">Required</th>
+                                <th style="text-align:right;">Existing</th>
+                                <th style="text-align:right;">Gap</th>
+                                <th>Diagnosis</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sector-breakdown-body">
+                            <!-- Dynamically populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== DATA PROVENANCE ===== -->
+            <div class="analytics-card" id="provenance-card" style="display:none;">
+                <h4>📌 Data Provenance</h4>
+                <div id="provenance-content" style="font-size:0.75rem; color:#94a3b8; line-height:1.6;">
+                    <!-- Dynamically populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- ===== CONFIDENCE ENGINE ===== -->
+            <div class="analytics-card confidence-card" id="confidence-card" style="display:none;">
+                <div class="methodology-header" id="confidence-toggle" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <h4 style="margin:0; color:#8b5cf6;">🔍 Confidence Calculation & Data Improvement</h4>
+                    <span id="confidence-icon" style="font-size:1rem; color:#94a3b8;">▼</span>
+                </div>
+                <div id="confidence-content" style="display:none; margin-top:12px; font-size:0.78rem; color:#94a3b8; line-height:1.6;">
+                    <div style="margin-bottom:12px;">
+                        <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">How Confidence is Calculated</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">The confidence score is calculated using a weighted formula based on five criteria:</div>
+                    </div>
+
+                    <!-- Confidence Criteria Table -->
+                    <div style="background:rgba(255,255,255,0.03); border-radius:6px; padding:8px; margin-bottom:12px; overflow-x:auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Criterion</th>
+                                    <th style="text-align:center;">Weight</th>
+                                    <th style="text-align:center;">Score</th>
+                                    <th>How to Improve</th>
+                                </tr>
+                            </thead>
+                            <tbody id="confidence-breakdown">
+                                <!-- Dynamically populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Overall Score Display -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(139,92,246,0.1); padding:10px; border-radius:6px;">
+                        <span style="font-weight:600; color:#e2e8f0;">Overall Confidence Score:</span>
+                        <span id="overall-confidence-score" class="overall-score">--%</span>
+                    </div>
+                </div>
             </div>
 
             <div class="analytics-card">

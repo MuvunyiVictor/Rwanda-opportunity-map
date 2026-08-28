@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "last_updated": "2025-08-19",
+    "version": "1.0",
+    "description": "Sector-level gap analysis for districts. Shows required investment, existing investment, and gap by sector with diagnosis."
+  },
+  "districts": {
+    "Bugesera": {
+      "analysis_date": "2025-08-19",
+      "overall_confidence": 72,
+      "summary": "Bugesera needs $175M investment, 1,000 workers, and 150 new businesses to achieve its DDS targets.",
+      "sectoral_breakdown": {
+        "capital": {
+          "total_required": 225000000,
+          "total_existing": 75000000,
+          "total_gap": 175000000,
+          "sectors": {
+            "Housing": {
+              "required": 50000000,
+              "existing": 10000000,
+              "gap": 40000000,
+              "gap_diagnosis": "financing_gap",
+              "existing_source": "Private Developers",
+              "confidence": 75,
+              "provenance_note": "From Bugesera DDS 2024-2029, Section 3.2. Breakdown is an estimate."
+            },
+            "Industry": {
+              "required": 75000000,
+              "existing": 20000000,
+              "gap": 55000000,
+              "gap_diagnosis": "financing_gap",
+              "existing_source": "RDB, FDI",
+              "confidence": 60,
+              "provenance_note": "From Bugesera DDS 2024-2029, Section 4.1. Private investment component not confirmed."
+            },
+            "Infrastructure": {
+              "required": 100000000,
+              "existing": 45000000,
+              "gap": 55000000,
+              "gap_diagnosis": "funding_gap",
+              "existing_source": "Government Budget (MINECOFIN)",
+              "confidence": 45,
+              "provenance_note": "From MTEF estimates. No official breakdown exists."
+            }
+          }
+        },
+        "land": {
+          "total_required": 450,
+          "total_existing": 5000,
+          "total_gap_ha": 4550,
+          "total_gap_percentage": 9,
+          "sectors": {
+            "Housing": {
+              "required": 200,
+              "existing": 5000,
+              "gap_ha": 4800,
+              "gap_percentage": 4,
+              "confidence": 80,
+              "provenance_note": "From Bugesera DDS 2024-2029. Land is plentiful."
+            },
+            "Industry": {
+              "required": 150,
+              "existing": 5000,
+              "gap_ha": 4850,
+              "gap_percentage": 3,
+              "confidence": 80,
+              "provenance_note": "From Bugesera DDS 2024-2029."
+            }
+          }
+        },
+        "labor": {
+          "total_required": 1000,
+          "total_existing": 25000,
+          "total_gap_workers": 24000,
+          "total_gap_percentage": 4,
+          "sectors": {
+            "Construction": {
+              "required": 500,
+              "existing": 25000,
+              "gap_workers": 24500,
+              "gap_percentage": 2,
+              "confidence": 50,
+              "provenance_note": "Estimated from DDS and NISR data."
+            },
+            "Hospitality": {
+              "required": 200,
+              "existing": 25000,
+              "gap_workers": 24800,
+              "gap_percentage": 1,
+              "confidence": 50,
+              "provenance_note": "Estimated from DDS and NISR data."
+            },
+            "Agriculture": {
+              "required": 300,
+              "existing": 25000,
+              "gap_workers": 24700,
+              "gap_percentage": 1,
+              "confidence": 50,
+              "provenance_note": "Estimated from DDS and NISR data."
+            }
+          }
+        },
+        "entrepreneurship": {
+          "total_required": 150,
+          "total_existing": 850,
+          "total_gap_businesses": 700,
+          "total_gap_percentage": 15,
+          "sectors": {
+            "New Businesses": {
+              "required": 150,
+              "existing": 850,
+              "gap_businesses": 700,
+              "gap_percentage": 15,
+              "confidence": 65,
+              "provenance_note": "From Bugesera DDS and NISR business census."
+            }
+          }
+        }
+      }
+    },
+    "Muhanga": {
+      "analysis_date": "2025-08-19",
+      "overall_confidence": 45,
+      "summary": "Muhanga needs significant investment and workforce development to achieve its industrial targets.",
+      "sectoral_breakdown": {
+        "capital": {
+          "total_required": 180000000,
+          "total_existing": 20000000,
+          "total_gap": 160000000,
+          "sectors": {
+            "Housing": {
+              "required": 30000000,
+              "existing": 5000000,
+              "gap": 25000000,
+              "gap_diagnosis": "financing_gap",
+              "existing_source": "Private Developers",
+              "confidence": 45,
+              "provenance_note": "From Muhanga DDS. Breakdown is an estimate."
+            },
+            "Industry": {
+              "required": 100000000,
+              "existing": 10000000,
+              "gap": 90000000,
+              "gap_diagnosis": "financing_gap",
+              "existing_source": "RDB",
+              "confidence": 45,
+              "provenance_note": "From Muhanga DDS. Investment commitments not confirmed."
+            },
+            "Infrastructure": {
+              "required": 50000000,
+              "existing": 5000000,
+              "gap": 45000000,
+              "gap_diagnosis": "funding_gap",
+              "existing_source": "Government Budget",
+              "confidence": 45,
+              "provenance_note": "From Muhanga DDS and MTEF estimates."
+            }
+          }
+        }
+      }
+    },
+    "Rulindo": {
+      "analysis_date": "2025-08-19",
+      "overall_confidence": 35,
+      "summary": "Rulindo has potential in mining but data is limited.",
+      "sectoral_breakdown": {
+        "capital": {
+          "total_required": 65000000,
+          "total_existing": 5000000,
+          "total_gap": 60000000,
+          "sectors": {
+            "Mining": {
+              "required": 30000000,
+              "existing": 2000000,
+              "gap": 28000000,
+              "gap_diagnosis": "financing_gap",
+              "existing_source": "Private Investors",
+              "confidence": 35,
+              "provenance_note": "From Rulindo DDS. Investment commitments not confirmed."
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -55,7 +55,8 @@ const state = {
     isLoggedIn: false,
     assets: [],
     currentTileLayer: null,
-    strategicDocuments: []
+    strategicDocuments: [],
+    gapAnalysis: null
 };
 
 // ==========================================================================
@@ -116,11 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupInfraPillListeners();
     setupDocFilters();
     setupMethodologyToggle();
+    setupConfidenceToggle();
     loadData();
 });
 
 // ==========================================================================
-// METHODOLOGY TOGGLE (FIXED)
+// METHODOLOGY TOGGLE
 // ==========================================================================
 function setupMethodologyToggle() {
     console.log('Setting up methodology toggle...');
@@ -143,6 +145,105 @@ function setupMethodologyToggle() {
     } else {
         console.warn('⚠️ Methodology elements not found');
     }
+}
+
+// ==========================================================================
+// CONFIDENCE ENGINE & DATA IMPROVEMENT
+// ==========================================================================
+function setupConfidenceToggle() {
+    console.log('Setting up confidence toggle...');
+    
+    const toggle = document.getElementById('confidence-toggle');
+    const content = document.getElementById('confidence-content');
+    const icon = document.getElementById('confidence-icon');
+
+    if (toggle && content && icon) {
+        toggle.addEventListener('click', function(e) {
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                icon.textContent = '▲';
+                renderConfidenceBreakdown();
+            } else {
+                content.style.display = 'none';
+                icon.textContent = '▼';
+            }
+        });
+        console.log('✅ Confidence toggle working!');
+    } else {
+        console.warn('⚠️ Confidence elements not found');
+    }
+}
+
+function renderConfidenceBreakdown() {
+    const container = document.getElementById('confidence-breakdown');
+    if (!container) return;
+
+    // In a full implementation, this data would come from the selected district
+    // For now, we use example data for Bugesera Capital Gap
+    const criteria = [
+        { 
+            name: 'Source Type', 
+            weight: 30, 
+            score: 80, 
+            improvement: 'Publish an official document or report.',
+            note: 'Data from Bugesera DDS 2024-2029'
+        },
+        { 
+            name: 'Source Date', 
+            weight: 20, 
+            score: 100, 
+            improvement: 'Data is recent (< 1 year). No action needed.',
+            note: 'Published 2024-06-01'
+        },
+        { 
+            name: 'Source Verifiability', 
+            weight: 20, 
+            score: 50, 
+            improvement: 'Make the source document publicly accessible.',
+            note: 'Available on district website'
+        },
+        { 
+            name: 'Data Granularity', 
+            weight: 15, 
+            score: 70, 
+            improvement: 'Provide more granular, sector-specific data.',
+            note: 'Sector-level breakdown provided'
+        },
+        { 
+            name: 'Data Confidence', 
+            weight: 15, 
+            score: 60, 
+            improvement: 'Provide additional corroborating sources.',
+            note: 'Single source (DDS only)'
+        }
+    ];
+
+    let totalWeightedScore = 0;
+    let totalWeight = 0;
+
+    container.innerHTML = criteria.map(c => {
+        const weightedScore = (c.score * c.weight) / 100;
+        totalWeightedScore += weightedScore;
+        totalWeight += c.weight;
+
+        const scoreColor = c.score >= 80 ? '#10b981' : (c.score >= 50 ? '#f59e0b' : '#ef4444');
+
+        return `
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                <td style="padding:6px; color:#e2e8f0;">${c.name}</td>
+                <td style="padding:6px; text-align:center; color:#94a3b8;">${c.weight}%</td>
+                <td style="padding:6px; text-align:center; font-weight:700; color:${scoreColor};">${c.score}%</td>
+                <td style="padding:6px; color:#94a3b8; font-size:0.65rem;">
+                    <span style="display:block; color:#94a3b8;">${c.improvement}</span>
+                    <span style="display:block; font-size:0.6rem; color:#64748b; margin-top:2px;">📌 ${c.note}</span>
+                </td>
+            </tr>
+        `;
+    }).join('');
+
+    const overallScore = Math.round((totalWeightedScore / totalWeight) * 100);
+    const overallEl = document.getElementById('overall-confidence-score');
+    if (overallEl) overallEl.textContent = `${overallScore}%`;
 }
 
 // ==========================================================================
@@ -190,7 +291,7 @@ async function loadData() {
 
 async function loadSecondaryDatasets() {
     try {
-        const [infraRes, neighRes, agRes, projRes, osmRes, schRes, lcRes, docRes] = await Promise.allSettled([
+        const [infraRes, neighRes, agRes, projRes, osmRes, schRes, lcRes, docRes, gapRes] = await Promise.allSettled([
             fetch('data/district_infra_curated.json').then(r => r.json()),
             fetch('data/district_neighbors.json').then(r => r.json()),
             fetch('data/agriculture_data.json').then(r => r.json()),
@@ -198,7 +299,8 @@ async function loadSecondaryDatasets() {
             fetch('data/osm_cache.json').then(r => r.json()).catch(() => ({ elements: [] })),
             fetch('data/schools_directory.json').then(r => r.json()),
             fetch('data/land_center_data.json').then(r => r.json()),
-            fetch('strategic_documents.json').then(r => r.json()).catch(() => ({ documents: [] }))
+            fetch('strategic_documents.json').then(r => r.json()).catch(() => ({ documents: [] })),
+            fetch('district_gap_analysis.json').then(r => r.json()).catch(() => ({ districts: {} }))
         ]);
 
         if (infraRes.status === 'fulfilled') state.curatedInfra = infraRes.value || {};
@@ -212,6 +314,10 @@ async function loadSecondaryDatasets() {
             state.strategicDocuments = docRes.value.documents || [];
             updateDocumentStatus();
             renderStrategicDocuments();
+        }
+        if (gapRes.status === 'fulfilled') {
+            state.gapAnalysis = gapRes.value || { districts: {} };
+            console.log('✅ Gap analysis loaded:', Object.keys(state.gapAnalysis.districts || {}).length, 'districts');
         }
 
         await loadAssets();
@@ -376,7 +482,7 @@ function showDocumentDetail(docId) {
     }
 
     // ============================================================
-    // GAP ANALYSIS SECTION
+    // GAP ANALYSIS SECTION - RENDER FROM JSON
     // ============================================================
     const gapContainer = document.getElementById('doc-gap-analysis');
     if (gapContainer) {
@@ -389,11 +495,34 @@ function showDocumentDetail(docId) {
         }
     }
 
+    // ============================================================
+    // SECTOR BREAKDOWN TABLE - RENDER FROM GAP ANALYSIS
+    // ============================================================
+    renderSectorBreakdown(doc);
+
+    // ============================================================
+    // DATA PROVENANCE - RENDER FROM GAP ANALYSIS
+    // ============================================================
+    renderProvenance(doc);
+
+    // ============================================================
+    // CONFIDENCE CARD - Show if gap analysis exists
+    // ============================================================
+    const confidenceCard = document.getElementById('confidence-card');
+    if (confidenceCard) {
+        const gap = doc.gap_analysis;
+        if (gap && gap.enabled) {
+            confidenceCard.style.display = 'block';
+        } else {
+            confidenceCard.style.display = 'none';
+        }
+    }
+
     detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ============================================================
-// RENDER GAP ANALYSIS
+// RENDER GAP ANALYSIS (REQUIRED, EXISTING, GAP)
 // ============================================================
 function renderGapAnalysis(doc) {
     const gap = doc.gap_analysis;
@@ -410,45 +539,112 @@ function renderGapAnalysis(doc) {
         capital: '💰 Capital',
         entrepreneurship: '🚀 Entrepreneurship'
     };
-    const factorIcons = {
-        land: '🌍',
-        labor: '👷',
-        capital: '💰',
-        entrepreneurship: '🚀'
-    };
 
     let factorsHtml = '';
     factors.forEach(key => {
         const data = gap[key];
         if (!data) return;
+        
         const conf = data.confidence || {};
         const confScore = conf.score || 0;
         const confColor = confScore >= 80 ? '#10b981' : (confScore >= 50 ? '#f59e0b' : '#ef4444');
         const confLabel = confScore >= 80 ? 'High' : (confScore >= 50 ? 'Medium' : 'Low');
-        const gapPct = data.gap?.gap_percentage || 0;
-        const gapColor = gapPct <= 20 ? '#10b981' : (gapPct <= 50 ? '#f59e0b' : '#ef4444');
         
-        // Build existing and required display
+        // Calculate totals
+        let totalRequired = 0;
+        let totalExisting = 0;
+        let totalGap = 0;
+        let gapPct = 0;
+        
+        // Strategy 1: Check if there are sectors to sum (for district_gap_analysis.json)
+        const sectors = data.sectors || {};
+        const sectorNames = Object.keys(sectors);
+        
+        if (sectorNames.length > 0) {
+            // Sum all sector required and existing values
+            sectorNames.forEach(sectorName => {
+                const sector = sectors[sectorName];
+                totalRequired += sector.required || 0;
+                totalExisting += sector.existing || 0;
+            });
+        }
+        
+        // Strategy 2: If no sectors, check if data has required/existing directly (for strategic_documents.json)
+        if (totalRequired === 0 && totalExisting === 0) {
+            // Check if required and existing are objects with values
+            const req = data.required || {};
+            const ext = data.existing || {};
+            
+            // Try to sum values from required object
+            const reqValues = Object.values(req).filter(v => typeof v === 'number');
+            const extValues = Object.values(ext).filter(v => typeof v === 'number');
+            
+            if (reqValues.length > 0) {
+                totalRequired = reqValues.reduce((a, b) => a + b, 0);
+            }
+            if (extValues.length > 0) {
+                totalExisting = extValues.reduce((a, b) => a + b, 0);
+            }
+            
+            // If still zero, try gap.total or gap.gap_usd or gap.gap_ha
+            if (totalRequired === 0 && totalExisting === 0) {
+                const gapObj = data.gap || {};
+                if (key === 'capital' && gapObj.gap_usd) {
+                    // For capital, try to infer from gap
+                    totalGap = gapObj.gap_usd || 0;
+                    // We need required to calculate percentage, so estimate from existing + gap
+                    totalExisting = data.existing?.estimated_credit_access || 0;
+                    totalRequired = totalExisting + totalGap;
+                } else if (key === 'land' && gapObj.gap_ha) {
+                    totalGap = gapObj.gap_ha || 0;
+                    totalExisting = data.existing?.available_land_ha || 0;
+                    totalRequired = totalExisting + totalGap;
+                } else if (key === 'labor' && gapObj.gap_workers) {
+                    totalGap = gapObj.gap_workers || 0;
+                    totalExisting = data.existing?.skilled_workers || 0;
+                    totalRequired = totalExisting + totalGap;
+                }
+            }
+        }
+        
+        // Strategy 3: Fallback to total_required/total_existing fields
+        if (totalRequired === 0 && totalExisting === 0) {
+            totalRequired = data.total_required || 0;
+            totalExisting = data.total_existing || 0;
+        }
+        
+        // Calculate gap
+        totalGap = Math.max(0, totalRequired - totalExisting);
+        gapPct = totalRequired > 0 ? Math.round((totalGap / totalRequired) * 100) : 0;
+        
+        // If gapPct is 0 but gapObj has percentage, use that
+        if (gapPct === 0 && data.gap && data.gap.gap_percentage) {
+            gapPct = data.gap.gap_percentage;
+        }
+        
+        const gapColor = gapPct <= 20 ? '#10b981' : (gapPct <= 50 ? '#f59e0b' : '#ef4444');
+
+        // Format display values
         let existingDisplay = '';
         let requiredDisplay = '';
         let gapDisplay = '';
         
         if (key === 'land') {
-            existingDisplay = `${data.existing?.available_land_ha || 0} ha`;
-            requiredDisplay = `${data.required?.land_for_housing_ha || 0} + ${data.required?.land_for_industry_ha || 0} + ${data.required?.land_for_agriculture_ha || 0} ha`;
-            gapDisplay = `${data.gap?.gap_ha || 0} ha (${gapPct}%)`;
+            existingDisplay = `${totalExisting} ha`;
+            requiredDisplay = `${totalRequired} ha`;
+            gapDisplay = `${totalGap} ha (${gapPct}%)`;
         } else if (key === 'labor') {
-            existingDisplay = `${data.existing?.skilled_workers || 0} workers`;
-            requiredDisplay = `${data.required?.construction_workers || 0} + ${data.required?.hospitality_workers || 0} + ${data.required?.agriculture_workers || 0} workers`;
-            gapDisplay = `${data.gap?.gap_workers || 0} workers (${gapPct}%)`;
+            existingDisplay = `${totalExisting} workers`;
+            requiredDisplay = `${totalRequired} workers`;
+            gapDisplay = `${totalGap} workers (${gapPct}%)`;
         } else if (key === 'capital') {
-            existingDisplay = `$${(data.existing?.estimated_credit_access || 0)}M`;
-            requiredDisplay = `$${((data.required?.investment_for_housing_usd || 0) + (data.required?.investment_for_industry_usd || 0) + (data.required?.investment_for_infrastructure_usd || 0)) / 1000000}M`;
-            gapDisplay = `$${(data.gap?.gap_usd || 0) / 1000000}M (${gapPct}%)`;
+            existingDisplay = `$${totalExisting / 1000000}M`;
+            requiredDisplay = `$${totalRequired / 1000000}M`;
+            gapDisplay = `$${totalGap / 1000000}M (${gapPct}%)`;
         } else if (key === 'entrepreneurship') {
-            existingDisplay = `${data.existing?.business_count || 0} businesses`;
-            requiredDisplay = `${data.required?.new_businesses_needed || 0} new businesses`;
-            gapDisplay = `${data.gap?.business_gap || 0} businesses (${gapPct}%)`;
+            existingDisplay = `${totalExisting} businesses`;
+            requiredDisplay = `${totalRequired} businesses`;
+            gapDisplay = `${totalGap} businesses (${gapPct}%)`;
         }
 
         const missingData = conf.missing_data || [];
@@ -494,6 +690,111 @@ function renderGapAnalysis(doc) {
             ${factorsHtml}
         </div>
     `;
+}
+
+// ============================================================
+// RENDER SECTOR BREAKDOWN TABLE
+// ============================================================
+function renderSectorBreakdown(doc) {
+    const card = document.getElementById('sector-breakdown-card');
+    const body = document.getElementById('sector-breakdown-body');
+    if (!card || !body) return;
+
+    const gap = doc.gap_analysis;
+    if (!gap || !gap.enabled) {
+        card.style.display = 'none';
+        return;
+    }
+
+    // Look for capital sector data
+    const capitalData = gap.capital;
+    if (!capitalData || !capitalData.sectors) {
+        card.style.display = 'none';
+        return;
+    }
+
+    card.style.display = 'block';
+    
+    const sectors = capitalData.sectors || {};
+    let rowsHtml = '';
+    
+    Object.keys(sectors).forEach(sectorName => {
+        const sector = sectors[sectorName];
+        const required = sector.required || 0;
+        const existing = sector.existing || 0;
+        const gapValue = Math.max(0, required - existing);
+        const gapPct = required > 0 ? Math.round((gapValue / required) * 100) : 0;
+        
+        const diagnosis = sector.gap_diagnosis || 'unknown';
+        const diagnosisLabel = diagnosis === 'financing_gap' ? 'Financing Gap' : 
+                               diagnosis === 'funding_gap' ? 'Funding Gap' : 'Unknown';
+        const diagnosisClass = diagnosis === 'financing_gap' ? 'financing' : 
+                               diagnosis === 'funding_gap' ? 'funding' : '';
+        
+        const confidence = sector.confidence || 0;
+        const confidenceLabel = confidence >= 80 ? 'High' : (confidence >= 50 ? 'Medium' : 'Low');
+        const confidenceClass = confidence >= 80 ? 'high' : (confidence >= 50 ? 'medium' : 'low');
+        
+        rowsHtml += `
+            <tr>
+                <td><strong style="color:#e2e8f0;">${sectorName}</strong></td>
+                <td style="text-align:right;">$${required / 1000000}M</td>
+                <td style="text-align:right;">$${existing / 1000000}M</td>
+                <td style="text-align:right; font-weight:700; color:${gapValue === 0 ? '#10b981' : '#ef4444'};">$${gapValue / 1000000}M (${gapPct}%)</td>
+                <td><span class="diagnosis-badge ${diagnosisClass}">${diagnosisLabel}</span></td>
+                <td><span class="confidence-badge ${confidenceClass}">${confidence}% (${confidenceLabel})</span></td>
+            </tr>
+        `;
+    });
+    
+    body.innerHTML = rowsHtml;
+}
+
+// ============================================================
+// RENDER DATA PROVENANCE
+// ============================================================
+function renderProvenance(doc) {
+    const card = document.getElementById('provenance-card');
+    const content = document.getElementById('provenance-content');
+    if (!card || !content) return;
+
+    const gap = doc.gap_analysis;
+    if (!gap || !gap.enabled) {
+        card.style.display = 'none';
+        return;
+    }
+
+    // Look for capital sector data with provenance
+    const capitalData = gap.capital;
+    if (!capitalData || !capitalData.sectors) {
+        card.style.display = 'none';
+        return;
+    }
+
+    card.style.display = 'block';
+    
+    const sectors = capitalData.sectors || {};
+    let html = '<div style="margin-bottom:8px; font-weight:600; color:#e2e8f0;">Data Sources & Confidence</div>';
+    
+    Object.keys(sectors).forEach(sectorName => {
+        const sector = sectors[sectorName];
+        const confidence = sector.confidence || 0;
+        const confidenceLabel = confidence >= 80 ? 'High' : (confidence >= 50 ? 'Medium' : 'Low');
+        const confidenceClass = confidence >= 80 ? 'high' : (confidence >= 50 ? 'medium' : 'low');
+        const note = sector.provenance_note || 'No provenance note available.';
+        
+        html += `
+            <div style="background:rgba(255,255,255,0.03); border-radius:6px; padding:8px; margin-bottom:8px; border-left:3px solid ${confidence >= 80 ? '#10b981' : (confidence >= 50 ? '#f59e0b' : '#ef4444')};">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:600; color:#e2e8f0; font-size:0.75rem;">${sectorName}</span>
+                    <span class="confidence-badge ${confidenceClass}">${confidence}% (${confidenceLabel})</span>
+                </div>
+                <div style="font-size:0.7rem; color:#94a3b8; margin-top:4px;">${note}</div>
+            </div>
+        `;
+    });
+    
+    content.innerHTML = html;
 }
 
 function closeDocumentDetail() {
