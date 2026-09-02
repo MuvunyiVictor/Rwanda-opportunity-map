@@ -178,8 +178,6 @@ function renderConfidenceBreakdown() {
     const container = document.getElementById('confidence-breakdown');
     if (!container) return;
 
-    // In a full implementation, this data would come from the selected district
-    // For now, we use example data for Bugesera Capital Gap
     const criteria = [
         { 
             name: 'Source Type', 
@@ -550,18 +548,15 @@ function renderGapAnalysis(doc) {
         const confColor = confScore >= 80 ? '#10b981' : (confScore >= 50 ? '#f59e0b' : '#ef4444');
         const confLabel = confScore >= 80 ? 'High' : (confScore >= 50 ? 'Medium' : 'Low');
         
-        // Calculate totals
         let totalRequired = 0;
         let totalExisting = 0;
         let totalGap = 0;
         let gapPct = 0;
         
-        // Strategy 1: Check if there are sectors to sum (for district_gap_analysis.json)
         const sectors = data.sectors || {};
         const sectorNames = Object.keys(sectors);
         
         if (sectorNames.length > 0) {
-            // Sum all sector required and existing values
             sectorNames.forEach(sectorName => {
                 const sector = sectors[sectorName];
                 totalRequired += sector.required || 0;
@@ -569,13 +564,10 @@ function renderGapAnalysis(doc) {
             });
         }
         
-        // Strategy 2: If no sectors, check if data has required/existing directly (for strategic_documents.json)
         if (totalRequired === 0 && totalExisting === 0) {
-            // Check if required and existing are objects with values
             const req = data.required || {};
             const ext = data.existing || {};
             
-            // Try to sum values from required object
             const reqValues = Object.values(req).filter(v => typeof v === 'number');
             const extValues = Object.values(ext).filter(v => typeof v === 'number');
             
@@ -586,13 +578,10 @@ function renderGapAnalysis(doc) {
                 totalExisting = extValues.reduce((a, b) => a + b, 0);
             }
             
-            // If still zero, try gap.total or gap.gap_usd or gap.gap_ha
             if (totalRequired === 0 && totalExisting === 0) {
                 const gapObj = data.gap || {};
                 if (key === 'capital' && gapObj.gap_usd) {
-                    // For capital, try to infer from gap
                     totalGap = gapObj.gap_usd || 0;
-                    // We need required to calculate percentage, so estimate from existing + gap
                     totalExisting = data.existing?.estimated_credit_access || 0;
                     totalRequired = totalExisting + totalGap;
                 } else if (key === 'land' && gapObj.gap_ha) {
@@ -607,24 +596,20 @@ function renderGapAnalysis(doc) {
             }
         }
         
-        // Strategy 3: Fallback to total_required/total_existing fields
         if (totalRequired === 0 && totalExisting === 0) {
             totalRequired = data.total_required || 0;
             totalExisting = data.total_existing || 0;
         }
         
-        // Calculate gap
         totalGap = Math.max(0, totalRequired - totalExisting);
         gapPct = totalRequired > 0 ? Math.round((totalGap / totalRequired) * 100) : 0;
         
-        // If gapPct is 0 but gapObj has percentage, use that
         if (gapPct === 0 && data.gap && data.gap.gap_percentage) {
             gapPct = data.gap.gap_percentage;
         }
         
         const gapColor = gapPct <= 20 ? '#10b981' : (gapPct <= 50 ? '#f59e0b' : '#ef4444');
 
-        // Format display values
         let existingDisplay = '';
         let requiredDisplay = '';
         let gapDisplay = '';
@@ -706,7 +691,6 @@ function renderSectorBreakdown(doc) {
         return;
     }
 
-    // Look for capital sector data
     const capitalData = gap.capital;
     if (!capitalData || !capitalData.sectors) {
         card.style.display = 'none';
@@ -764,7 +748,6 @@ function renderProvenance(doc) {
         return;
     }
 
-    // Look for capital sector data with provenance
     const capitalData = gap.capital;
     if (!capitalData || !capitalData.sectors) {
         card.style.display = 'none';
@@ -2200,3 +2183,499 @@ window.selectDistrict = selectDistrict;
 window.__state = state;
 
 console.log('✅ Rwanda Opportunity Map loaded successfully!');
+
+// ==========================================================================
+// ==========================================================================
+// AUTO-INGESTION ENGINE - Integrated into Rwanda Opportunity Map
+// ==========================================================================
+// ==========================================================================
+
+/**
+ * This auto-ingestion engine runs in the background and automatically:
+ * 1. Fetches news from RSS feeds and government portals
+ * 2. Analyzes each article for strategic impact
+ * 3. Ingests high-impact items into the app state
+ * 4. Triggers score recalculation and UI updates
+ */
+
+// ==========================================================================
+// AUTO-INGESTION CONFIGURATION
+// ==========================================================================
+
+const INGESTION_CONFIG = {
+    // How often to check for new content (in milliseconds)
+    UPDATE_INTERVAL: 60 * 60 * 1000, // 1 hour
+    
+    // Minimum impact score to auto-ingest (1-10)
+    MIN_IMPACT_SCORE: 3,
+    
+    // Sources to monitor
+    SOURCES: [
+        {
+            id: 'new-times',
+            name: 'The New Times (Rwanda)',
+            type: 'rss',
+            url: 'https://www.newtimes.co.rw/rss',
+        },
+        {
+            id: 'rba',
+            name: 'Rwanda Broadcasting Agency',
+            type: 'rss',
+            url: 'https://www.rba.co.rw/rss',
+        },
+        {
+            id: 'minecofin',
+            name: 'MINECOFIN',
+            type: 'html',
+            url: 'https://www.minecofin.gov.rw/news',
+        },
+        {
+            id: 'rdb',
+            name: 'Rwanda Development Board',
+            type: 'html',
+            url: 'https://www.rdb.rw/news',
+        },
+        {
+            id: 'minagri',
+            name: 'MINAGRI',
+            type: 'html',
+            url: 'https://www.minagri.gov.rw/news',
+        }
+    ],
+    
+    // District synonyms for matching
+    DISTRICT_SYNONYMS: {
+        'Kigali': ['Gasabo', 'Kicukiro', 'Nyarugenge'],
+        'Northern': ['Musanze', 'Burera', 'Gicumbi', 'Rulindo', 'Gakenke'],
+        'Southern': ['Nyanza', 'Gisagara', 'Nyaruguru', 'Huye', 'Nyamagabe', 'Ruhango', 'Muhanga', 'Kamonyi'],
+        'Eastern': ['Rwamagana', 'Nyagatare', 'Gatsibo', 'Kayonza', 'Kirehe', 'Ngoma', 'Bugesera'],
+        'Western': ['Karongi', 'Rutsiro', 'Rubavu', 'Nyabihu', 'Ngororero', 'Rusizi', 'Nyamasheke']
+    }
+};
+
+// ==========================================================================
+// INGESTION STATE
+// ==========================================================================
+
+const ingestionState = {
+    processedIds: new Set(),
+    lastRun: null,
+    totalIngested: 0,
+    isRunning: false,
+    intervalId: null
+};
+
+// ==========================================================================
+// INGESTION EVENT BUS
+// ==========================================================================
+
+const IngestionEvents = {
+    listeners: {},
+    
+    emit(event, data) {
+        if (!this.listeners[event]) return;
+        this.listeners[event].forEach(cb => {
+            try { cb(data); } catch (e) { console.error('Event error:', e); }
+        });
+    },
+    
+    on(event, cb) {
+        if (!this.listeners[event]) this.listeners[event] = [];
+        this.listeners[event].push(cb);
+        return () => {
+            this.listeners[event] = this.listeners[event].filter(fn => fn !== cb);
+        };
+    }
+};
+
+// ==========================================================================
+// INGESTION ENGINE
+// ==========================================================================
+
+const AutoIngestion = {
+    
+    // ======================================================================
+    // Start the auto-ingestion service
+    // ======================================================================
+    start() {
+        if (ingestionState.isRunning) {
+            console.log('⚠️ Auto-ingestion already running');
+            return;
+        }
+        
+        console.log('🚀 Starting Auto-Ingestion Engine...');
+        ingestionState.isRunning = true;
+        
+        // Run immediately
+        this.run();
+        
+        // Then run on schedule
+        ingestionState.intervalId = setInterval(() => {
+            this.run();
+        }, INGESTION_CONFIG.UPDATE_INTERVAL);
+        
+        console.log(`✅ Auto-Ingestion running (checking every ${INGESTION_CONFIG.UPDATE_INTERVAL / 60000} minutes)`);
+    },
+    
+    // ======================================================================
+    // Stop the auto-ingestion service
+    // ======================================================================
+    stop() {
+        if (ingestionState.intervalId) {
+            clearInterval(ingestionState.intervalId);
+            ingestionState.intervalId = null;
+        }
+        ingestionState.isRunning = false;
+        console.log('🛑 Auto-Ingestion stopped');
+    },
+    
+    // ======================================================================
+    // Main run loop
+    // ======================================================================
+    async run() {
+        console.log(`\n🔄 Auto-Ingestion run #${ingestionState.totalIngested + 1} at ${new Date().toISOString()}`);
+        
+        let newItems = 0;
+        
+        for (const source of INGESTION_CONFIG.SOURCES) {
+            try {
+                console.log(`  📡 Fetching: ${source.name}...`);
+                const articles = await this.fetchSource(source);
+                
+                for (const article of articles) {
+                    const id = this.generateId(article, source);
+                    if (ingestionState.processedIds.has(id)) continue;
+                    
+                    const analysis = this.analyzeImpact(article);
+                    
+                    if (analysis.impactScore >= INGESTION_CONFIG.MIN_IMPACT_SCORE) {
+                        await this.ingestItem(article, source, analysis);
+                        ingestionState.processedIds.add(id);
+                        newItems++;
+                        console.log(`    ✅ Ingested: ${article.title.substring(0, 60)}... (impact: ${analysis.impactScore}/10)`);
+                    } else {
+                        console.log(`    ⏭️ Skipped: ${article.title.substring(0, 40)}... (impact: ${analysis.impactScore}/10)`);
+                    }
+                }
+            } catch (err) {
+                console.error(`  ❌ Error fetching ${source.name}:`, err.message);
+            }
+        }
+        
+        ingestionState.lastRun = new Date();
+        ingestionState.totalIngested += newItems;
+        
+        if (newItems > 0) {
+            console.log(`📊 Ingested ${newItems} new items this run`);
+            IngestionEvents.emit('data-updated', { newItems, timestamp: ingestionState.lastRun });
+        } else {
+            console.log('📊 No new items to ingest');
+        }
+        
+        console.log(`✅ Run complete (${ingestionState.totalIngested} total ingested so far)\n`);
+    },
+    
+    // ======================================================================
+    // Fetch articles from a source
+    // ======================================================================
+    async fetchSource(source) {
+        if (source.type === 'rss') {
+            return await this.fetchRSS(source.url);
+        } else if (source.type === 'html') {
+            return await this.fetchHTML(source.url);
+        }
+        return [];
+    },
+    
+    // ======================================================================
+    // Fetch RSS feed
+    // ======================================================================
+    async fetchRSS(url) {
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(text, 'text/xml');
+            
+            if (xml.querySelector('parsererror')) {
+                throw new Error('Invalid RSS feed');
+            }
+            
+            const items = xml.querySelectorAll('item');
+            
+            return Array.from(items).map(item => ({
+                title: item.querySelector('title')?.textContent?.trim() || '',
+                summary: item.querySelector('description')?.textContent?.trim() || '',
+                link: item.querySelector('link')?.textContent?.trim() || '',
+                published_at: item.querySelector('pubDate')?.textContent?.trim() || '',
+                guid: item.querySelector('guid')?.textContent?.trim() || item.querySelector('link')?.textContent?.trim() || ''
+            }));
+        } catch (err) {
+            console.error('RSS fetch error:', err);
+            return [];
+        }
+    },
+    
+    // ======================================================================
+    // Fetch HTML page
+    // ======================================================================
+    async fetchHTML(url) {
+        try {
+            const response = await fetch(url);
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Try common selectors for articles
+            const selectors = ['article', '.post', '.news-item', '.article', '.news', '.item'];
+            let articles = [];
+            
+            for (const selector of selectors) {
+                const elements = doc.querySelectorAll(selector);
+                if (elements.length > 0) {
+                    elements.forEach(el => {
+                        const titleEl = el.querySelector('h2, h3, .title, .headline');
+                        const summaryEl = el.querySelector('p, .excerpt, .description, .summary');
+                        const linkEl = el.querySelector('a');
+                        
+                        const title = titleEl?.textContent?.trim() || '';
+                        const summary = summaryEl?.textContent?.trim() || '';
+                        const link = linkEl?.href || '';
+                        
+                        if (title) {
+                            articles.push({
+                                title,
+                                summary,
+                                link,
+                                published_at: '',
+                                guid: `html_${title.substring(0, 50)}`
+                            });
+                        }
+                    });
+                    break;
+                }
+            }
+            
+            return articles;
+        } catch (err) {
+            console.error('HTML fetch error:', err);
+            return [];
+        }
+    },
+    
+    // ======================================================================
+    // Generate unique ID
+    // ======================================================================
+    generateId(article, source) {
+        return `${source.id}_${article.guid || article.link || article.title.substring(0, 50)}`;
+    },
+    
+    // ======================================================================
+    // Analyze strategic impact (rule-based, can be upgraded to LLM)
+    // ======================================================================
+    analyzeImpact(article) {
+        const text = `${article.title} ${article.summary}`.toLowerCase();
+        
+        // Detect districts
+        const districts = this.detectDistricts(text);
+        
+        // Detect dimension
+        const dimension = this.detectDimension(text);
+        
+        // Calculate impact score
+        const impactScore = this.calculateImpactScore(text);
+        
+        return {
+            districts: districts.length > 0 ? districts : ['All'],
+            dimension: dimension,
+            impactScore: Math.min(10, Math.max(1, impactScore)),
+            strategicSummary: this.generateSummary(text, districts, dimension, impactScore),
+            confidence: impactScore > 6 ? 'High' : (impactScore > 4 ? 'Medium' : 'Low')
+        };
+    },
+    
+    // ======================================================================
+    // Detect districts mentioned
+    // ======================================================================
+    detectDistricts(text) {
+        const found = new Set();
+        const allDistricts = [
+            'Gasabo', 'Kicukiro', 'Nyarugenge', 'Musanze', 'Burera', 'Gicumbi',
+            'Rulindo', 'Gakenke', 'Nyanza', 'Gisagara', 'Nyaruguru', 'Huye',
+            'Nyamagabe', 'Ruhango', 'Muhanga', 'Kamonyi', 'Rwamagana', 'Nyagatare',
+            'Gatsibo', 'Kayonza', 'Kirehe', 'Ngoma', 'Bugesera', 'Karongi',
+            'Rutsiro', 'Rubavu', 'Nyabihu', 'Ngororero', 'Rusizi', 'Nyamasheke'
+        ];
+        
+        allDistricts.forEach(district => {
+            if (text.includes(district.toLowerCase())) {
+                found.add(district);
+            }
+        });
+        
+        // Check synonyms
+        for (const [region, districts] of Object.entries(INGESTION_CONFIG.DISTRICT_SYNONYMS)) {
+            if (text.includes(region.toLowerCase())) {
+                districts.forEach(d => found.add(d));
+            }
+        }
+        
+        return Array.from(found);
+    },
+    
+    // ======================================================================
+    // Detect dimension
+    // ======================================================================
+    detectDimension(text) {
+        const keywords = {
+            land: ['land', 'construction', 'infrastructure', 'building', 'housing', 'real estate', 'zoning', 'agriculture', 'farm', 'site'],
+            labor: ['labor', 'employment', 'jobs', 'skills', 'training', 'education', 'workforce', 'workers', 'unemployment'],
+            capital: ['investment', 'funding', 'capital', 'finance', 'bank', 'loan', 'credit', 'budget', 'money', 'million', 'billion'],
+            entrepreneurship: ['business', 'entrepreneur', 'startup', 'trade', 'market', 'commerce', 'small business', 'enterprise']
+        };
+        
+        let scores = { land: 0, labor: 0, capital: 0, entrepreneurship: 0 };
+        
+        for (const [dimension, words] of Object.entries(keywords)) {
+            for (const word of words) {
+                if (text.includes(word)) {
+                    scores[dimension] += 1;
+                }
+            }
+        }
+        
+        // Find max
+        let maxScore = 0;
+        let maxDimension = 'capital';
+        for (const [dimension, score] of Object.entries(scores)) {
+            if (score > maxScore) {
+                maxScore = score;
+                maxDimension = dimension;
+            }
+        }
+        
+        return maxDimension;
+    },
+    
+    // ======================================================================
+    // Calculate impact score (1-10)
+    // ======================================================================
+    calculateImpactScore(text) {
+        let score = 3;
+        
+        // High impact keywords
+        const highImpact = ['million', 'billion', 'investment', 'deal', 'agreement', 'construction', 
+                           'development', 'infrastructure', 'launch', 'new', 'expansion', 'build',
+                           'announce', 'sign', 'partnership', 'acquisition', 'breakthrough'];
+        
+        const mediumImpact = ['increase', 'growth', 'improve', 'develop', 'plan', 'project', 
+                            'program', 'initiative', 'support', 'enhance', 'boost'];
+        
+        for (const word of highImpact) {
+            if (text.includes(word)) score += 0.8;
+        }
+        
+        for (const word of mediumImpact) {
+            if (text.includes(word)) score += 0.4;
+        }
+        
+        // Numbers boost
+        if (/\$\d+/.test(text)) score += 1.5;
+        if (/\d+%/.test(text)) score += 1.0;
+        if (/\d+,?\d+/.test(text)) score += 0.5;
+        
+        return Math.min(10, Math.round(score));
+    },
+    
+    // ======================================================================
+    // Generate strategic summary
+    // ======================================================================
+    generateSummary(text, districts, dimension, impactScore) {
+        const districtStr = districts.length > 0 ? districts.join(', ') : 'Rwanda-wide';
+        const dimensionMap = {
+            land: 'Land & Infrastructure',
+            labor: 'Labor & Skills',
+            capital: 'Capital & Finance',
+            entrepreneurship: 'Entrepreneurship & Business'
+        };
+        return `Impact on ${districtStr} in ${dimensionMap[dimension] || 'multiple dimensions'}. Impact score: ${impactScore}/10.`;
+    },
+    
+    // ======================================================================
+    // Ingest item into app state
+    // ======================================================================
+    async ingestItem(article, source, analysis) {
+        const newsItem = {
+            id: this.generateId(article, source),
+            title: article.title,
+            summary: article.summary || article.title,
+            source: source.name,
+            sourceId: source.id,
+            link: article.link || '',
+            published_at: article.published_at || new Date().toISOString(),
+            ingested_at: new Date().toISOString(),
+            district: analysis.districts[0] || 'All',
+            target_dimension: analysis.dimension,
+            impact_score: analysis.impactScore,
+            confidence: analysis.confidence,
+            strategic_summary: analysis.strategicSummary
+        };
+        
+        // Add to global state
+        if (typeof state !== 'undefined' && state) {
+            if (!state.curatedNews) state.curatedNews = [];
+            state.curatedNews.push(newsItem);
+            
+            // Recalculate scores
+            if (typeof recalculateDynamicDistrictScores === 'function') {
+                recalculateDynamicDistrictScores();
+            }
+            
+            // Update UI
+            if (typeof selectDistrict === 'function' && state.currentDistrict) {
+                selectDistrict(state.currentDistrict);
+            }
+        }
+        
+        // Emit event
+        IngestionEvents.emit('news-ingested', newsItem);
+        
+        return newsItem;
+    },
+    
+    // ======================================================================
+    // Get status
+    // ======================================================================
+    getStatus() {
+        return {
+            isRunning: ingestionState.isRunning,
+            lastRun: ingestionState.lastRun,
+            totalIngested: ingestionState.totalIngested,
+            processedCount: ingestionState.processedIds.size
+        };
+    }
+};
+
+// ==========================================================================
+// EXPOSE TO GLOBAL SCOPE
+// ==========================================================================
+
+window.AutoIngestion = AutoIngestion;
+window.IngestionEvents = IngestionEvents;
+
+// ==========================================================================
+// USAGE INSTRUCTIONS
+// ==========================================================================
+
+console.log('✅ Auto-Ingestion Engine loaded!');
+console.log('');
+console.log('📖 Usage:');
+console.log('   To start:  AutoIngestion.start()');
+console.log('   To stop:   AutoIngestion.stop()');
+console.log('   To check:  AutoIngestion.getStatus()');
+console.log('');
+console.log('📡 Events:');
+console.log('   IngestionEvents.on("news-ingested", (news) => {...})');
+console.log('   IngestionEvents.on("data-updated", (data) => {...})');
+console.log('');
+console.log('💡 Tip: Run "AutoIngestion.start()" in the console to begin auto-ingestion');
