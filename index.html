@@ -137,6 +137,37 @@
         .nav-tab:hover { background: rgba(255,255,255,0.05); color: #e2e8f0; }
         .nav-tab.active { background: rgba(76, 110, 245, 0.15); border-color: #4C6EF5; color: #4C6EF5; }
 
+        /* ===== AUTO-INGESTION STATUS BAR ===== */
+        #ingestion-status {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 6px 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.7rem;
+        }
+        #ingestion-status .status-left { display: flex; align-items: center; gap: 8px; }
+        #ingestion-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+        #ingestion-dot.inactive { background: #ef4444; animation: none; }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        #ingestion-status-text { color: #94a3b8; }
+        #ingestion-count { color: #4C6EF5; font-weight: 700; }
+        .ingestion-label { color: #94a3b8; font-size: 0.65rem; }
+
         .district-selector { margin-bottom: 14px; }
         .district-selector label {
             font-size: 0.7rem;
@@ -219,14 +250,15 @@
         }
         .view-details-btn:hover { background: #3b5de7; }
 
-        .osm-section {
+        /* ===== STRATEGIC INTELLIGENCE GRID ===== */
+        .strategic-section {
             flex: 1;
             overflow-y: auto;
             border-top: 1px solid rgba(255,255,255,0.06);
             padding-top: 12px;
             margin-top: 12px;
         }
-        .osm-section h3 {
+        .strategic-section h3 {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -235,12 +267,12 @@
             font-weight: 600;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .osm-grid {
+        .strategic-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 6px;
         }
-        .osm-item {
+        .strategic-item {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.04);
             border-radius: 8px;
@@ -250,24 +282,22 @@
             align-items: center;
             font-size: 0.75rem;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .osm-item .osm-label { color: #94a3b8; }
-        .osm-item .osm-count { font-family: 'IBM Plex Mono', monospace; font-weight: 700; color: #e2e8f0; }
+        .strategic-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
+        .strategic-item.active { border-color: #4C6EF5 !important; background: rgba(76, 110, 245, 0.15) !important; }
+        .strategic-item .strategic-label { color: #94a3b8; }
+        .strategic-item .strategic-count { 
+            font-family: 'IBM Plex Mono', monospace; 
+            font-weight: 700; 
+            color: #e2e8f0;
+            font-size: 0.7rem;
+        }
 
-        #analytics-view {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
+        #analytics-view { display: none; flex-direction: column; gap: 12px; margin-bottom: 14px; }
         #analytics-view.visible { display: flex; }
-        
-        #strategic-view {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
+        #strategic-view { display: none; flex-direction: column; gap: 12px; margin-bottom: 14px; }
         #strategic-view.visible { display: flex; }
 
         .analytics-card {
@@ -313,15 +343,8 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             transition: all 0.2s;
         }
-        .doc-filter-btn:hover {
-            background: rgba(255,255,255,0.1);
-            color: #e2e8f0;
-        }
-        .doc-filter-btn.active {
-            background: rgba(76,110,245,0.2);
-            border: 1px solid #4C6EF5;
-            color: #e2e8f0;
-        }
+        .doc-filter-btn:hover { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+        .doc-filter-btn.active { background: rgba(76,110,245,0.2); border: 1px solid #4C6EF5; color: #e2e8f0; }
 
         .doc-item {
             display: flex;
@@ -333,32 +356,21 @@
             border-radius: 4px;
             transition: background 0.2s;
         }
-        .doc-item:hover {
-            background: rgba(255,255,255,0.04);
-        }
+        .doc-item:hover { background: rgba(255,255,255,0.04); }
 
-        /* Methodology Card Toggle */
         .methodology-header {
             transition: background 0.2s;
             padding: 4px 0;
             border-radius: 6px;
         }
-        .methodology-header:hover {
-            background: rgba(255,255,255,0.03);
-        }
+        .methodology-header:hover { background: rgba(255,255,255,0.03); }
         #methodology-content {
             border-top: 1px solid rgba(255,255,255,0.06);
             padding-top: 12px;
         }
-        #methodology-content ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        #methodology-content li {
-            padding: 2px 0;
-        }
+        #methodology-content ul { list-style-type: none; padding-left: 0; }
+        #methodology-content li { padding: 2px 0; }
 
-        /* ===== SECTOR BREAKDOWN TABLE STYLES ===== */
         .sector-table {
             width: 100%;
             border-collapse: collapse;
@@ -376,29 +388,18 @@
             border-bottom: 1px solid rgba(255,255,255,0.04);
             color: #e2e8f0;
         }
-        .sector-table .gap-cell {
-            font-weight: 700;
-        }
+        .sector-table .gap-cell { font-weight: 700; }
         .sector-table .diagnosis-badge {
             font-size: 0.6rem;
             padding: 1px 8px;
             border-radius: 10px;
             font-weight: 600;
         }
-        .diagnosis-badge.financing {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-        }
-        .diagnosis-badge.funding {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-        .sector-table .provenance-note {
-            font-size: 0.6rem;
-            color: #94a3b8;
-            max-width: 200px;
-            display: block;
-        }
+        .diagnosis-badge.financing { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .diagnosis-badge.funding { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .diagnosis-badge.skills { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .diagnosis-badge.market { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+        .sector-table .provenance-note { font-size: 0.6rem; color: #94a3b8; max-width: 200px; display: block; }
         .confidence-badge {
             font-size: 0.6rem;
             padding: 1px 6px;
@@ -409,14 +410,8 @@
         .confidence-badge.medium { background: rgba(245,158,11,0.2); color: #f59e0b; }
         .confidence-badge.low { background: rgba(239,68,68,0.2); color: #ef4444; }
 
-        /* ===== CONFIDENCE ENGINE STYLES ===== */
-        .confidence-card {
-            margin-top: 12px;
-            border: 1px solid rgba(139,92,246,0.15);
-        }
-        .confidence-card .methodology-header:hover {
-            background: rgba(139,92,246,0.05);
-        }
+        .confidence-card { margin-top: 12px; border: 1px solid rgba(139,92,246,0.15); }
+        .confidence-card .methodology-header:hover { background: rgba(139,92,246,0.05); }
         #confidence-content {
             border-top: 1px solid rgba(255,255,255,0.06);
             padding-top: 12px;
@@ -438,11 +433,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.04);
             color: #e2e8f0;
         }
-        .overall-score {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #8b5cf6;
-        }
+        .overall-score { font-size: 1.2rem; font-weight: 800; color: #8b5cf6; }
         .score-high { color: #10b981; }
         .score-medium { color: #f59e0b; }
         .score-low { color: #ef4444; }
@@ -701,6 +692,29 @@
         }
         .theme-btn:hover, .theme-btn.active { color: #e2e8f0; background: rgba(255,255,255,0.06); }
 
+        .leaflet-tooltip-strategic {
+            background: rgba(10, 14, 23, 0.95) !important;
+            border: 1px solid rgba(76, 110, 245, 0.3) !important;
+            color: #e2e8f0 !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            max-width: 300px !important;
+        }
+        .leaflet-tooltip-strategic .tooltip-title { font-weight: 700; font-size: 0.9rem; color: #e2e8f0; margin-bottom: 4px; }
+        .leaflet-tooltip-strategic .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .leaflet-tooltip-strategic .tooltip-row:last-child { border-bottom: none; }
+        .leaflet-tooltip-strategic .tooltip-label { color: #94a3b8; }
+        .leaflet-tooltip-strategic .tooltip-value { color: #e2e8f0; font-weight: 600; }
+        .leaflet-tooltip-strategic .tooltip-gap { color: #ef4444; font-weight: 700; }
+        .leaflet-tooltip-strategic .tooltip-achieved { color: #10b981; font-weight: 700; }
+
         @media (max-width: 1024px) {
             .sidebar-panel { width: 340px; min-width: 340px; }
             .details-sidebar { width: 340px; }
@@ -715,6 +729,51 @@
             .admin-form .form-grid { grid-template-columns: 1fr; }
             .admin-form .form-grid .full-width { grid-column: span 1; }
             .login-box { padding: 24px; }
+        }
+
+        /* ===== METHODOLOGY CARD STYLES ===== */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .methodology-grid .full-width { grid-column: span 2; }
+        .methodology-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px;
+            padding: 10px;
+        }
+        .methodology-box h5 {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 4px;
+        }
+        .methodology-box .formula {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: #4C6EF5;
+            background: rgba(76,110,245,0.08);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 2px 0;
+        }
+        .methodology-box .source-tag {
+            font-size: 0.6rem;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .source-tag.high { background: rgba(16,185,129,0.2); color: #10b981; }
+        .source-tag.medium { background: rgba(245,158,11,0.2); color: #f59e0b; }
+        .source-tag.low { background: rgba(239,68,68,0.2); color: #ef4444; }
+        .methodology-box .note {
+            font-size: 0.6rem;
+            color: #64748b;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -738,6 +797,17 @@
 
         <button class="admin-btn" id="btn-admin-panel"><i class="fa-solid fa-tools"></i> Admin Panel</button>
 
+        <div id="ingestion-status">
+            <div class="status-left">
+                <span id="ingestion-dot"></span>
+                <span id="ingestion-status-text">Auto-Ingestion: Idle</span>
+            </div>
+            <div>
+                <span id="ingestion-count">0</span>
+                <span class="ingestion-label"> news ingested</span>
+            </div>
+        </div>
+
         <div class="nav-tabs">
             <button class="nav-tab active" data-tab="map" id="tab-map">🗺️ Map</button>
             <button class="nav-tab" data-tab="analytics" id="tab-analytics">📊 Analytics</button>
@@ -755,23 +825,23 @@
             <div class="score-grid" id="score-grid">
                 <div class="score-card composite-card">
                     <div class="label">Composite Score</div>
-                    <div class="value composite" id="display-composite">94.5</div>
+                    <div class="value composite" id="display-composite">--</div>
                 </div>
                 <div class="score-card">
                     <div class="label">Land</div>
-                    <div class="value land" id="display-land">92.0</div>
+                    <div class="value land" id="display-land">--</div>
                 </div>
                 <div class="score-card">
                     <div class="label">Labor</div>
-                    <div class="value labor" id="display-labor">95.0</div>
+                    <div class="value labor" id="display-labor">--</div>
                 </div>
                 <div class="score-card">
                     <div class="label">Capital</div>
-                    <div class="value capital" id="display-capital">97.0</div>
+                    <div class="value capital" id="display-capital">--</div>
                 </div>
                 <div class="score-card">
                     <div class="label">Entrepreneurship</div>
-                    <div class="value entrepreneurship" id="display-entrepreneurship">94.0</div>
+                    <div class="value entrepreneurship" id="display-entrepreneurship">--</div>
                 </div>
             </div>
 
@@ -779,21 +849,35 @@
                 <i class="fa-solid fa-chart-simple"></i> View Full Details
             </button>
 
-            <div class="osm-section">
+            <div class="strategic-section">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                    <h3 style="margin-bottom:0;"><i class="fa-solid fa-building"></i> Infrastructure Intelligence</h3>
-                    <button id="btn-reset-infra" style="display:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; font-size:0.65rem; padding:2px 8px; cursor:pointer;">Reset Filter</button>
+                    <h3 style="margin-bottom:0;"><i class="fa-solid fa-bullseye"></i> Strategic Intelligence</h3>
+                    <button id="btn-reset-strategic" style="display:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#94a3b8; border-radius:6px; font-size:0.65rem; padding:2px 8px; cursor:pointer;">Reset View</button>
                 </div>
-                <p style="font-size:0.68rem; color:#94a3b8; margin-bottom:8px;">Click any option below to view national heatmap distribution & site selection intelligence.</p>
-                <div class="osm-grid" id="osm-grid">
-                    <div class="osm-item" data-infra="construction"><span class="osm-label">🏗️ Construction</span><span class="osm-count" id="osm-construction">--</span></div>
-                    <div class="osm-item" data-infra="hardware"><span class="osm-label">🏪 Hardware</span><span class="osm-count" id="osm-hardware">--</span></div>
-                    <div class="osm-item" data-infra="commercial"><span class="osm-label">🏢 Commercial</span><span class="osm-count" id="osm-commercial">--</span></div>
-                    <div class="osm-item" data-infra="industrial"><span class="osm-label">🏭 Industrial</span><span class="osm-count" id="osm-industrial">--</span></div>
-                    <div class="osm-item" data-infra="education"><span class="osm-label">🏫 Education</span><span class="osm-count" id="osm-education">--</span></div>
-                    <div class="osm-item" data-infra="health"><span class="osm-label">🏥 Health</span><span class="osm-count" id="osm-health">--</span></div>
-                    <div class="osm-item" data-infra="hospitality"><span class="osm-label">🏨 Hospitality</span><span class="osm-count" id="osm-hospitality">--</span></div>
-                    <div class="osm-item" data-infra="banking"><span class="osm-label">🏦 Banking</span><span class="osm-count" id="osm-banking">--</span></div>
+                <p style="font-size:0.68rem; color:#94a3b8; margin-bottom:8px;">
+                    Click any sector below to visualize district-level targets and gaps from Vision 2050, NST2, and DDS documents.
+                </p>
+                <div class="strategic-grid" id="strategic-grid">
+                    <div class="strategic-item" data-strategic="housing">
+                        <span class="strategic-label">🏠 Housing</span>
+                        <span class="strategic-count" id="strategic-housing">--</span>
+                    </div>
+                    <div class="strategic-item" data-strategic="jobs">
+                        <span class="strategic-label">💼 Jobs</span>
+                        <span class="strategic-count" id="strategic-jobs">--</span>
+                    </div>
+                    <div class="strategic-item" data-strategic="investment">
+                        <span class="strategic-label">💰 Investment</span>
+                        <span class="strategic-count" id="strategic-investment">--</span>
+                    </div>
+                    <div class="strategic-item" data-strategic="industry">
+                        <span class="strategic-label">🏭 Industry</span>
+                        <span class="strategic-count" id="strategic-industry">--</span>
+                    </div>
+                    <div class="strategic-item" data-strategic="agriculture" style="grid-column: span 2;">
+                        <span class="strategic-label">🌾 Agriculture</span>
+                        <span class="strategic-count" id="strategic-agriculture">--</span>
+                    </div>
                 </div>
             </div>
 
@@ -834,11 +918,11 @@
 
             <div class="analytics-card" id="analytics-site-selection-card" style="border-left: 3px solid #f59e0b;">
                 <h4 style="color:#f59e0b; display:flex; align-items:center; justify-content:space-between;">
-                    <span>🎯 Sector Distribution & Site Selection Engine</span>
-                    <span id="analytics-infra-tag" style="font-size:0.65rem; color:#94a3b8; text-transform:none;">Select an option in Map tab</span>
+                    <span>🎯 Strategic Sector Analysis</span>
+                    <span id="analytics-strategic-tag" style="font-size:0.65rem; color:#94a3b8; text-transform:none;">Select an option in Map tab</span>
                 </h4>
                 <div id="analytics-site-selection-content" style="font-size:0.78rem; color:#94a3b8;">
-                    <span>Click any Infrastructure Option (e.g., Hardware, Education, Health) to generate nationwide distribution heatmap and site selection recommendations for new facilities.</span>
+                    <span>Click any Strategic Intelligence option (🏠 Housing, 💼 Jobs, 💰 Investment, 🏭 Industry, 🌾 Agriculture) to visualize district-level targets and gaps from Vision 2050, NST2, and DDS documents.</span>
                 </div>
             </div>
 
@@ -870,15 +954,136 @@
                 </div>
             </div>
 
-            <!-- ===== SCORING METHODOLOGY & DATA TRANSPARENCY ===== -->
+            <!-- ===== METHODOLOGY & DATA TRANSPARENCY ===== -->
             <div class="analytics-card methodology-card">
                 <div class="methodology-header" id="methodology-toggle" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
-                    <h4 style="margin:0; color:#a78bfa;">📐 Scoring Methodology & Data Transparency</h4>
+                    <h4 style="margin:0; color:#a78bfa;">📐 Methodology & Data Transparency</h4>
                     <span id="methodology-icon" style="font-size:1rem; color:#94a3b8;">▼</span>
                 </div>
                 <div id="methodology-content" style="display:none; margin-top:12px; font-size:0.78rem; color:#94a3b8; line-height:1.6;">
                     
-                    <!-- How Scores Are Calculated -->
+                    <!-- HOUSING -->
+                    <div class="methodology-box full-width">
+                        <h5>🏠 Housing Gap Calculation</h5>
+                        <div style="font-size:0.7rem; margin-top:4px;">
+                            <div><strong>National Target:</strong> 5.5M homes by 2050 (Vision 2050)</div>
+                            <div><strong>Annual Need:</strong> 150,000 units per year</div>
+                            <div style="margin-top:4px;"><strong>District Target (Priority Order):</strong></div>
+                            <ol style="margin:2px 0 0 16px; font-size:0.65rem; color:#94a3b8;">
+                                <li>DDS numeric target (e.g., "200,000 units") → <span class="source-tag high">High Confidence</span></li>
+                                <li>DDS land allocation (ha × 50 units/ha) → <span class="source-tag medium">Medium Confidence</span></li>
+                                <li>Population-based estimate (Pop ÷ 4.5 × 1.5) → <span class="source-tag low">Low Confidence</span></li>
+                            </ol>
+                            <div style="margin-top:4px;"><strong>Current Housing:</strong> Population ÷ 4.5 (avg household size)</div>
+                            <div><strong>Formula:</strong> <span class="formula">Gap = Target - Current</span></div>
+                            <div class="note">📌 Source: Vision 2050, NST2, DDS documents, NISR population data</div>
+                            <div class="note">⚠️ Districts with "TBD" targets use fallback estimates</div>
+                        </div>
+                    </div>
+
+                    <!-- JOBS -->
+                    <div class="methodology-box full-width">
+                        <h5>💼 Jobs Gap Calculation</h5>
+                        <div style="font-size:0.7rem; margin-top:4px;">
+                            <div><strong>National Target:</strong> 1.25M new jobs by 2029 (NST2)</div>
+                            <div style="margin-top:4px;"><strong>District Target (Priority Order):</strong></div>
+                            <ol style="margin:2px 0 0 16px; font-size:0.65rem; color:#94a3b8;">
+                                <li>DDS numeric target → <span class="source-tag high">High Confidence</span></li>
+                                <li>Gap analysis worker needs → <span class="source-tag medium">Medium Confidence</span></li>
+                                <li>Score-based estimate (20K + (Score/100 × 30K)) → <span class="source-tag low">Low Confidence</span></li>
+                            </ol>
+                            <div style="margin-top:4px;"><strong>Current Jobs:</strong> 20,000 + (Composite Score / 100) × 30,000</div>
+                            <div><strong>Formula:</strong> <span class="formula">Gap = Target - Current</span></div>
+                            <div class="note">📌 Source: NST2, DDS documents, composite scoring engine</div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTMENT -->
+                    <div class="methodology-box full-width">
+                        <h5>💰 Investment Gap Calculation</h5>
+                        <div style="font-size:0.7rem; margin-top:4px;">
+                            <div><strong>National Target:</strong> $4.6B private investment by 2029 (NST2)</div>
+                            <div style="margin-top:4px;"><strong>District Target (Priority Order):</strong></div>
+                            <ol style="margin:2px 0 0 16px; font-size:0.65rem; color:#94a3b8;">
+                                <li>Gap analysis required investment → <span class="source-tag high">High Confidence</span></li>
+                                <li>DDS numeric target → <span class="source-tag medium">Medium Confidence</span></li>
+                                <li>Score-based estimate ((Score/100) × $300M) → <span class="source-tag low">Low Confidence</span></li>
+                            </ol>
+                            <div style="margin-top:4px;"><strong>Current Investment:</strong> From gap analysis or estimate</div>
+                            <div><strong>Formula:</strong> <span class="formula">Gap = Target - Current</span></div>
+                            <div class="note">📌 Source: NST2, DDS gap analysis, RDB data</div>
+                        </div>
+                    </div>
+
+                    <!-- INDUSTRY -->
+                    <div class="methodology-box full-width">
+                        <h5>🏭 Industry Gap Calculation</h5>
+                        <div style="font-size:0.7rem; margin-top:4px;">
+                            <div><strong>National Target:</strong> Aggregated from DDS targets</div>
+                            <div style="margin-top:4px;"><strong>District Target (Priority Order):</strong></div>
+                            <ol style="margin:2px 0 0 16px; font-size:0.65rem; color:#94a3b8;">
+                                <li>DDS industrial zone targets → <span class="source-tag high">High Confidence</span></li>
+                                <li>Score-based estimate (1 + (Score/20)) → <span class="source-tag low">Low Confidence</span></li>
+                            </ol>
+                            <div style="margin-top:4px;"><strong>Current Zones:</strong> Based on DDS progress or estimate</div>
+                            <div><strong>Formula:</strong> <span class="formula">Gap = Target - Current</span></div>
+                            <div class="note">📌 Source: DDS documents, MINICOM data</div>
+                        </div>
+                    </div>
+
+                    <!-- AGRICULTURE -->
+                    <div class="methodology-box full-width">
+                        <h5>🌾 Agriculture Gap Calculation</h5>
+                        <div style="font-size:0.7rem; margin-top:4px;">
+                            <div><strong>National Target:</strong> 80% target intensity</div>
+                            <div style="margin-top:4px;"><strong>District Target:</strong> 80% (national standard)</div>
+                            <div><strong>Current Intensity:</strong> From agriculture_data.json (NISR data)</div>
+                            <div><strong>Formula:</strong> <span class="formula">Gap = 80% - Current Intensity</span></div>
+                            <div class="note">📌 Source: NISR Seasonal Survey, agriculture_data.json</div>
+                        </div>
+                    </div>
+
+                    <!-- FALLBACK & CONFIDENCE -->
+                    <div class="methodology-box full-width" style="border-color: rgba(245,158,11,0.2);">
+                        <h5 style="color:#f59e0b;">⚠️ Fallback Logic & Confidence Levels</h5>
+                        <div style="font-size:0.7rem; margin-top:4px;">
+                            <div><span class="source-tag high">High Confidence</span> → Official DDS document with numeric targets</div>
+                            <div><span class="source-tag medium">Medium Confidence</span> → DDS gap analysis or land allocation</div>
+                            <div><span class="source-tag low">Low Confidence</span> → Fallback estimates based on population/score</div>
+                            <div style="margin-top:4px; color:#ef4444;">⚠️ <strong>0% Gap Warning:</strong> When a district shows 0% gap but:</div>
+                            <ul style="margin:2px 0 0 16px; font-size:0.65rem; color:#94a3b8;">
+                                <li>DDS target is "TBD" → Data incomplete</li>
+                                <li>Using fallback estimate → Needs verification</li>
+                                <li>Target is unrealistic compared to national targets → Flagged for review</li>
+                            </ul>
+                            <div class="note" style="margin-top:4px;">💡 Recommendation: Add DDS documents for all districts to improve accuracy</div>
+                        </div>
+                    </div>
+
+                    <!-- DATA SOURCES SUMMARY -->
+                    <div class="methodology-box full-width" style="border-color: rgba(76,110,245,0.2);">
+                        <h5 style="color:#4C6EF5;">📌 Data Sources Summary</h5>
+                        <div style="font-size:0.7rem; margin-top:4px; display:grid; grid-template-columns:1fr 1fr; gap:4px;">
+                            <div><span style="color:#10b981;">●</span> Vision 2050 → National housing target</div>
+                            <div><span style="color:#3b82f6;">●</span> NST2 → Jobs & investment targets</div>
+                            <div><span style="color:#f59e0b;">●</span> DDS Documents → District targets & gap analysis</div>
+                            <div><span style="color:#8b5cf6;">●</span> NISR Data → Population & agriculture</div>
+                            <div><span style="color:#ec4899;">●</span> Gap Analysis → Investment & labor needs</div>
+                            <div><span style="color:#06b6d4;">●</span> Composite Score → Fallback estimates</div>
+                        </div>
+                        <div class="note" style="margin-top:6px;">📌 All data is subject to verification and consultation. For questions, contact the data curator.</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===== SCORING METHODOLOGY (Existing - Keep) ===== -->
+            <div class="analytics-card methodology-card">
+                <div class="methodology-header" id="scoring-toggle" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <h4 style="margin:0; color:#a78bfa;">📊 Scoring Methodology</h4>
+                    <span id="scoring-icon" style="font-size:1rem; color:#94a3b8;">▼</span>
+                </div>
+                <div id="scoring-content" style="display:none; margin-top:12px; font-size:0.78rem; color:#94a3b8; line-height:1.6;">
                     <div style="margin-bottom:12px;">
                         <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">How Scores Are Calculated</div>
                         <div style="background:rgba(255,255,255,0.03); padding:10px; border-radius:6px; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:#4C6EF5;">
@@ -892,45 +1097,6 @@
                             This means each district's score is relative to the best and worst-performing districts. A score of 100 means the district is the best in that factor.
                         </div>
                     </div>
-
-                    <!-- Data Sources -->
-                    <div style="margin-bottom:12px;">
-                        <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">Data Sources</div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px 12px;">
-                            <div><span style="color:#10b981;">●</span> Land: Land Center Basemap 2024</div>
-                            <div><span style="color:#3b82f6;">●</span> Labor: NISR 2024, Schools Directory</div>
-                            <div><span style="color:#f59e0b;">●</span> Capital: NISR 2024, MINECOFIN</div>
-                            <div><span style="color:#8b5cf6;">●</span> Entrepreneurship: NISR 2024, MINICOM</div>
-                            <div><span style="color:#10b981;">●</span> Agriculture: NISR Seasonal Survey 2024</div>
-                            <div><span style="color:#ec4899;">●</span> Infrastructure: Curated + OpenStreetMap</div>
-                        </div>
-                        <div style="margin-top:4px; font-size:0.65rem; color:#64748b;">
-                            Confidence levels: <span style="color:#10b981;">High</span> (Official data) · <span style="color:#f59e0b;">Medium</span> (Curated/OSM)
-                        </div>
-                    </div>
-
-                    <!-- Why Scores Change (Dynamic Boosts) -->
-                    <div style="margin-bottom:12px;">
-                        <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">Why Scores Change (Dynamic Boosts)</div>
-                        <div style="font-size:0.72rem; color:#94a3b8;">
-                            Scores update automatically when new data is added:
-                        </div>
-                        <ul style="margin:4px 0 0 16px; font-size:0.72rem; color:#94a3b8;">
-                            <li><span style="color:#4C6EF5;">Assets</span> – New hospitals, schools, farms, markets, factories add boosts</li>
-                            <li><span style="color:#4C6EF5;">News</span> – Curated news signals with impact scores add boosts</li>
-                            <li><span style="color:#4C6EF5;">Schools</span> – New schools in the Skills Pipeline add workforce boosts</li>
-                            <li><span style="color:#4C6EF5;">Land Center</span> – New spatial data updates Land Readiness scores</li>
-                        </ul>
-                    </div>
-
-                    <!-- Version & Update Log -->
-                    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:8px; font-size:0.65rem; color:#64748b;">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span><strong style="color:#94a3b8;">Version 3.0</strong> | Last Updated: August 2025</span>
-                            <span>Data confidence: <span style="color:#10b981;">High</span> (Official) · <span style="color:#f59e0b;">Medium</span> (Curated)</span>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -974,15 +1140,11 @@
                     <strong>Notes:</strong> <span id="doc-detail-notes-text">--</span>
                 </div>
                 
-                <!-- ===== GAP ANALYSIS CONTAINER ===== -->
-                <div id="doc-gap-analysis" style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.08); padding-top:12px;">
-                    <!-- Gap analysis content will be rendered here by JavaScript -->
-                </div>
+                <div id="doc-gap-analysis" style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.08); padding-top:12px;"></div>
                 
                 <button id="doc-detail-close" style="margin-top:8px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:4px 12px; color:#94a3b8; font-size:0.7rem; cursor:pointer;">Close</button>
             </div>
 
-            <!-- ===== SECTOR BREAKDOWN TABLE ===== -->
             <div class="analytics-card" id="sector-breakdown-card" style="display:none;">
                 <h4>📊 Sector Breakdown & Gap Diagnosis</h4>
                 <div style="overflow-x:auto; margin-top:8px;">
@@ -997,22 +1159,16 @@
                                 <th>Confidence</th>
                             </tr>
                         </thead>
-                        <tbody id="sector-breakdown-body">
-                            <!-- Dynamically populated by JavaScript -->
-                        </tbody>
+                        <tbody id="sector-breakdown-body"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- ===== DATA PROVENANCE ===== -->
             <div class="analytics-card" id="provenance-card" style="display:none;">
                 <h4>📌 Data Provenance</h4>
-                <div id="provenance-content" style="font-size:0.75rem; color:#94a3b8; line-height:1.6;">
-                    <!-- Dynamically populated by JavaScript -->
-                </div>
+                <div id="provenance-content" style="font-size:0.75rem; color:#94a3b8; line-height:1.6;"></div>
             </div>
 
-            <!-- ===== CONFIDENCE ENGINE ===== -->
             <div class="analytics-card confidence-card" id="confidence-card" style="display:none;">
                 <div class="methodology-header" id="confidence-toggle" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
                     <h4 style="margin:0; color:#8b5cf6;">🔍 Confidence Calculation & Data Improvement</h4>
@@ -1024,7 +1180,6 @@
                         <div style="font-size:0.72rem; color:#94a3b8;">The confidence score is calculated using a weighted formula based on five criteria:</div>
                     </div>
 
-                    <!-- Confidence Criteria Table -->
                     <div style="background:rgba(255,255,255,0.03); border-radius:6px; padding:8px; margin-bottom:12px; overflow-x:auto;">
                         <table>
                             <thead>
@@ -1035,13 +1190,10 @@
                                     <th>How to Improve</th>
                                 </tr>
                             </thead>
-                            <tbody id="confidence-breakdown">
-                                <!-- Dynamically populated by JavaScript -->
-                            </tbody>
+                            <tbody id="confidence-breakdown"></tbody>
                         </table>
                     </div>
 
-                    <!-- Overall Score Display -->
                     <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(139,92,246,0.1); padding:10px; border-radius:6px;">
                         <span style="font-weight:600; color:#e2e8f0;">Overall Confidence Score:</span>
                         <span id="overall-confidence-score" class="overall-score">--%</span>
