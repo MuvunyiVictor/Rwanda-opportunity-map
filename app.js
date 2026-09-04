@@ -760,12 +760,49 @@ window.showDocumentDetail = showDocumentDetail;
 window.closeDocumentDetail = closeDocumentDetail;
 
 // ==========================================================================
-// ==========================================================================
-// STRATEGIC INTELLIGENCE SYSTEM - UPDATED WITH DDS AND GAP ANALYSIS
-// ==========================================================================
+// STRATEGIC INTELLIGENCE SYSTEM
 // ==========================================================================
 
 let activeStrategicFilter = null;
+
+// ==========================================================================
+// HELPER: Get School/TVET Weight for Jobs
+// ==========================================================================
+function getSchoolWeight(districtName) {
+    const schools = state.schoolsDirectory?.schools || [];
+    const districtSchools = schools.filter(s => 
+        (s.district || '').toLowerCase() === districtName.toLowerCase()
+    );
+    if (districtSchools.length === 0) return 0;
+    
+    let totalWeight = 0;
+    districtSchools.forEach(s => {
+        const enrollment = s.enrollment || 500;
+        let weight = 0.5;
+        const level = (s.level || '').toLowerCase();
+        if (level.includes('tvet')) weight = 1.5;
+        else if (level.includes('university')) weight = 1.2;
+        else if (level.includes('college')) weight = 1.0;
+        else if (level.includes('secondary')) weight = 0.5;
+        
+        if (s.programs) {
+            s.programs.forEach(p => {
+                const prog = p.toLowerCase();
+                if (prog.includes('construction') || prog.includes('engineering') || prog.includes('technical')) {
+                    weight = Math.max(weight, 1.5);
+                } else if (prog.includes('ict') || prog.includes('tech')) {
+                    weight = Math.max(weight, 1.3);
+                } else if (prog.includes('health') || prog.includes('medical')) {
+                    weight = Math.max(weight, 1.2);
+                } else if (prog.includes('business') || prog.includes('commerce')) {
+                    weight = Math.max(weight, 1.0);
+                }
+            });
+        }
+        totalWeight += (enrollment / 1000) * weight;
+    });
+    return Math.round(totalWeight * 100) / 100;
+}
 
 // ==========================================================================
 // HELPER: Extract DDS Data from Gap Analysis
@@ -796,8 +833,30 @@ function getDDSDataFromGapAnalysis(districtName) {
     };
 }
 
+function getDistrictDocuments(districtName) {
+    return state.strategicDocuments.filter(doc => 
+        doc.districts && doc.districts.includes(districtName)
+    );
+}
+
+function parseNumericValue(value) {
+    if (typeof value === 'number') return value;
+    if (typeof value !== 'string') return 0;
+    const str = value.toLowerCase().replace(/,/g, '');
+    if (str.includes('million') || str.includes('m')) {
+        const num = parseFloat(str.replace(/[^0-9.]/g, ''));
+        if (!isNaN(num)) return num * 1000000;
+    }
+    if (str.includes('billion') || str.includes('b')) {
+        const num = parseFloat(str.replace(/[^0-9.]/g, ''));
+        if (!isNaN(num)) return num * 1000000000;
+    }
+    const num = parseFloat(str.replace(/[^0-9.]/g, ''));
+    return isNaN(num) ? 0 : num;
+}
+
 // ==========================================================================
-// CALCULATE STRATEGIC DATA - District specific with DDS + Gap Analysis
+// CALCULATE STRATEGIC DATA - UNIFIED METHODOLOGY
 // ==========================================================================
 function calculateStrategicData(districtName, sector) {
     const data = state.calculatedDistrictData[districtName] || {};
@@ -805,6 +864,9 @@ function calculateStrategicData(districtName, sector) {
     const score = data.composite_score || 50;
     const docs = getDistrictDocuments(districtName);
     const gapData = getDDSDataFromGapAnalysis(districtName);
+    
+    const cityDistricts = ['Gasabo', 'Kicukiro', 'Nyarugenge'];
+    const secondaryCities = ['Musanze', 'Rubavu', 'Huye', 'Nyagatare', 'Rwamagana', 'Muhanga'];
     
     let result = {
         current: 0,
@@ -824,7 +886,25 @@ function calculateStrategicData(districtName, sector) {
     
     switch(sector) {
         case 'housing': {
-            // Try to get DDS numeric target first
+            let type = 'rural';
+            if (cityDistricts.includes(districtName)) type = 'city';
+            else if (secondaryCities.includes(districtName)) type = 'secondary';
+            
+            const growthRates = { city: 0.035, secondary: 0.028, rural: 0.020 };
+            const householdSizes = {
+                current: { city: 4.0, secondary: 4.5, rural: 5.0 },
+                target: { city: 3.5, secondary: 4.0, rural: 4.5 }
+            };
+            
+            const growthRate = growthRates[type];
+            const currentHHSize = householdSizes.current[type];
+            const targetHHSize = householdSizes.target[type];
+            const yearsToTarget = 25;
+            
+            const current = Math.round(pop / currentHHSize);
+            const projectedPop = Math.round(pop * Math.pow(1 + growthRate, yearsToTarget));
+            const futureNeed = Math.round(projectedPop / targetHHSize);
+            
             let ddsTarget = 0;
             let ddsSource = '';
             for (const doc of docs) {
@@ -833,7 +913,7 @@ function calculateStrategicData(districtName, sector) {
                     const desc = (target.description || '').toLowerCase();
                     if (desc.includes('housing') || desc.includes('home') || desc.includes('unit')) {
                         const num = parseNumericValue(target.target_value);
-                        if (num > 0) {
+                        if (num > 0 && target.target_value !== 'TBD' && target.target_value !== 'tbd') {
                             ddsTarget = num;
                             ddsSource = doc.title;
                             break;
@@ -843,69 +923,97 @@ function calculateStrategicData(districtName, sector) {
                 if (ddsTarget > 0) break;
             }
             
-            // Current: Population / 4.5
-            const current = Math.round(pop / 4.5);
+            let landHa = 0;
+            const gapDataLocal = state.gapAnalysis?.districts?.[districtName];
+            if (gapDataLocal && gapDataLocal.sectoral_breakdown && gapDataLocal.sectoral_breakdown.land) {
+                const landSectors = gapDataLocal.sectoral_breakdown.land.sectors;
+                if (landSectors && landSectors.Housing) {
+                    landHa = landSectors.Housing.required || 0;
+                }
+                if (landHa === 0) {
+                    landHa = gapDataLocal.sectoral_breakdown.land.total_required || 0;
+                }
+            }
+            
+            let target = futureNeed;
+            let source = '';
+            let sourceDoc = '';
+            let formula = '';
+            let ddsAdjustment = 0;
+            let hasDDS = false;
             
             if (ddsTarget > 0) {
-                // Use DDS numeric target
-                result.current = current;
-                result.target = ddsTarget;
-                result.gap = Math.max(0, ddsTarget - current);
-                result.gapPercentage = ddsTarget > 0 ? Math.round((result.gap / ddsTarget) * 100) : 0;
-                result.source = 'DDS Document';
+                target = ddsTarget;
+                source = 'DDS Document';
+                sourceDoc = ddsSource;
+                formula = `Target: ${ddsTarget.toLocaleString()} (from ${ddsSource})`;
                 result.confidence = 'High';
-                result.hasDDS = true;
-                result.sourceDoc = ddsSource;
-                result.formula = `Target: ${ddsTarget.toLocaleString()} (from ${ddsSource}), Current: ${pop.toLocaleString()} ÷ 4.5 = ${current.toLocaleString()}`;
-                result.recommendation = 'Data is reliable. No further verification needed.';
-                result.details = {
-                    '🎯 Target (DDS)': `${ddsTarget.toLocaleString()} units`,
-                    '🏠 Current': `${current.toLocaleString()} units`,
-                    '📊 Gap': `${result.gap.toLocaleString()} units (${result.gapPercentage}%)`,
-                    '📄 Source': ddsSource
-                };
-            } else if (gapData && gapData.housing.land_for_housing_ha > 0) {
-                // Use gap analysis land allocation (50 units per hectare)
-                const landHa = gapData.housing.land_for_housing_ha;
-                const targetFromLand = Math.round(landHa * 50);
-                result.current = current;
-                result.target = targetFromLand;
-                result.gap = Math.max(0, targetFromLand - current);
-                result.gapPercentage = targetFromLand > 0 ? Math.round((result.gap / targetFromLand) * 100) : 0;
-                result.source = 'Gap Analysis (Land)';
-                result.confidence = 'Medium';
-                result.hasDDS = true;
-                result.sourceDoc = 'District Gap Analysis';
-                result.formula = `Land: ${landHa} ha × 50 units/ha = ${targetFromLand.toLocaleString()} units, Current: ${pop.toLocaleString()} ÷ 4.5 = ${current.toLocaleString()}`;
-                result.recommendation = 'Data from gap analysis. Verify with DDS for accuracy.';
-                result.details = {
-                    '🎯 Target (Land)': `${targetFromLand.toLocaleString()} units`,
-                    '🏠 Current': `${current.toLocaleString()} units`,
-                    '📊 Gap': `${result.gap.toLocaleString()} units (${result.gapPercentage}%)`,
-                    '📄 Source': 'Gap Analysis'
-                };
+                hasDDS = true;
+            } else if (landHa > 0) {
+                ddsAdjustment = landHa * 50;
+                target = futureNeed;
+                source = 'Gap Analysis (Land)';
+                sourceDoc = 'District Gap Analysis';
+                formula = `Land: ${landHa} ha × 50 units/ha = ${ddsAdjustment.toLocaleString()} additional units, Target = ${futureNeed.toLocaleString()}`;
+                result.confidence = 'High';
+                hasDDS = true;
             } else {
-                // Fallback: Target = Current × 1.5
-                const fallbackTarget = Math.round(current * 1.5);
-                result.current = current;
-                result.target = fallbackTarget;
-                result.gap = Math.max(0, fallbackTarget - current);
-                result.gapPercentage = fallbackTarget > 0 ? Math.round((result.gap / fallbackTarget) * 100) : 0;
-                result.source = 'Fallback Estimate';
-                result.confidence = 'Low';
-                result.hasDDS = false;
-                result.sourceDoc = 'No DDS available';
-                result.formula = `Population: ${pop.toLocaleString()} ÷ 4.5 = ${current.toLocaleString()} current, Target = Current × 1.5 = ${fallbackTarget.toLocaleString()}`;
-                result.recommendation = 'Add DDS document to get accurate district-specific targets.';
-                result.isWarning = true;
-                result.warningMessage = '⚠️ No DDS housing target found - using fallback estimate';
-                result.details = {
-                    '🎯 Target (Estimate)': `${fallbackTarget.toLocaleString()} units`,
-                    '🏠 Current': `${current.toLocaleString()} units`,
-                    '📊 Gap': `${result.gap.toLocaleString()} units (${result.gapPercentage}%)`,
-                    '📄 Source': '⚠️ Fallback Estimate'
-                };
+                target = futureNeed;
+                source = 'Population Projection';
+                sourceDoc = 'NISR + Vision 2050';
+                formula = `Population: ${pop.toLocaleString()} × (1 + ${(growthRate*100).toFixed(1)}%)^${yearsToTarget} = ${projectedPop.toLocaleString()}, ÷ ${targetHHSize} = ${target.toLocaleString()}`;
+                result.confidence = type === 'city' ? 'High' : (type === 'secondary' ? 'High' : 'Medium');
+                hasDDS = false;
             }
+            
+            let finalTarget = target;
+            if (landHa > 0 && ddsTarget === 0) {
+                finalTarget = Math.max(0, target - ddsAdjustment);
+            }
+            
+            const gap = Math.max(0, finalTarget - current);
+            const gapPct = finalTarget > 0 ? Math.round((gap / finalTarget) * 100) : 0;
+            
+            const details = {
+                '🎯 Target': `${finalTarget.toLocaleString()} units`,
+                '🏠 Current': `${current.toLocaleString()} units`,
+                '📊 Gap': `${gap.toLocaleString()} units (${gapPct}%)`,
+                '📄 Source': sourceDoc
+            };
+            
+            let isWarning = false;
+            let warningMessage = '';
+            if (!hasDDS && type === 'rural') {
+                isWarning = true;
+                warningMessage = '⚠️ Add DDS document for accurate district-specific targets';
+            }
+            
+            result = {
+                current: current,
+                target: finalTarget,
+                gap: gap,
+                gapPercentage: gapPct,
+                status: gapPct < 30 ? 'good' : (gapPct < 60 ? 'medium' : 'critical'),
+                source: source,
+                confidence: result.confidence || 'Medium',
+                hasDDS: hasDDS,
+                sourceDoc: sourceDoc,
+                formula: formula,
+                recommendation: hasDDS ? 'Data is reliable. No further verification needed.' : 'Add DDS document to get accurate district-specific targets.',
+                isWarning: isWarning,
+                warningMessage: warningMessage,
+                details: details,
+                nationalTarget: 5500000,
+                nationalCurrent: 0,
+                nationalGap: 0,
+                nationalGapPct: 0,
+                projectedPopulation: projectedPop,
+                currentHouseholdSize: currentHHSize,
+                targetHouseholdSize: targetHHSize,
+                growthRate: growthRate,
+                landAllocationHa: landHa,
+                ddsAdjustment: ddsAdjustment
+            };
             break;
         }
         
@@ -948,7 +1056,6 @@ function calculateStrategicData(districtName, sector) {
                     '📄 Source': ddsSource
                 };
             } else if (gapData && gapData.jobs.workers_needed > 0) {
-                // Use gap analysis workers needed
                 const workerNeed = gapData.jobs.workers_needed;
                 result.current = current;
                 result.target = workerNeed;
@@ -991,7 +1098,6 @@ function calculateStrategicData(districtName, sector) {
         }
         
         case 'investment': {
-            // Try gap analysis first
             let required = 0;
             let existing = 0;
             let source = '';
@@ -1003,7 +1109,6 @@ function calculateStrategicData(districtName, sector) {
             }
             
             if (required === 0) {
-                // Try DDS targets
                 for (const doc of docs) {
                     if (!doc.targets) continue;
                     for (const target of doc.targets) {
@@ -1083,7 +1188,6 @@ function calculateStrategicData(districtName, sector) {
                 if (ddsTarget > 0) break;
             }
             
-            // Also check if there's a specific project target (like "Muhanga Industrial Zone operational")
             let hasIndustryProject = false;
             for (const doc of docs) {
                 if (!doc.targets) continue;
@@ -1118,7 +1222,6 @@ function calculateStrategicData(districtName, sector) {
                     '📄 Source': ddsSource
                 };
             } else if (hasIndustryProject) {
-                // Has industry project but no numeric target - use 1 as target
                 result.current = 0;
                 result.target = 1;
                 result.gap = 1;
@@ -1190,40 +1293,7 @@ function calculateStrategicData(districtName, sector) {
         }
     }
     
-    // Cross-check with national target for warnings
-    const info = STRATEGIC_LABELS[sector];
-    if (info && info.nationalTarget && result.target > 0) {
-        // Check if district target is unrealistic compared to national target
-        const nationalShare = (pop / 8000000) * info.nationalTarget; // Rough share based on population
-        if (Math.abs(result.target - nationalShare) / nationalShare > 2) {
-            result.isWarning = true;
-            result.warningMessage = `⚠️ Target (${result.target.toLocaleString()}) deviates significantly from national allocation (${Math.round(nationalShare).toLocaleString()})`;
-        }
-    }
-    
     return result;
-}
-
-function getDistrictDocuments(districtName) {
-    return state.strategicDocuments.filter(doc => 
-        doc.districts && doc.districts.includes(districtName)
-    );
-}
-
-function parseNumericValue(value) {
-    if (typeof value === 'number') return value;
-    if (typeof value !== 'string') return 0;
-    const str = value.toLowerCase().replace(/,/g, '');
-    if (str.includes('million') || str.includes('m')) {
-        const num = parseFloat(str.replace(/[^0-9.]/g, ''));
-        if (!isNaN(num)) return num * 1000000;
-    }
-    if (str.includes('billion') || str.includes('b')) {
-        const num = parseFloat(str.replace(/[^0-9.]/g, ''));
-        if (!isNaN(num)) return num * 1000000000;
-    }
-    const num = parseFloat(str.replace(/[^0-9.]/g, ''));
-    return isNaN(num) ? 0 : num;
 }
 
 // ==========================================================================
@@ -1264,6 +1334,10 @@ function setStrategicFilter(key) {
     
     updateStrategicAnalytics(key);
     updateStrategicMap(key);
+    
+    if (state.currentDistrict) {
+        updateSectorDetails(state.currentDistrict, key);
+    }
 }
 
 function clearStrategicFilter() {
@@ -1280,7 +1354,9 @@ function clearStrategicFilter() {
         badge.style.background = '#4C6EF5';
     }
     
-    // Reset map to normal
+    const sectorContainer = $('sector-details-container');
+    if (sectorContainer) sectorContainer.style.display = 'none';
+    
     if (state.districtGeoJson) {
         if (state.geoJsonLayer) state.geoJsonLayer.remove();
         if (state.labelLayer) { state.map.removeLayer(state.labelLayer); state.labelLayer = null; }
@@ -1289,9 +1365,113 @@ function clearStrategicFilter() {
     renderAnalytics();
 }
 
-// ==========================================================================
-// UPDATE STRATEGIC ANALYTICS
-// ==========================================================================
+function updateSectorDetails(districtName, sectorKey) {
+    const container = $('sector-details-container');
+    if (!container) return;
+    
+    if (!sectorKey) {
+        container.style.display = 'none';
+        return;
+    }
+    
+    const data = calculateStrategicData(districtName, sectorKey);
+    const info = STRATEGIC_LABELS[sectorKey];
+    
+    if (!data || !info) {
+        container.style.display = 'none';
+        return;
+    }
+    
+    container.style.display = 'block';
+    
+    const iconEl = $('sector-details-icon');
+    const titleEl = $('sector-details-title');
+    const confidenceEl = $('sector-details-confidence');
+    if (iconEl) iconEl.textContent = info.icon;
+    if (titleEl) titleEl.textContent = info.label + ' Gap Analysis';
+    if (confidenceEl) {
+        confidenceEl.textContent = data.confidence + ' Confidence';
+        confidenceEl.style.background = data.confidence === 'High' ? 'rgba(16,185,129,0.2)' : 
+                                        data.confidence === 'Medium' ? 'rgba(245,158,11,0.2)' : 
+                                        'rgba(239,68,68,0.2)';
+        confidenceEl.style.color = data.confidence === 'High' ? '#10b981' : 
+                                    data.confidence === 'Medium' ? '#f59e0b' : 
+                                    '#ef4444';
+    }
+    
+    const targetEl = $('sector-details-target');
+    const currentEl = $('sector-details-current');
+    const gapEl = $('sector-details-gap');
+    
+    const formatValue = (val, sector) => {
+        if (sector === 'housing') return val.toLocaleString() + ' units';
+        if (sector === 'jobs') return val.toLocaleString() + ' jobs';
+        if (sector === 'investment') return '$' + (val/1000000).toFixed(1) + 'M';
+        if (sector === 'industry') return val + ' zones';
+        if (sector === 'agriculture') return val + '%';
+        return val.toLocaleString();
+    };
+    
+    if (targetEl) targetEl.textContent = formatValue(data.target, sectorKey);
+    if (currentEl) currentEl.textContent = formatValue(data.current, sectorKey);
+    if (gapEl) {
+        gapEl.textContent = formatValue(data.gap, sectorKey) + ' (' + data.gapPercentage + '%)';
+        gapEl.className = 'value';
+        if (data.gap === 0) {
+            gapEl.classList.add('gap-none');
+        } else if (data.gapPercentage < 30) {
+            gapEl.classList.add('gap-small');
+        } else {
+            gapEl.classList.add('gap');
+        }
+    }
+    
+    const formulaEl = $('sector-details-formula-text');
+    if (formulaEl) formulaEl.textContent = data.formula || 'No formula available';
+    
+    const sourceEl = $('sector-details-source-text');
+    if (sourceEl) sourceEl.textContent = data.source + ' (' + data.sourceDoc + ')';
+    
+    const warningEl = $('sector-details-warning');
+    if (warningEl) {
+        if (data.isWarning && data.warningMessage) {
+            warningEl.style.display = 'block';
+            warningEl.textContent = data.warningMessage;
+        } else {
+            warningEl.style.display = 'none';
+        }
+    }
+    
+    const extraDetails = [];
+    if (sectorKey === 'housing') {
+        if (data.projectedPopulation) {
+            extraDetails.push('📊 Projected Population (2050): ' + data.projectedPopulation.toLocaleString());
+        }
+        if (data.currentHouseholdSize) {
+            extraDetails.push('👨‍👩‍👧‍👦 Current HH Size: ' + data.currentHouseholdSize);
+        }
+        if (data.targetHouseholdSize) {
+            extraDetails.push('🎯 Target HH Size: ' + data.targetHouseholdSize);
+        }
+        if (data.landAllocationHa > 0) {
+            extraDetails.push('🌍 DDS Land Allocation: ' + data.landAllocationHa + ' ha');
+        }
+        if (data.ddsAdjustment > 0) {
+            extraDetails.push('🏗️ DDS Contribution: ' + data.ddsAdjustment.toLocaleString() + ' units');
+        }
+    }
+    
+    if (extraDetails.length > 0) {
+        const extraEl = document.createElement('div');
+        extraEl.style.cssText = 'margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.06); font-size:0.65rem; color:#94a3b8; line-height:1.5;';
+        extraEl.innerHTML = extraDetails.join('<br>');
+        const oldExtra = container.querySelector('.extra-details');
+        if (oldExtra) oldExtra.remove();
+        extraEl.className = 'extra-details';
+        container.appendChild(extraEl);
+    }
+}
+
 function updateStrategicAnalytics(key) {
     const content = $('analytics-site-selection-content');
     const tag = $('analytics-strategic-tag');
@@ -1383,9 +1563,6 @@ function updateStrategicAnalytics(key) {
     `;
 }
 
-// ==========================================================================
-// UPDATE STRATEGIC MAP
-// ==========================================================================
 function updateStrategicMap(key) {
     if (!state.districtGeoJson) {
         console.warn('No GeoJSON loaded yet, retrying...');
@@ -1419,9 +1596,9 @@ function addStrategicDistrictLayer(geoJson, key) {
             
             let color;
             if (!data.hasDDS) {
-                color = '#6b7280'; // Gray for fallback
+                color = '#6b7280';
             } else if (data.isWarning) {
-                color = '#f59e0b'; // Yellow for warnings
+                color = '#f59e0b';
             } else if (data.gapPercentage < 30) {
                 color = '#10b981';
             } else if (data.gapPercentage < 60) {
@@ -1523,7 +1700,6 @@ function addStrategicDistrictLayer(geoJson, key) {
     layer.addTo(map);
     state.geoJsonLayer = layer;
     
-    // Add labels
     const labelGroup = L.layerGroup();
     geoJson.features.forEach(feature => {
         const name = feature.properties?.shapeName || feature.properties?.name || '';
@@ -1566,12 +1742,6 @@ function updateStrategicCounts() {
         else if (key === 'agriculture') el.textContent = `${Math.round(totalGap / state.districts.length)}% avg gap`;
     });
 }
-
-// ==========================================================================
-// ==========================================================================
-// END OF STRATEGIC INTELLIGENCE SYSTEM - Everything below is ORIGINAL
-// ==========================================================================
-// ==========================================================================
 
 // ==========================================================================
 // SKILLS & LAND CENTER - Original
@@ -1737,7 +1907,7 @@ function populateDistrictDropdowns() {
 }
 
 // ==========================================================================
-// SELECT DISTRICT - Original with strategic data added
+// SELECT DISTRICT - FIXED: Shows sector details when filter is active
 // ==========================================================================
 function selectDistrict(districtName) {
     console.log('📍 Selecting district:', districtName);
@@ -1749,7 +1919,6 @@ function selectDistrict(districtName) {
     if (districtDropdown) districtDropdown.value = districtName;
     if (analyticsDistrictDropdown) analyticsDistrictDropdown.value = districtName;
     
-    // Score grid
     const compEl = $('display-composite');
     const landEl = $('display-land');
     const laborEl = $('display-labor');
@@ -1761,7 +1930,13 @@ function selectDistrict(districtName) {
     if (capEl) capEl.textContent = data.capital !== undefined ? data.capital : '--';
     if (entEl) entEl.textContent = data.entrepreneurship !== undefined ? data.entrepreneurship : '--';
     
-    // Strategic counts per district
+    if (state.activeStrategicFilter) {
+        updateSectorDetails(districtName, state.activeStrategicFilter);
+    } else {
+        const sectorContainer = $('sector-details-container');
+        if (sectorContainer) sectorContainer.style.display = 'none';
+    }
+    
     Object.keys(STRATEGIC_LABELS).forEach(key => {
         const el = $(`strategic-${key}`);
         if (el) {
@@ -1778,7 +1953,6 @@ function selectDistrict(districtName) {
         }
     });
     
-    // Skills pipeline
     const skillsBadge = $('skills-total-schools-badge');
     const skillsContent = $('skills-pipeline-content');
     if (skillsBadge && skillsContent) {
@@ -1803,7 +1977,6 @@ function selectDistrict(districtName) {
         }
     }
     
-    // Land readiness
     const landBadge = $('land-readiness-score-badge');
     const landBars = $('land-readiness-bars');
     if (landBadge && landBars) {
@@ -1899,7 +2072,6 @@ function updateDetailsView(districtName) {
     const gap = Math.max(0, maxScore - (data.composite_score || 0));
     updateBar('gap', gap);
     
-    // Agriculture
     const agData = state.agricultureData?.districts?.[districtName] || {};
     if (agData && Object.keys(agData).length > 0) {
         if (detailsAgriIntensity) detailsAgriIntensity.textContent = `${agData.crop_production_intensity || agData.crop_intensity || 0}%`;
@@ -1907,7 +2079,6 @@ function updateDetailsView(districtName) {
         if (detailsAgriIrrigation) detailsAgriIrrigation.textContent = `${agData.irrigated_land_ha || 0} ha`;
     }
     
-    // Projects
     const nearbyProjects = state.majorProjects.projects?.filter(p => 
         (p.location || '').toLowerCase().includes(districtName.toLowerCase()) ||
         (p.district || '').toLowerCase() === districtName.toLowerCase()
@@ -1926,7 +2097,6 @@ function updateDetailsView(districtName) {
         }
     }
     
-    // Skills
     const schoolBoosts = data.schoolBoosts || calculateSchoolsContribution(districtName);
     const detailsSchoolsCount = $('details-schools-count');
     const detailsSkillsList = $('details-skills-list');
@@ -1947,7 +2117,6 @@ function updateDetailsView(districtName) {
         }
     }
     
-    // Land layers
     const detailsLandComposite = $('details-land-composite-score');
     const detailsLandLayersList = $('details-land-layers-list');
     if (detailsLandLayersList) {
@@ -2847,3 +3016,7 @@ window.__state = state;
 
 console.log('✅ Rwanda Opportunity Map loaded successfully!');
 console.log('📖 Usage: AutoIngestion.start() | AutoIngestion.stop() | AutoIngestion.getStatus()');
+
+// ==========================================================================
+// END OF APP.JS
+// ==========================================================================

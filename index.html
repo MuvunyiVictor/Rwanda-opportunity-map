@@ -542,6 +542,72 @@
 
         #gap-insights-container { margin-top: 14px; }
 
+        /* ===== SECTOR DETAILS CARD ===== */
+        #sector-details-container {
+            background: rgba(76, 110, 245, 0.06);
+            border: 1px solid rgba(76, 110, 245, 0.15);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 14px;
+            display: none;
+        }
+        #sector-details-container h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #4C6EF5;
+            margin-bottom: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .sector-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .sector-detail-item {
+            background: rgba(255,255,255,0.03);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .sector-detail-item .label {
+            font-size: 0.55rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .sector-detail-item .value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+        .sector-detail-item .value.target { color: #4C6EF5; }
+        .sector-detail-item .value.current { color: #10b981; }
+        .sector-detail-item .value.gap { color: #ef4444; }
+        .sector-detail-item .value.gap-small { color: #f59e0b; }
+        .sector-detail-item .value.gap-none { color: #10b981; }
+        .sector-detail-formula {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .sector-detail-formula .formula-text {
+            color: #e2e8f0;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+        }
+        .sector-detail-source {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .sector-detail-source .source-text { color: #94a3b8; }
+        .sector-detail-warning {
+            margin-top: 4px;
+            font-size: 0.65rem;
+            color: #f59e0b;
+        }
+
         #page-admin {
             display: none;
             flex: 1;
@@ -1243,6 +1309,36 @@
 
             <div style="height:200px; margin-bottom:14px; background: rgba(255,255,255,0.02); border-radius: 8px; padding: 8px;">
                 <canvas id="details-factorRadarChart" style="width:100%; height:100%;"></canvas>
+            </div>
+
+            <!-- ===== SECTOR DETAILS (Dynamic - Shows when filter is active) ===== -->
+            <div id="sector-details-container">
+                <h4>
+                    <span id="sector-details-icon">🏠</span>
+                    <span id="sector-details-title">Housing</span>
+                    <span style="float:right; font-size:0.7rem; background:rgba(76,110,245,0.15); padding:2px 10px; border-radius:10px; color:#4C6EF5;" id="sector-details-confidence">High Confidence</span>
+                </h4>
+                <div class="sector-detail-grid">
+                    <div class="sector-detail-item">
+                        <div class="label">Target</div>
+                        <div class="value target" id="sector-details-target">--</div>
+                    </div>
+                    <div class="sector-detail-item">
+                        <div class="label">Current</div>
+                        <div class="value current" id="sector-details-current">--</div>
+                    </div>
+                    <div class="sector-detail-item">
+                        <div class="label">Gap</div>
+                        <div class="value gap" id="sector-details-gap">--</div>
+                    </div>
+                </div>
+                <div class="sector-detail-formula">
+                    Formula: <span class="formula-text" id="sector-details-formula-text">--</span>
+                </div>
+                <div class="sector-detail-source">
+                    Source: <span class="source-text" id="sector-details-source-text">--</span>
+                </div>
+                <div class="sector-detail-warning" id="sector-details-warning" style="display:none;"></div>
             </div>
 
             <h4 class="section-title">Opportunity Dimensions</h4>
