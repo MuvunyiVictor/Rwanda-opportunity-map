@@ -8,6 +8,72 @@
     "Why do some districts show warnings?",
     "What does confidence level mean?"
   ],
+  "conversational": {
+    "greeting": {
+      "patterns": ["hi", "hello", "hey", "good morning", "good afternoon", "good evening", "greetings", "hi there", "hello there"],
+      "responses": [
+        "Hello. Welcome to the Rwanda Opportunity Map. How can I assist you today?",
+        "Good day. What would you like to know about the platform?",
+        "Hello. I am here to help — what would you like to ask?"
+      ]
+    },
+    "acknowledgment": {
+      "patterns": ["ok", "okay", "k", "got it", "i see", "alright", "fine", "sure", "understood", "cool", "yes", "yep", "yeah"],
+      "responses": [
+        "Is there anything else you would like to know about the platform?",
+        "Understood. Feel free to ask another question whenever you are ready.",
+        "Noted. Do you have another question I can help with?"
+      ]
+    },
+    "thanks": {
+      "patterns": ["thanks", "thank you", "thank u", "thx", "appreciate it", "many thanks", "thanks a lot", "helpful", "that helps", "that helped"],
+      "responses": [
+        "You are welcome. Is there anything else I can assist you with?",
+        "Glad to help. Feel free to ask anything else.",
+        "My pleasure. Do you have further questions?"
+      ]
+    },
+    "satisfaction": {
+      "patterns": ["perfect", "great", "excellent", "awesome", "nice", "good", "very good", "wonderful", "brilliant", "exactly", "correct", "that is right", "that's right"],
+      "responses": [
+        "Glad that was helpful. Is there another topic you would like to explore?",
+        "Excellent. Let me know if you have further questions.",
+        "Happy to help. What else would you like to know?"
+      ]
+    },
+    "follow_up": {
+      "patterns": ["i have another question", "i have a question", "another question", "next question", "one more thing", "one more question", "can i ask something else", "i want to ask", "another thing", "question"],
+      "responses": [
+        "Of course — please go ahead and ask your next question.",
+        "I am listening. What would you like to know?",
+        "Please ask. I will do my best to help."
+      ]
+    },
+    "goodbye": {
+      "patterns": ["bye", "goodbye", "see you", "that is all", "that's all", "nothing else", "no more questions", "i am done", "im done", "done", "no thanks", "no thank you"],
+      "responses": [
+        "Thank you for using the Rwanda Opportunity Map. Have a productive day.",
+        "Goodbye. Feel free to return if you have more questions.",
+        "Take care. The platform is always here when you need it."
+      ]
+    },
+    "confusion": {
+      "patterns": ["i don't understand", "i dont understand", "not clear", "unclear", "confused", "i am confused", "im confused", "doesn't make sense", "does not make sense", "explain again", "can you explain"],
+      "responses": [
+        "I understand. Could you tell me which part is unclear so I can explain it better?",
+        "Let me help. Please specify what you would like me to clarify — a sector, a district, or a calculation?",
+        "No problem. Which topic would you like me to explain in simpler terms?"
+      ]
+    },
+    "help": {
+      "patterns": ["help", "i need help", "can you help", "help me", "assist me", "i need assistance", "support"],
+      "responses": [
+        "I can help. You can ask me about: strategic sectors, districts, data sources (DDS, NST2, Vision 2050), confidence levels, or how to use the map.",
+        "Happy to assist. Try asking about a sector like Housing or Investment, a district like Gasabo, or how the calculations work.",
+        "I am here to help. Ask me anything about the platform — sectors, districts, methodology, or admin features."
+      ]
+    }
+  },
   "knowledge": [
     {
       "category": "Getting Started",
@@ -19,7 +85,8 @@
         "what can i do here",
         "getting started",
         "how to start",
-        "how do i navigate"
+        "how do i navigate",
+        "what is the opportunity map"
       ],
       "answer": "This platform visualizes investment opportunities across Rwanda's 30 districts. To use it:\n\n1. Select a Strategic Sector (🏠 Housing, 💼 Jobs, 💰 Investment, 🏭 Industry, 🌾 Agriculture) from the sidebar.\n2. The map will color districts based on their gap for that sector.\n3. Click any district to see detailed gap analysis.\n4. Use the Analytics tab for national overview.\n5. Use the Strategic Docs tab to browse source documents.\n\nHover over any district for a quick summary."
     },
@@ -30,7 +97,8 @@
         "what sectors do you cover",
         "which sectors are available",
         "what are the 5 sectors",
-        "strategic intelligence"
+        "strategic intelligence",
+        "what are the options on the sidebar"
       ],
       "answer": "The platform covers 5 strategic sectors:\n\n🏠 Housing — Total housing units needed vs DDS planned units\n💼 Jobs — Jobs needed (population × employment rate) vs DDS job targets\n💰 Investment — Investment needed vs DDS/existing investment\n🏭 Industry — Industrial zones needed vs planned zones\n🌾 Agriculture — Crop intensity gap against an 85% target\n\nClick any sector in the sidebar to visualize it on the map."
     },
@@ -41,7 +109,8 @@
         "housing gap",
         "housing methodology",
         "housing calculation",
-        "how do you calculate housing"
+        "how do you calculate housing",
+        "explain housing"
       ],
       "answer": "Housing gap is calculated as:\n\nTotal Need = Population ÷ Household Size\n(Household size: 4.0 for Kigali, 4.5 for secondary cities, 5.0 for rural districts)\n\nPlanned = DDS Land Allocation × 50 units per hectare\n\nGap = Total Need − Planned\n\nExample: A rural district with 362,000 people needs 80,444 units. If DDS allocates 120 hectares (× 50 = 6,000 units), the gap is 74,444 units (92.5%).\n\nThis method reflects the reality that not everyone currently has housing."
     },
@@ -52,7 +121,8 @@
         "jobs gap",
         "jobs methodology",
         "how do you calculate jobs",
-        "employment gap"
+        "employment gap",
+        "explain jobs"
       ],
       "answer": "Jobs gap is calculated as:\n\nTotal Need = Population × Employment Rate\n(45% for Kigali, 35% for other districts)\n\nPlanned = DDS worker target OR Gap Analysis worker needs\n\nGap = Total Need − Planned\n\nData sources are prioritized: DDS documents first (High confidence), then Gap Analysis (Medium), then a score-based fallback (Low with warning)."
     },
@@ -63,7 +133,8 @@
         "investment gap",
         "investment methodology",
         "how do you calculate investment",
-        "capital gap"
+        "capital gap",
+        "explain investment"
       ],
       "answer": "Investment gap is calculated as:\n\nTotal Need = (Composite Score ÷ 100) × $300M\n\nPlanned = DDS investment target OR Gap Analysis required investment\n\nGap = Total Need − Planned\n\nThis reflects the estimated capital required to unlock the district's full economic potential."
     },
@@ -74,7 +145,8 @@
         "industry gap",
         "industry methodology",
         "how do you calculate industry",
-        "industrial zones"
+        "industrial zones",
+        "explain industry"
       ],
       "answer": "Industry gap is calculated as:\n\nTotal Need = 1 + (Composite Score ÷ 20)\n\nPlanned = DDS industrial zone target OR Gap Analysis zone requirement\n\nGap = Total Need − Planned\n\nThis measures the shortfall in industrial zones and factories needed per district."
     },
@@ -85,7 +157,8 @@
         "agriculture gap",
         "agriculture methodology",
         "how do you calculate agriculture",
-        "crop intensity"
+        "crop intensity",
+        "explain agriculture"
       ],
       "answer": "Agriculture gap is calculated as:\n\nCurrent Intensity = Crop production intensity (%) from NISR data\n\nTarget = 85% (realistic utilization goal)\n\nGap = 85% − Current Intensity\n\nA district at 45% intensity has a 40-point gap to reach the 85% target. This reflects unused agricultural potential."
     },
@@ -95,7 +168,8 @@
         "what is dds",
         "what does dds mean",
         "district development strategy",
-        "dds document"
+        "dds document",
+        "what is a dds"
       ],
       "answer": "DDS stands for District Development Strategy — the official 5-year plan each Rwandan district publishes. It contains numeric targets for housing, jobs, investment, industry, and agriculture.\n\nDDS documents are the HIGHEST quality data source on this platform. When a district has DDS targets, the calculations use them with High confidence."
     },
@@ -104,7 +178,8 @@
       "questions": [
         "what is nst2",
         "national strategy for transformation",
-        "nst2 target"
+        "nst2 target",
+        "what does nst2 mean"
       ],
       "answer": "NST2 is Rwanda's National Strategy for Transformation (2024–2029). It sets national targets such as:\n\n• 1.25M new jobs by 2029\n• $4.6B in private investment\n\nThese national targets inform the platform's methodology but district-level numbers come from DDS or Gap Analysis."
     },
@@ -113,7 +188,8 @@
       "questions": [
         "what is vision 2050",
         "vision 2050",
-        "national housing target"
+        "national housing target",
+        "what does vision 2050 say"
       ],
       "answer": "Vision 2050 is Rwanda's long-term national development blueprint. Its housing target is 5.5 million homes by 2050, which drives the housing sector methodology on this platform."
     },
@@ -123,7 +199,8 @@
         "what is gap analysis",
         "gap analysis data",
         "where does data come from",
-        "data sources"
+        "data sources",
+        "what is the source of data"
       ],
       "answer": "The platform uses three layers of data, in order of priority:\n\n1. DDS Documents → High Confidence (official numeric targets)\n2. Gap Analysis → Medium Confidence (district-level sectoral breakdown)\n3. Fallback Estimates → Low Confidence (population or score-based)\n\nWhen you see a district detail, the source and confidence are shown explicitly."
     },
@@ -134,7 +211,8 @@
         "high confidence",
         "medium confidence",
         "low confidence",
-        "confidence indicator"
+        "confidence indicator",
+        "what is confidence"
       ],
       "answer": "Confidence reflects the reliability of the data behind a calculation:\n\n🟢 High — From an official DDS document with numeric targets\n🟡 Medium — From the district Gap Analysis\n🔴 Low — Fallback estimate (population or score-based)\n\nAlways check the confidence level before making decisions. Low confidence districts need more data."
     },
@@ -144,7 +222,8 @@
         "why do some districts show warnings",
         "warning message",
         "why is there a warning",
-        "data warning"
+        "data warning",
+        "what do the warnings mean"
       ],
       "answer": "Warnings appear when a district is using fallback estimates — meaning no DDS document or Gap Analysis data exists for that sector yet.\n\nThe platform is transparent about this so you know the data quality. To improve: add a DDS document or Gap Analysis entry for that district."
     },
@@ -154,7 +233,8 @@
         "why is the gap 0",
         "why does a district show 0 percent",
         "0 percent gap",
-        "why no gap"
+        "why no gap",
+        "why zero gap"
       ],
       "answer": "A 0% gap can only appear if the planned value equals or exceeds the total need. On this updated platform:\n\n• Housing gap = Total Need − DDS Planned Units (not Current Housing)\n• Jobs gap = Total Need − DDS Job Targets\n\nIf you see 0%, verify the source. If it says 'Fallback Estimate', the district needs proper DDS data."
     },
@@ -164,7 +244,9 @@
         "what do the colors mean",
         "map colors",
         "color code",
-        "what do the map colors represent"
+        "what do the map colors represent",
+        "what does green mean",
+        "what does red mean"
       ],
       "answer": "When a strategic sector is active, districts are colored by gap size:\n\n🟢 Green — Gap below 30% (good)\n🟡 Yellow — Gap 30–60% (moderate)\n🔴 Red — Gap above 60% (critical)\n⚫ Gray — No DDS data (using fallback)\n\nDashed borders also indicate districts using fallback estimates."
     },
@@ -174,7 +256,8 @@
         "how do i select a district",
         "how to click a district",
         "district details",
-        "how do i see district data"
+        "how do i see district data",
+        "how do i pick a district"
       ],
       "answer": "Two ways to select a district:\n\n1. Click directly on the district on the map\n2. Use the 'Select District' dropdown in the sidebar\n\nOnce selected, the sidebar shows the composite score, four dimensions (Land, Labor, Capital, Entrepreneurship), and sector details if a strategic filter is active."
     },
@@ -184,7 +267,8 @@
         "how do i switch sectors",
         "how to change sector",
         "change strategic filter",
-        "how to view another sector"
+        "how to view another sector",
+        "how to switch to investment"
       ],
       "answer": "Click any of the 5 sector buttons in the 'Strategic Intelligence' section of the sidebar. The map, analytics, and district details all update automatically.\n\nTo return to the composite score view, click the 'Reset View' button that appears when a sector is active."
     },
@@ -193,7 +277,8 @@
       "questions": [
         "what is composite score",
         "composite score meaning",
-        "how is composite calculated"
+        "how is composite calculated",
+        "what does composite score mean"
       ],
       "answer": "The Composite Score is the average of four dimensions:\n\nComposite = (Land + Labor + Capital + Entrepreneurship) ÷ 4\n\nEach dimension is scored 0–100 based on data density, infrastructure, and verified assets. Higher scores mean stronger foundations for investment."
     },
@@ -202,7 +287,8 @@
       "questions": [
         "what is in the analytics tab",
         "analytics tab",
-        "how do i use analytics"
+        "how do i use analytics",
+        "what does analytics show"
       ],
       "answer": "The Analytics tab shows:\n\n• National Overview for the active sector\n• Top 3 districts by gap size\n• Comparative neighbor performance for the selected district\n• Full 30-district rankings\n• Executive briefing per district\n• Methodology and Confidence transparency panels\n\nClick any district name in the analytics to jump straight to it."
     },
@@ -211,7 +297,8 @@
       "questions": [
         "what is the strategic docs tab",
         "strategic documents",
-        "how do i view documents"
+        "how do i view documents",
+        "what are strategic docs"
       ],
       "answer": "The Strategic Docs tab lists every source document (Vision 2050, NST2, DDS files). Click any document to see:\n\n• Level (National or District)\n• Document type\n• Target list with baselines and progress\n• Gap Analysis breakdown if included\n• Provenance and confidence details"
     },
@@ -221,7 +308,8 @@
         "how do i log in",
         "admin login",
         "how do i access admin panel",
-        "admin credentials"
+        "admin credentials",
+        "what is the password"
       ],
       "answer": "Click the 'Login' button in the top-right of the sidebar. Default credentials are:\n\nUsername: admin\nPassword: admin123\n\nAfter logging in, an 'Admin Panel' button appears. There you can submit new assets, ingest news signals, add schools to the Skills Pipeline, and update Land Center data."
     },
@@ -231,7 +319,8 @@
         "how do i add an asset",
         "submit asset",
         "add a project",
-        "how to add data"
+        "how to add data",
+        "how do i add a new asset"
       ],
       "answer": "Log in as admin, then open the Admin Panel. Use the 'Submit New Asset' form to add hospitals, schools, farms, markets, factories, banks, hotels, or major projects. Enter the name, type, latitude, longitude, and status. The district's composite score updates immediately."
     },
@@ -241,7 +330,8 @@
         "map is not loading",
         "map doesn't show",
         "no districts appearing",
-        "geojson missing"
+        "geojson missing",
+        "why is the map blank"
       ],
       "answer": "If the map is not loading:\n\n1. Confirm the file data/rwanda-districts.geojson exists\n2. Press Ctrl+F5 to force-refresh the browser\n3. Open the browser console (F12) and check for errors\n\nIf the GeoJSON is missing, place it in the data/ folder in your project root."
     },
@@ -251,7 +341,8 @@
         "data not showing",
         "no data",
         "districts show fallback",
-        "empty sectors"
+        "empty sectors",
+        "why no data"
       ],
       "answer": "If many districts show 'Fallback Estimate' warnings, it means the data files are missing targets. Check that these files exist and contain district entries:\n\n• strategic_documents.json — DDS numeric targets\n• district_gap_analysis.json — sectoral breakdowns\n• agriculture_data.json — crop intensity by district\n\nAdding more DDS documents is the fastest way to improve data quality."
     },
@@ -261,7 +352,8 @@
         "how to improve data",
         "add more data",
         "increase confidence",
-        "how to get high confidence"
+        "how to get high confidence",
+        "how do i improve accuracy"
       ],
       "answer": "To move a district from Low to High confidence:\n\n1. Add its DDS document to strategic_documents.json with numeric targets for housing, jobs, investment, industry, agriculture\n2. OR add its sectoral breakdown to district_gap_analysis.json\n\nThe platform automatically picks up the highest-quality source available."
     },
@@ -270,7 +362,8 @@
       "questions": [
         "who made this",
         "who built this platform",
-        "about this tool"
+        "about this tool",
+        "who created this"
       ],
       "answer": "The Rwanda Opportunity Map is an investment intelligence platform that visualizes opportunities across all 30 districts of Rwanda. It combines Vision 2050, NST2, District Development Strategies (DDS), NISR data, and real-time news signals into one transparent decision-support tool."
     },
@@ -279,7 +372,8 @@
       "questions": [
         "how often is data updated",
         "data freshness",
-        "auto ingestion"
+        "auto ingestion",
+        "when is data updated"
       ],
       "answer": "The platform has an Auto-Ingestion Engine that scans Rwandan news sources (New Times, RBA, MINECOFIN, RDB, MINAGRI) every hour. High-impact items are classified and added to the platform's news intelligence.\n\nStrategic data (DDS, Gap Analysis) is updated manually when new documents are published."
     }

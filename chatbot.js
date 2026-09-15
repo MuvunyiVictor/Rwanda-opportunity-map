@@ -1,5 +1,5 @@
 // ==========================================================================
-// Rwanda Opportunity Map - Knowledge-Based Chatbot
+// Rwanda Opportunity Map - Knowledge-Based Chatbot (with Conversational Layer)
 // ==========================================================================
 
 (function() {
@@ -9,7 +9,8 @@
         isOpen: false,
         knowledge: null,
         conversationHistory: [],
-        lastIntent: null
+        lastIntent: null,
+        lastAnswerCategory: null
     };
 
     // -----------------------------------------------------------------------
@@ -27,7 +28,8 @@
                 greeting: 'Welcome. I am currently unable to load the knowledge base.',
                 fallback: 'Please try again later.',
                 suggestions: [],
-                knowledge: []
+                knowledge: [],
+                conversational: {}
             };
         }
     }
@@ -38,17 +40,17 @@
     function normalize(text) {
         return text
             .toLowerCase()
-            .replace(/[^\w\s]/g, ' ')
+            .replace(/[^\w\s']/g, ' ')
             .replace(/\s+/g, ' ')
             .trim();
     }
 
     // -----------------------------------------------------------------------
-    // SIMPLE SIMILARITY (Jaccard on word sets)
+    // SIMILARITY (Jaccard on word sets)
     // -----------------------------------------------------------------------
     function similarity(a, b) {
-        const setA = new Set(a.split(' ').filter(w => w.length > 2));
-        const setB = new Set(b.split(' ').filter(w => w.length > 2));
+        const setA = new Set(a.split(' ').filter(w => w.length > 1));
+        const setB = new Set(b.split(' ').filter(w => w.length > 1));
         if (setA.size === 0 || setB.size === 0) return 0;
         let intersection = 0;
         setA.forEach(w => { if (setB.has(w)) intersection++; });
@@ -57,7 +59,44 @@
     }
 
     // -----------------------------------------------------------------------
-    // FIND BEST MATCH
+    // EXACT CONVERSATIONAL MATCH
+    // -----------------------------------------------------------------------
+    function checkConversational(userQuestion) {
+        if (!CHATBOT_STATE.knowledge?.conversational) return null;
+        const q = normalize(userQuestion);
+
+        // Short inputs (<= 5 words) get exact match priority
+        const wordCount = q.split(' ').length;
+        if (wordCount > 5) return null;
+
+        const conv = CHATBOT_STATE.knowledge.conversational;
+        for (const key of Object.keys(conv)) {
+            const category = conv[key];
+            if (!category.patterns || !category.responses) continue;
+            for (const pattern of category.patterns) {
+                const p = normalize(pattern);
+                // Exact match, substring match, or high similarity
+                if (q === p || q.includes(p) || similarity(q, p) >= 0.75) {
+                    return {
+                        type: key,
+                        response: pickRandom(category.responses)
+                    };
+                }
+            }
+        }
+        return null;
+    }
+
+    // -----------------------------------------------------------------------
+    // PICK RANDOM RESPONSE
+    // -----------------------------------------------------------------------
+    function pickRandom(arr) {
+        if (!arr || arr.length === 0) return '';
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // -----------------------------------------------------------------------
+    // FIND BEST MATCH IN KNOWLEDGE BASE
     // -----------------------------------------------------------------------
     function findAnswer(userQuestion) {
         if (!CHATBOT_STATE.knowledge) return null;
@@ -76,7 +115,6 @@
             });
         });
 
-        // Threshold: require at least 30% similarity
         if (bestScore < 0.3) return null;
         return bestMatch;
     }
@@ -166,15 +204,30 @@
             addTypingIndicator();
             setTimeout(() => {
                 removeTypingIndicator();
+
+                // 1. Check conversational layer first
+                const conversational = checkConversational(text);
+                if (conversational) {
+                    addMessage('bot', conversational.response);
+                    const suggestions = CHATBOT_STATE.knowledge.suggestions || [];
+                    renderSuggestions(suggestions.slice(0, 3));
+                    CHATBOT_STATE.lastIntent = conversational.type;
+                    return;
+                }
+
+                // 2. Search the main knowledge base
                 const match = findAnswer(text);
                 if (match) {
                     addMessage('bot', match.answer);
                     CHATBOT_STATE.lastIntent = match.category;
-                } else {
-                    addMessage('bot', CHATBOT_STATE.knowledge.fallback);
-                    const suggestions = CHATBOT_STATE.knowledge.suggestions || [];
-                    renderSuggestions(suggestions);
+                    CHATBOT_STATE.lastAnswerCategory = match.category;
+                    return;
                 }
+
+                // 3. Fallback
+                addMessage('bot', CHATBOT_STATE.knowledge.fallback);
+                const suggestions = CHATBOT_STATE.knowledge.suggestions || [];
+                renderSuggestions(suggestions);
             }, 500);
         }, 200);
     }
@@ -190,7 +243,6 @@
         fab.classList.add('hidden');
         CHATBOT_STATE.isOpen = true;
 
-        // If first open, show greeting
         const messages = document.getElementById('chatbot-messages');
         if (messages && messages.children.length === 0) {
             setTimeout(() => {
