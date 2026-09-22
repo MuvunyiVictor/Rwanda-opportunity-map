@@ -2363,6 +2363,7 @@ const AutoIngestion = {
 window.AutoIngestion = AutoIngestion;
 window.IngestionEvents = IngestionEvents;
 window.selectDistrict = selectDistrict;
+window.__calculateStrategicData = calculateStrategicData;
 window.__state = state;
 
 console.log('✅ Rwanda Opportunity Map loaded successfully!');
